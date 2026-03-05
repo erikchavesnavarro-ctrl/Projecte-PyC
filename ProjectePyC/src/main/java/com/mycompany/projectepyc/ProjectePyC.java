@@ -221,6 +221,38 @@ public class ProjectePyC {
         }
     }
 
+    public static void modificarParticipant() throws IOException {
+        if (clubs.isEmpty()) {
+            System.out.println("No hi ha cap club registrat");
+        } else {
+            System.out.println("--- INFORMACIO DELS CLUBS---");
+            String C = ask.askString("Digue'm el nom del club (ha d'estar registrat): ");
+            while (comprovacioClub(C) == false) {
+                System.out.println("Aquesta club no esta registrat");
+                C = ask.askString("Digue'm el nom del club (ha d'estar registrat): ");
+            }
+            Club clubSeleccionat = retornarClub(C);
+
+            ArrayList<Participant> membres = clubSeleccionat.getParticipants();
+
+            if (membres.isEmpty()) {
+                System.out.println("No hi ha cap participant registrat al club");
+            } else {
+                String P = ask.askString("Digue'm el ID del participant: ");
+                while (comprovacioParticipant(P) == false) {
+                    System.out.println("Aquesta ID no pertany a cap participant");
+                    P = ask.askString("Digue'm el ID del participant (ha d'estar registrat): ");
+                }
+                Participant participantSeleccionat = retornarParticipant(P);
+                
+                System.out.println("El jugador amb el ID " + participantSeleccionat.getID() + " te el nickname " + participantSeleccionat.getNickname());
+                String nouNickname = ask.askString("Introdueix el nou nickname: ");
+                participantSeleccionat.setNickname(nouNickname);
+                System.out.println("El nickname del jugador amb el ID " + participantSeleccionat.getID() + " s'ha canviat a " + participantSeleccionat.getNickname());
+            }
+        }
+    }
+
     public static void esborrarParticipant() throws IOException {
         if (clubs.isEmpty()) {
             System.out.println("No hi ha cap club registrat");
