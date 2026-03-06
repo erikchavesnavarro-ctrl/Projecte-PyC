@@ -5,6 +5,7 @@ package com.mycompany.projectepyc;
 
 import Classes.Club;
 import Classes.Participant;
+import Persistencia.Persistencia;
 import com.mycompany.pyc.AskData;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,7 +45,7 @@ public class ProjectePyC {
                     break;
 
                 case "3": //MODIFICAR PARTICIPANT
-
+                    modificarParticipant();
                     break;
 
                 case "4": //ESBORRAR PARTICIPANT
@@ -60,7 +61,7 @@ public class ProjectePyC {
                     break;
 
                 case "7": //GUARDAR CANVIS
-
+                    guardar();
                     break;
 
                 case "8": //SORTIR
@@ -72,6 +73,15 @@ public class ProjectePyC {
                     System.out.println("Opcion incorrecta");
 
             }
+        }
+    }
+    
+    public static void guardar() throws IOException {
+        if (clubs.isEmpty()) {
+            System.out.println("ERROR: No hi ha camions registrats.");
+        } else {
+            Persistencia.guardar(clubs);
+            System.out.println("Dades guardades correctament.");
         }
     }
 
@@ -146,6 +156,7 @@ public class ProjectePyC {
 
         Club nou = new Club(nom);
         clubs.add(nou);
+        System.out.println("El club " + nom + " ha sigur registrat correctament.");
     }
 
     public static void altaParticipant() throws IOException {
