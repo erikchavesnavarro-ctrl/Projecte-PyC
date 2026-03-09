@@ -1,11 +1,11 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-
 package com.mycompany.projectepyc;
 
 import Classes.Club;
 import Classes.Participant;
+import Persistencia.Persistencia;
 import com.mycompany.pyc.AskData;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * @author Mario
  */
 public class ProjectePyC {
-    
+
     private static AskData ask;
     private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private static ArrayList<Club> clubs;
@@ -45,25 +45,25 @@ public class ProjectePyC {
                     break;
 
                 case "3": //MODIFICAR PARTICIPANT
-
+                    modificarParticipant();
                     break;
 
                 case "4": //ESBORRAR PARTICIPANT
-
+                    esborrarParticipant();
                     break;
 
                 case "5": //LLISTAT CLUBS
                     llistatClubs();
                     break;
-                    
+
                 case "6": //MOSTRA INFORMACIO D'UN CLUB
                     informacioClub();
                     break;
 
                 case "7": //GUARDAR CANVIS
+                    guardar();
+                    break;
 
-                    break;    
-                    
                 case "8": //SORTIR
                     System.out.println("Tancant l'ull de Sauron...");
                     System.out.println("Fins la proxima sesio de joc.");
@@ -73,6 +73,15 @@ public class ProjectePyC {
                     System.out.println("Opcion incorrecta");
 
             }
+        }
+    }
+    
+    public static void guardar() throws IOException {
+        if (clubs.isEmpty()) {
+            System.out.println("ERROR: No hi ha camions registrats.");
+        } else {
+            Persistencia.guardar(clubs);
+            System.out.println("Dades guardades correctament.");
         }
     }
 
@@ -111,22 +120,22 @@ public class ProjectePyC {
         }
         return false;
     }
-    
-    public static Participant retornarParticipant(String nickname) {
+
+    public static Participant retornarParticipant(String ID) {
         int participant = -1;
         for (Club C : clubs) {
             for (Participant p : C.getParticipants()) {
-                if(p.getNickname().equalsIgnoreCase(nickname)) {
+                if (p.getID().equalsIgnoreCase(ID)) {
                     return p;
                 }
             }
         }
         return null;
     }
-    
+
     public static boolean comprovacioParticipant(String ID) {
-        for (Club C : clubs) {                     
-            for (Participant p : C.getParticipants()) {         
+        for (Club C : clubs) {
+            for (Participant p : C.getParticipants()) {
                 if (p.getID().equalsIgnoreCase(ID)) {
                     return true;
                 }
@@ -134,10 +143,8 @@ public class ProjectePyC {
         }
         return false;
     }
-    
 
     //METODOS DEL MENU
-    
     public static void altaClub() throws IOException {
         System.out.println("--- ALTA CLUB ---");
         String nom = "";
@@ -149,6 +156,7 @@ public class ProjectePyC {
 
         Club nou = new Club(nom);
         clubs.add(nou);
+        System.out.println("El club " + nom + " ha sigur registrat correctament.");
     }
 
     public static void altaParticipant() throws IOException {
@@ -177,25 +185,25 @@ public class ProjectePyC {
                 nickname = ask.askString("Digue'm el nickname: ").toUpperCase();
             }
 
-            Participant nou = new Participant(ID,nickname);
+            Participant nou = new Participant(ID, nickname);
             altaParticipants.asignarParticipant(nou);;
             System.out.println("El participant: " + nickname + " ha sigut registrat i forma part del club: " + altaParticipants.getNom());
         }
 
     }
-    
+
     public static void llistatClubs() throws IOException {
         if (clubs.isEmpty()) {
             System.out.println("No hi ha cap club registrat");
         } else {
             System.out.println("--- LLISTAT DE CLUBS INSCRITS ---");
-            for (int i =0; i < clubs.size(); i++) {
+            for (int i = 0; i < clubs.size(); i++) {
                 Club C = clubs.get(i);
                 System.out.println("Club: " + C.getNom());
             }
         }
     }
-    
+
     public static void informacioClub() throws IOException {
         if (clubs.isEmpty()) {
             System.out.println("No hi ha cap club registrat");
@@ -207,20 +215,81 @@ public class ProjectePyC {
                 C = ask.askString("Digue'm el nom del club (ha d'estar registrat): ");
             }
             Club clubSeleccionat = retornarClub(C);
-            
+
             ArrayList<Participant> membres = clubSeleccionat.getParticipants();
-            
-            if(membres.isEmpty()) {
+
+            if (membres.isEmpty()) {
                 System.out.println("No hi ha cap participant registrat al club");
             } else {
                 System.out.println("Llistat de membres del club: " + clubSeleccionat.getNom());
-                for(Participant p: membres) {
+                for (Participant p : membres) {
                     System.out.println("- Nickname: " + p.getNickname() + " | ID: " + p.getID());
                 }
                 System.out.println("----------------------------");
                 System.out.println("Total membres del club: " + membres.size());
             }
-            
+
+        }
+    }
+
+    public static void modificarParticipant() throws IOException {
+        if (clubs.isEmpty()) {
+            System.out.println("No hi ha cap club registrat");
+        } else {
+            System.out.println("--- INFORMACIO DELS CLUBS---");
+            String C = ask.askString("Digue'm el nom del club (ha d'estar registrat): ");
+            while (comprovacioClub(C) == false) {
+                System.out.println("Aquesta club no esta registrat");
+                C = ask.askString("Digue'm el nom del club (ha d'estar registrat): ");
+            }
+            Club clubSeleccionat = retornarClub(C);
+
+            ArrayList<Participant> membres = clubSeleccionat.getParticipants();
+
+            if (membres.isEmpty()) {
+                System.out.println("No hi ha cap participant registrat al club");
+            } else {
+                String P = ask.askString("Digue'm el ID del participant: ");
+                while (comprovacioParticipant(P) == false) {
+                    System.out.println("Aquesta ID no pertany a cap participant");
+                    P = ask.askString("Digue'm el ID del participant (ha d'estar registrat): ");
+                }
+                Participant participantSeleccionat = retornarParticipant(P);
+                
+                System.out.println("El jugador amb el ID " + participantSeleccionat.getID() + " te el nickname " + participantSeleccionat.getNickname());
+                String nouNickname = ask.askString("Introdueix el nou nickname: ");
+                participantSeleccionat.setNickname(nouNickname);
+                System.out.println("El nickname del jugador amb el ID " + participantSeleccionat.getID() + " s'ha canviat a " + participantSeleccionat.getNickname());
+            }
+        }
+    }
+
+    public static void esborrarParticipant() throws IOException {
+        if (clubs.isEmpty()) {
+            System.out.println("No hi ha cap club registrat");
+        } else {
+            System.out.println("--- INFORMACIO DELS CLUBS---");
+            String C = ask.askString("Digue'm el nom del club (ha d'estar registrat): ");
+            while (comprovacioClub(C) == false) {
+                System.out.println("Aquesta club no esta registrat");
+                C = ask.askString("Digue'm el nom del club (ha d'estar registrat): ");
+            }
+            Club clubSeleccionat = retornarClub(C);
+
+            ArrayList<Participant> membres = clubSeleccionat.getParticipants();
+
+            if (membres.isEmpty()) {
+                System.out.println("No hi ha cap participant registrat al club");
+            } else {
+                String P = ask.askString("Digue'm el ID del participant: ");
+                while (comprovacioParticipant(P) == false) {
+                    System.out.println("Aquesta ID no pertany a cap participant");
+                    P = ask.askString("Digue'm el ID del participant (ha d'estar registrat): ");
+                }
+                Participant participantSeleccionat = retornarParticipant(P);
+                System.out.println("El membre " + retornarParticipant(P).getNickname() + " amb el ID " + retornarParticipant(P).getID() + " ha sigut esborrat de la base de dades.");
+                membres.remove(participantSeleccionat);
+            }
         }
     }
 
