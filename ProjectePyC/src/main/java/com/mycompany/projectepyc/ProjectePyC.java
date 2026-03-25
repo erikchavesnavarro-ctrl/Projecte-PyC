@@ -3,10 +3,11 @@
  */
 package com.mycompany.projectepyc;
 
-import Classes.Club;
-import Classes.Participant;
-import Persistencia.Persistencia;
-import com.mycompany.pyc.AskData;
+
+import com.mycompany.projectepyc.model.Club;
+import com.mycompany.projectepyc.model.Participant;
+import com.mycompany.projectepyc.persistence.Persistencia;
+import com.mycompany.projectepyc.view.AskData;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
