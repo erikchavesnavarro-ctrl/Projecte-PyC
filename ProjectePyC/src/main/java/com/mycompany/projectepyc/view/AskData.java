@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -12,17 +13,26 @@ import java.util.ArrayList;
 public class AskData {
 
     private BufferedReader br;
-
     public AskData() {
         br = new BufferedReader(new InputStreamReader(System.in));
     }
-
+    
     public int askInt(String message) throws IOException {
-        System.out.print(message);
-        int n = Integer.parseInt(br.readLine());
+        boolean error = false;
+        int n = 0;
+        do {
+            try {
+                System.out.print(message);
+                n = Integer.parseInt(br.readLine());
+                error = false;
+            } catch (NumberFormatException ex) {
+                error = true;
+                System.out.println("Debes poner un número entero.");
+            }
+        } while (error);
         return n;
     }
-
+    
     public int askInt(String message, String errorMessage, int min) throws IOException {
         int n;
         do {
@@ -33,7 +43,7 @@ public class AskData {
         } while (n < min);
         return n;
     }
-
+    
     public int askInt(String message, String errorMessage, int min, int max) throws IOException {
         int n;
         do {
@@ -55,13 +65,23 @@ public class AskData {
         } while (!numsAccepted.contains(n));
         return n;
     }
-
+    
     public double askDouble(String message) throws IOException {
-        System.out.print(message);
-        double n = Double.parseDouble(br.readLine());
+        boolean error = false;
+        double n = 0;
+        do {
+            try {
+            System.out.print(message);
+            n = Double.parseDouble(br.readLine());
+            error = false;
+            } catch (NumberFormatException ex) {
+                error = true;
+                System.out.println("Debes poner un número (puede ser con decimales).");
+            }
+        } while (error);
         return n;
     }
-
+    
     public double askDouble(String message, String errorMessage, double min) throws IOException {
         double n;
         do {
@@ -72,7 +92,7 @@ public class AskData {
         } while (n < min);
         return n;
     }
-
+    
     public double askDouble(String message, String errorMessage, double min, double max) throws IOException {
         double n;
         do {
@@ -83,7 +103,7 @@ public class AskData {
         } while (n < min || n > max);
         return n;
     }
-
+    
     public String askString(String message) throws IOException {
         String ask = "";
         do {
@@ -95,7 +115,7 @@ public class AskData {
         } while (ask.isBlank());
         return ask;
     }
-
+    
     public String askString(String message, String errorMessage, String option1, String option2) throws IOException {
         String ask;
         do {
@@ -104,6 +124,21 @@ public class AskData {
                 System.out.println(errorMessage);
             }
         } while (!ask.equalsIgnoreCase(option1) && !ask.equalsIgnoreCase(option2));
+        return ask;
+    }
+    
+    public String askString(String message, List<String> wordsAccepted) throws IOException {
+        String ask;
+        do {
+            ask = askString(message).toUpperCase();
+            if (!wordsAccepted.contains(ask)) {
+                System.out.println("Wrong answer. Words Accepted: ");
+                for (String w : wordsAccepted) {
+                    System.out.print(w + " ");
+                }
+                System.out.println();
+            }
+        } while (!wordsAccepted.contains(ask));
         return ask;
     }
     
@@ -117,4 +152,5 @@ public class AskData {
         } while (!ask.equalsIgnoreCase(optionTrue) && !ask.equalsIgnoreCase(optionFalse));
         return ask.equalsIgnoreCase(optionTrue);
     }
+
 }

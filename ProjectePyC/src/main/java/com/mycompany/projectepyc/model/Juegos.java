@@ -8,6 +8,6 @@ package com.mycompany.projectepyc.model;
  *
  * @author willg
  */
-public class Mesas {
-  
+public class Juegos {
+    
 }

@@ -4,17 +4,24 @@
  */
 package com.mycompany.projectepyc;
 
+import com.mycompany.projectepyc.view.Menu;
+import java.io.IOException;
+
 /**
  *
  * @author willg
  */
 public class AEPDA {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+      
+        Menu m = new Menu();
+        try {
+            m.start();
+        } catch (IOException ex) {
+            System.out.println("ERROR INESPERADO o que no debería darse: " + ex.getMessage());
+        }
+    }
     }
     
-}
+
