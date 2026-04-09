@@ -8,9 +8,11 @@ import com.mycompany.projectepyc.view.Menu;
 import java.io.IOException;
 
 /**
- *
- * @author willg
- */
+* Classe principal de l'aplicació AEPDA.
+* @author PyC
+* @version 1.0
+*/
+
 public class AEPDA {
 
     public static void main(String[] args) {

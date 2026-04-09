@@ -12,20 +12,49 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- *
- * @author willg
- */
+* Controlador que gestiona la lògica de l'aplicació AEPDA.
+*
+* <p>Aquesta classe connecta la vista amb el model i la persistència,
+* validant les regles de negoci abans de realitzar canvis.</p>
+*
+* @author PyC
+* @version 2.0
+*/
+
 public class GestorAEPDA {
     
+    /**
+    * Diccionari de clubs registrats (Clau: Nom del club).
+    */
+    
     private Map<String, Club> clubs;
-
+    
+    /**
+    * Objecte per gestionar la persistència en fitxers.
+    */
+    
     private Persistencia persistencia;
-
+    
+    /**
+    * Inicialitza el gestor carregant les dades existents.
+    *
+    * @throws IOException si falla la lectura dels fitxers.
+    * @throws AEPDAException si hi ha incoherències en les dades.
+    */
+    
     public GestorAEPDA() throws IOException, AEPDAException {
         persistencia = new Persistencia();
         clubs = persistencia.carregarData();
     }
-
+    
+    /**
+    * Registra un nou club a l'associació.
+    *
+    * @param nom el nom del club.
+    * @throws AEPDAException si el club ja existeix.
+    * @throws IOException si falla l'escriptura en disc.
+    */
+    
     public void registrarClub(String nom) throws AEPDAException, IOException {
         if (clubs.containsKey(nom.toUpperCase())) {
             throw new AEPDAException("Ja existeix un club amb el nom: " + nom);
@@ -34,7 +63,17 @@ public class GestorAEPDA {
         clubs.put(nom.toUpperCase(), nou);
         persistencia.escriureClub(nou);
     }
-
+    
+    /**
+    * Afegeix un participant a un club específic.
+    *
+    * @param nomClub nom del club destí.
+    * @param id identificador del participant.
+    * @param nick sobrenom del participant.
+    * @throws AEPDAException si el club no existeix o el participant està duplicat.
+    * @throws IOException si falla la persistència.
+    */
+    
     public void afegirParticipantClub(String nomClub, String id, String nick) throws AEPDAException, IOException {
         if (!clubs.containsKey(nomClub.toUpperCase())) {
             throw new AEPDAException("El club " + nomClub + " no existeix.");
@@ -50,7 +89,14 @@ public class GestorAEPDA {
         c.addParticipant(p);
         persistencia.escriureParticipant(nomClub, p);
     }
-
+    
+    /**
+    * Verifica si un participant existeix en qualsevol dels clubs.
+    *
+    * @param id l'identificador a buscar.
+    * @return true si es troba, false en cas contrari.
+    */
+    
     private boolean existeixParticpantClub(String id) {
         for (Club c : clubs.values()) {
             if (c.existsParticipant(id)) {
@@ -59,7 +105,13 @@ public class GestorAEPDA {
         }
         return false;
     }
-
+    
+    /**
+    * Retorna un llistat textual de tots els clubs.
+    *
+    * @return String amb la informació resumida.
+    */
+    
     public String llistatClubs() {
         String resultat = "";
 
@@ -76,7 +128,11 @@ public class GestorAEPDA {
 
         return resultat;
     }
-
+    
+    /**
+    * Modifica el nickname d'un participant seguint la regla d'un sol punt de sortida.
+    */
+    
     public void modificarParticipant(String id, String nouNick) throws AEPDAException, IOException {
         boolean trobat = false;
 
@@ -95,6 +151,10 @@ public class GestorAEPDA {
         }
     }
     
+    /**
+    * Elimina un participant seguint la regla de flux net i sortida única.
+    */
+    
     public void esborrarParticipant(String id) throws AEPDAException, IOException {
         boolean eliminat = false;
 
@@ -111,6 +171,14 @@ public class GestorAEPDA {
             throw new AEPDAException("No es pot esborrar: ID " + id + " no trobat.");
         }
     }
+    
+    /**
+    * Genera un text amb la informació detallada d'un club i els seus membres.
+    *
+    * @param nom el nom del club a consultar.
+    * @return un String formatat amb les dades del club i la llista de participants.
+    * @throws AEPDAException si el club no existeix en el sistema.
+    */
     
     public String infoClub(String nom) throws AEPDAException {
     String info = "";

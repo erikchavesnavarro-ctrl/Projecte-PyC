@@ -17,15 +17,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
- * @author Mario
- */
+* Gestiona la persistència en fitxers del projecte AEPDA.
+*
+* <p>Utilitza un fitxer per als clubs i un altre per a tots els participants.</p>
+*
+* @author PyC
+* @version 2.0
+*/
+
 public class Persistencia {
     
     private File carpeta;    
     private File ficheroClubs;
     private File ficheroParticipants;
     
+    /**
+    * Inicialitza rutes i fitxers. Crea la carpeta si no existeix.
+    */
+
     public Persistencia() {
         String rutaCarpeta = "aepda_data";
         
@@ -38,6 +47,14 @@ public class Persistencia {
         ficheroClubs = new File(rutaCarpeta + File.separator + "clubs.txt");
         ficheroParticipants = new File(rutaCarpeta + File.separator + "participants.txt");
     }
+    
+    /**
+    * Llegeix tots els clubs i els seus membres dels fitxers.
+    *
+    * @return un Map amb els clubs carregats.
+    * @throws IOException si hi ha un error de disc.
+    * @throws AEPDAException si les dades són incoherents.
+    */
 
     public Map<String, Club> carregarData() throws IOException, AEPDAException {
         Map<String, Club> clubs = new HashMap<>();
@@ -73,6 +90,13 @@ public class Persistencia {
         }
         return clubs;
     }
+    
+    /**
+    * Guarda un nou club al fitxer (mode append).
+    *
+    * @param c el club a guardar.
+    * @throws IOException si falla l'escriptura.
+    */
 
     public void escriureClub(Club c) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ficheroClubs, true))) {
@@ -81,6 +105,14 @@ public class Persistencia {
         }
     }
     
+    /**
+    * Guarda un participant vinculat a un club (mode append).
+    *
+    * @param nomClub nom del club al qual pertany.
+    * @param p el participant.
+    * @throws IOException si falla l'escriptura.
+    */
+
     public void escriureParticipant(String nomClub, Participant p) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ficheroParticipants, true))) {
             String linea = nomClub + "," + p.getID() + "," + p.getNickname(); // Format CSV
@@ -88,6 +120,13 @@ public class Persistencia {
             bw.newLine();
         }
     }
+    
+    /**
+    * Actualitza el fitxer de participants amb les dades actuals dels clubs.
+    *
+    * @param clubs mapa de clubs que conté els participants.
+    * @throws IOException si falla l'escriptura.
+    */
     
     public void saveAllParticipants(Map<String, Club> clubs) throws IOException {
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(ficheroParticipants))) {
