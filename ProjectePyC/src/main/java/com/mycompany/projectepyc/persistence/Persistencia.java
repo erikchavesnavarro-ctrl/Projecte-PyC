@@ -123,7 +123,7 @@ public class Persistencia {
      * @param clubs mapa de clubs que conté els participants.
      * @throws IOException si falla l'escriptura.
      */
-    public void saveAllParticipants(Map<String, Club> clubs) throws IOException {
+    public void guardarTotsParticipants(Map<String, Club> clubs) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ficheroParticipants))) {
             for (Club c : clubs.values()) {
                 for (Participant p : c.getParticipants().values()) {
@@ -135,7 +135,7 @@ public class Persistencia {
         }
     }
 
-    public void writeMesaFile(Taula m) throws IOException {
+    public void escriureTaula(Taula m) throws IOException {
         // Utilitzem try-with-resources per tancar el stream automàticament
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("aepda_data/mesas.txt", true))) {
             String linea = m.getNumero() + ";" + m.getAmbient() + ";" + m.getEscenari();
@@ -144,7 +144,7 @@ public class Persistencia {
         }
     }
 
-    public Map<Integer, Taula> readMesasFile() throws IOException {
+    public Map<Integer, Taula> llegirTaules() throws IOException {
         Map<Integer, Taula> taulesCarregades = new HashMap<>();
         File f = new File("aepda_data/mesas.txt");
 
