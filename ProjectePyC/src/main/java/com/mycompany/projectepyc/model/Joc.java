@@ -9,6 +9,18 @@ package com.mycompany.projectepyc.model;
  * @author willg
  */
 public abstract class Joc {
-     protected int puntsTorneig;
 
+    protected int puntsTorneig;
+    
+    public Joc() {
+        this.puntsTorneig = 0;
+    }
+
+
+    public abstract int calcularPuntsPartida();
+
+    public int getPuntsTorneig() {
+        return puntsTorneig;
+    }
 }
+
