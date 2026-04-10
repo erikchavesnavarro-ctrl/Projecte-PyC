@@ -130,23 +130,21 @@ public class GestorAEPDA {
      * Modifica el nickname d'un participant seguint la regla d'un sol punt de
      * sortida.
      */
-    public void modificarParticipant(String id, String nouNick) throws AEPDAException, IOException {
-        boolean trobat = false;
-
-        for (Club c : clubs.values()) {
-            // Si encara no l'hem trobat, mirem si està en aquest club
-            if (!trobat && c.existsParticipant(id)) {
-                c.getParticipants().get(id).setNickname(nouNick);
-                trobat = true;
-            }
-        }
-
-        if (trobat) {
-            persistencia.guardarTotsParticipants(clubs);
-        } else {
-            throw new AEPDAException("No s'ha trobat el participant amb ID: " + id);
-        }
+    public void modificarParticipant(String id, String nouNick) throws AEPDAException {
+    Participant p = cercarParticipantGlobal(id);
+    
+    if (p == null) {
+        throw new AEPDAException("No s'ha trobat cap participant amb l'ID: " + id);
     }
+    
+    p.setNickname(nouNick);
+    }
+    
+    private Participant cercarParticipantGlobal(String id) {
+    Participant trobat = null;
+    return trobat;
+    }
+
 
     /**
      * Elimina un participant seguint la regla de flux net i sortida única.
