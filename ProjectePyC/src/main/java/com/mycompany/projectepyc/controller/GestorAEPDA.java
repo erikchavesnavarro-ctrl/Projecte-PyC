@@ -143,9 +143,20 @@ public class GestorAEPDA {
     p.setNickname(nouNick);
     }
     
-    private Participant cercarParticipantGlobal(String id) {
-    Participant trobat = null;
-    return trobat;
+    private Participant cercarParticipantGlobal(String id) throws AEPDAException {
+        String nomClubTrobat = "";
+        boolean trobat = false;
+        
+        for(Club c : clubs.values()) {
+            if(trobat == false && c.existsParticipant(id)){
+                nomClubTrobat = c.getNom().toUpperCase();
+                trobat = true;
+            }
+        }
+        if (trobat == false) {
+            throw new AEPDAException("No s'ha trobat cap participant amb l'ID: " + id);
+        }
+        return clubs.get(nomClubTrobat).getParticipants().get(id);
     }
 
 
