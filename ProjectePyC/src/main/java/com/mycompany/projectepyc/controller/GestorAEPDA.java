@@ -262,6 +262,9 @@ public class GestorAEPDA {
             ParticipantSorteig p2 = triarRivalAleatori(p1, sorteig);
 
             Taula t = taules.get(numTaula);
+            p1.getP().registrarPartida(numTaula, t.getAmbient());
+            p2.getP().registrarPartida(numTaula, t.getAmbient());
+
             sb.append("Taula ").append(numTaula).append(" [").append(t.getAmbient()).append("]: ").append(p1.getP().getNickname()).append(" vs ").append(p2.getP().getNickname()).append("\n");
 
             numTaula += 1;
