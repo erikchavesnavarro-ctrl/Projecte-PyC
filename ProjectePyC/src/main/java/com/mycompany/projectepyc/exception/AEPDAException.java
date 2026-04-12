@@ -5,12 +5,18 @@
 package com.mycompany.projectepyc.exception;
 
 /**
- *
- * @author willg
+ * Gestiona els errors de lògica de negoci de l'aplicació AEPDA.
+ * 
+ * @author PyC
+ * @version 1.0
  */
 
     public class AEPDAException extends Exception{
-    
+      /**
+     * Construeix una excepció amb un missatge específic.
+     * @param message el text descriptiu de l'error.
+     */
+
     public AEPDAException(String message) {
         super(message);
     }
