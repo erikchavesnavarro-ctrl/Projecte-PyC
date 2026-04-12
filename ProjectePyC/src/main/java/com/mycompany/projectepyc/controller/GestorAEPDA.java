@@ -34,8 +34,10 @@ public class GestorAEPDA {
      */
     private Map<String, Club> clubs;
 
-    
-    private Map<Integer, Taula> taules; // Col·lecció avançada (Requisit Sprint 2)
+    /**
+     * Diccionari de taules registrades (Clau: Numero de la taula).
+     */
+    private Map<Integer, Taula> taules;
 
     /**
      * Objecte per gestionar la persistència en fitxers.

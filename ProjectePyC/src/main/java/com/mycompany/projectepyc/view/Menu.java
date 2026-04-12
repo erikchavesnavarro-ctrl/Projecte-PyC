@@ -246,6 +246,12 @@ public class Menu {
         System.out.println(informe);
     }
 
+    /**
+     * Mostra per pantalla el llistat de totes les taules del sistema.
+     * 
+     * <p>Aquest mètode de la vista agafa la informació 
+     * del gestor i la imprimeix directament a la consola.</p>
+     */
     private void llistatTaules() {
         System.out.println("--- LLISTAT DE LES TAULES ---");
         String info = gestor.llistatTaules();

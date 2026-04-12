@@ -5,16 +5,14 @@
 package com.mycompany.projectepyc.model;
 
 /**
- *
- * @author Mario
- */
-/**
  * Representa una taula de joc del torneig.
  * 
- * <p>Cada taula té un identificador numèric, un ambient i un escenari 
- * específic assignat.</p>
+ * <p>
+ * Cada taula té un identificador numèric, un ambient i un escenari
+ * específic assignat.
+ * </p>
  * 
- * @author [Els vostres noms]
+ * @author PyC
  * @version 1.0
  */
 
@@ -24,7 +22,8 @@ public class Taula {
     private String ambient;
     private String escenari;
     private Joc partidaActual;
-       /**
+
+    /**
      * Crea una nova instància de Mesa.
      * 
      * @param numero   el número identificador de la taula.
@@ -32,21 +31,18 @@ public class Taula {
      * @param escenari el nom de l'escenari o mapa.
      */
 
-
     public Taula(int numero, String ambient, String escenari) {
         this.numero = numero;
         this.ambient = ambient;
         this.escenari = escenari;
-        
 
     }
-    
+
     /**
      * Retorna el número de la taula.
+     * 
      * @return l'identificador enter.
      */
-    
-   
 
     public int getNumero() {
         return numero;
@@ -54,6 +50,7 @@ public class Taula {
 
     /**
      * Retorna l'ambient de la taula.
+     * 
      * @return una cadena amb l'ambient (ex: "Obert").
      */
 
@@ -61,8 +58,9 @@ public class Taula {
         return ambient;
     }
 
-      /**
+    /**
      * Retorna l'escenari muntat a la taula.
+     * 
      * @return el nom de l'escenari.
      */
 
@@ -70,15 +68,21 @@ public class Taula {
         return escenari;
     }
 
-/**
- * Assigna una partida a la taula.
- * @param partida el joc (KillTeam o MESBG) a realitzar.
- */
+    /**
+     * Assigna una partida a la taula.
+     * 
+     * @param partida el joc (KillTeam o MESBG) a realitzar.
+     */
 
     public void setPartidaActual(Joc partida) {
         this.partidaActual = partida;
     }
 
+    /**
+     * Retorna la partida que s'està disputant actualment en aquesta taula.
+     * 
+     * @return l'objecte {@link Joc} assignat a la taula.
+     */
     public Joc getPartidaActual() {
         return partidaActual;
     }

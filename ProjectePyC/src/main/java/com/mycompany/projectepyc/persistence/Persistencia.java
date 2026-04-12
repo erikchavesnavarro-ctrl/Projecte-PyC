@@ -20,10 +20,14 @@ import java.util.Map;
 
 
 /**
- * Guarda una taula al fitxer en mode append.
+ * Gestiona la persistència en fitxers del projecte AEPDA.
  * 
- * @param m la taula a persistir.
- * @throws IOException si hi ha un error de disc.
+ * <p>Aquesta classe centralitza totes les operacions d'entrada i sortida (I/O), 
+ * encarregant-se de llegir i escriure les dades dels clubs, participants 
+ * i meses en fitxers de text pla.</p>
+ * 
+ * @author PyC
+ * @version 2.0
  */
 
 public class Persistencia {

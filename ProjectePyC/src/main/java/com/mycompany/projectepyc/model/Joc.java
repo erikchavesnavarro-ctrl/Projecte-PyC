@@ -5,25 +5,17 @@
 package com.mycompany.projectepyc.model;
 
 /**
- *
- * @author willg
- */
-
-/**
  * Representa una partida genèrica del torneig AEPDA.
  * 
  * <p>Aquesta classe defineix el marc comú de puntuació per a tots els jocs 
  * de l'associació.</p>
  * 
- * @author [Els vostres noms]
+ * @author PyC
  * @version 1.0
  */
 
 public abstract class Joc {
 
-    
-    
-    
        /** Punts obtinguts per a la classificació general (3, 1 o 0). */
     protected int puntsTorneig;
 

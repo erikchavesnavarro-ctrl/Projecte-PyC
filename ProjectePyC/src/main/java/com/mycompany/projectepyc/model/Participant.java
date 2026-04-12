@@ -13,6 +13,9 @@ import java.util.List;
  * 
  * <p>A més de les dades bàsiques, manté un registre de les meses i ambients 
  * visitats per evitar repeticions segons la Regla d'Or del client.</p>
+ * 
+ * @author PyC
+ * @version 1.0
  */
 
 public class Participant {

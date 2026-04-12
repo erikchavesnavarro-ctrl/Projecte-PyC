@@ -5,14 +5,9 @@
 package com.mycompany.projectepyc.exception;
 
 /**
- *
- * @author willg
- */
-
-/**
  * Gestiona els errors de lògica de negoci de l'aplicació AEPDA.
  * 
- 
+ * @author PyC
  * @version 1.0
  */
 
