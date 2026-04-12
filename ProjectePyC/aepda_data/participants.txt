@@ -1,0 +1,7 @@
+
+Comunidad del Anillo,A,Aragorn
+Comunidad del Anillo,B,Gandalf
+Jedi,1,Anakin Skywalker
+Jedi,2,Obi Wan Kenobi
+Casa Stark,3,John Snow
+Casa Stark,4,Robb Stark

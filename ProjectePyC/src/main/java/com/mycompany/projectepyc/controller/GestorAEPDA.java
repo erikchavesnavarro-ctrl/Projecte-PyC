@@ -38,7 +38,7 @@ public class GestorAEPDA {
      * Objecte per gestionar la persistència en fitxers.
      */
     private Persistencia persistencia;
-
+    
     /**
      * Inicialitza el gestor carregant les dades existents.
      *
@@ -47,7 +47,8 @@ public class GestorAEPDA {
      */
     public GestorAEPDA() throws IOException, AEPDAException {
         persistencia = new Persistencia();
-        clubs = persistencia.carregarData();
+        this.clubs = persistencia.carregarData();
+        this.taules = persistencia.llegirTaules();
     }
 
     /**
@@ -118,12 +119,11 @@ public class GestorAEPDA {
         if (clubs.isEmpty()) {
             resultat = "No hi ha clubs registrats.";
         } else {
-            StringBuilder sb = new StringBuilder("*** LLISTAT DE CLUBS ***\n");
+            resultat += "*** LLISTAT DE CLUBS ***\n";
             for (Club c : clubs.values()) {
-                sb.append("- ").append(c.getNom())
-                        .append(" (").append(c.getParticipants().size()).append(" membres)\n");
+                resultat +="- " + c.getNom();
+                resultat +=" (" + c.getParticipants().size() + " membres)\n";
             }
-            resultat = sb.toString();
         }
 
         return resultat;
@@ -134,13 +134,13 @@ public class GestorAEPDA {
      * sortida.
      */
     public void modificarParticipant(String id, String nouNick) throws AEPDAException {
-    Participant p = cercarParticipantGlobal(id);
-    
-    if (p == null) {
-        throw new AEPDAException("No s'ha trobat cap participant amb l'ID: " + id);
-    }
-    
-    p.setNickname(nouNick);
+        Participant p = cercarParticipantGlobal(id);
+        
+        if (p == null) {
+            throw new AEPDAException("No s'ha trobat cap participant amb l'ID: " + id);
+        }
+        
+        p.setNickname(nouNick);
     }
     
     private Participant cercarParticipantGlobal(String id) throws AEPDAException {
@@ -197,23 +197,20 @@ public class GestorAEPDA {
         }
 
         Club c = clubs.get(clau);
-        StringBuilder sb = new StringBuilder();
-        sb.append("--- INFORMACIÓ DEL CLUB ---\n");
-        sb.append("Nom: ").append(c.getNom()).append("\n");
+        info += "--- INFORMACIÓ DEL CLUB ---\n";
+        info += "Nom: " + c.getNom() + "\n";
 
         if (c.getParticipants().isEmpty()) {
-            sb.append("Aquest club encara no té membres inscrits.\n");
+            info += "Aquest club encara no té membres inscrits.\n";
         } else {
-            sb.append("*** MEMBRES DEL CLUB ***\n");
+            info += "*** MEMBRES DEL CLUB ***\n";
             // Recorrem els valors del mapa de participants [2]
             for (Participant p : c.getParticipants().values()) {
-                sb.append("- ").append(p.getNickname())
-                        .append(" [ID: ").append(p.getID()).append("]\n");
+                info += "- " + p.getNickname();
+                info += " [ID: " + p.getID() + "]\n";
             }
-            sb.append("Total: ").append(c.getParticipants().size()).append(" membres.");
+            info += "Total: " + c.getParticipants().size() + " membres.";
         }
-
-        info = sb.toString();
         return info;
     }
     
@@ -233,22 +230,21 @@ public class GestorAEPDA {
         if (taules.isEmpty()) {
             info = "No hi ha taules registrades.";
         } else {
-            StringBuilder sb = new StringBuilder("*** TAULES REGISTRADES ***\n");
+            info += "*** TAULES REGISTRADES ***\n";
             for (Taula m : taules.values()) {
-                sb.append("Taula ").append(m.getNumero())
-                  .append(": ").append(m.getEscenari())
-                  .append(" (").append(m.getAmbient()).append(")\n");
+                info += "Taula " + m.getNumero();
+                info += ": " + m.getEscenari();
+                info += " (" + m.getAmbient() + ")\n";
             }
-            info = sb.toString();
         }
-        return info; // Single Exit Point
+        return info;
     }
     
     public String generarSorteigRonda1() throws AEPDAException {
-        String informe = "";
+        String info = "";
 
         List<ParticipantSorteig> sorteig = prepararSorteig();
-        StringBuilder sb = new StringBuilder("--- SORTEIG 1a RONDA (ALEATORI) ---\n");
+        info += "--- SORTEIG 1a RONDA (ALEATORI) ---\n";
 
         int numTaula = 1;
         boolean possible = true;
@@ -265,17 +261,15 @@ public class GestorAEPDA {
             p1.getP().registrarPartida(numTaula, t.getAmbient());
             p2.getP().registrarPartida(numTaula, t.getAmbient());
 
-            sb.append("Taula ").append(numTaula).append(" [").append(t.getAmbient()).append("]: ").append(p1.getP().getNickname()).append(" vs ").append(p2.getP().getNickname()).append("\n");
+            info += "Taula " + numTaula + " " + t.getEscenari() + " [" + t.getAmbient() + "]: " + p1.getP().getNickname() + " vs " + p2.getP().getNickname() + "\n";
 
             numTaula += 1;
         }
 
         if (numTaula == 1) {
-            informe = "No hi ha participants suficients.";
-        } else {
-            informe = sb.toString();
+            info = "No hi ha participants suficients.";
         }
-        return informe;
+        return info;
     }
 
     private ParticipantSorteig triarRivalAleatori(ParticipantSorteig p1, List<ParticipantSorteig> sorteig) throws AEPDAException {
