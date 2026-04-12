@@ -133,23 +133,32 @@ public class GestorAEPDA {
      * Modifica el nickname d'un participant seguint la regla d'un sol punt de
      * sortida.
      */
-    public void modificarParticipant(String id, String nouNick) throws AEPDAException, IOException {
+    public void modificarParticipant(String id, String nouNick) throws AEPDAException {
+    Participant p = cercarParticipantGlobal(id);
+    
+    if (p == null) {
+        throw new AEPDAException("No s'ha trobat cap participant amb l'ID: " + id);
+    }
+    
+    p.setNickname(nouNick);
+    }
+    
+    private Participant cercarParticipantGlobal(String id) throws AEPDAException {
+        String nomClubTrobat = "";
         boolean trobat = false;
-
-        for (Club c : clubs.values()) {
-            // Si encara no l'hem trobat, mirem si està en aquest club
-            if (!trobat && c.existsParticipant(id)) {
-                c.getParticipants().get(id).setNickname(nouNick);
+        
+        for(Club c : clubs.values()) {
+            if(trobat == false && c.existsParticipant(id)){
+                nomClubTrobat = c.getNom().toUpperCase();
                 trobat = true;
             }
         }
-
-        if (trobat) {
-            persistencia.guardarTotsParticipants(clubs);
-        } else {
-            throw new AEPDAException("No s'ha trobat el participant amb ID: " + id);
+        if (trobat == false) {
+            throw new AEPDAException("No s'ha trobat cap participant amb l'ID: " + id);
         }
+        return clubs.get(nomClubTrobat).getParticipants().get(id);
     }
+
 
     /**
      * Elimina un participant seguint la regla de flux net i sortida única.
@@ -253,6 +262,9 @@ public class GestorAEPDA {
             ParticipantSorteig p2 = triarRivalAleatori(p1, sorteig);
 
             Taula t = taules.get(numTaula);
+            p1.getP().registrarPartida(numTaula, t.getAmbient());
+            p2.getP().registrarPartida(numTaula, t.getAmbient());
+
             sb.append("Taula ").append(numTaula).append(" [").append(t.getAmbient()).append("]: ").append(p1.getP().getNickname()).append(" vs ").append(p2.getP().getNickname()).append("\n");
 
             numTaula += 1;

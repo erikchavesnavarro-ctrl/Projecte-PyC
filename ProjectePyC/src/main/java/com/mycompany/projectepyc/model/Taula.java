@@ -13,6 +13,7 @@ public class Taula {
     private int numero;
     private String ambient;
     private String escenari;
+    private Joc partidaActual;
 
     public Taula(int numero, String ambient, String escenari) {
         this.numero = numero;
@@ -32,6 +33,12 @@ public class Taula {
         return escenari;
     }
 
-    
-    
+    public void setPartidaActual(Joc partida) {
+        this.partidaActual = partida;
+    }
+
+    public Joc getPartidaActual() {
+        return partidaActual;
+    }
+
 }
