@@ -228,7 +228,6 @@ public class GestorAEPDA {
     public String llistatTaules() {
         String info = "";
         if (taules.isEmpty()) {
-            info = "No hi ha taules registrades.";
         } else {
             info += "*** TAULES REGISTRADES ***\n";
             for (Taula m : taules.values()) {
