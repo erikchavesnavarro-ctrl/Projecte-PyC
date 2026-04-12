@@ -62,8 +62,8 @@ public class Persistencia {
             try (BufferedReader br = new BufferedReader(new FileReader(ficheroClubs))) {
                 String linea;
                 while ((linea = br.readLine()) != null) {
-                    String nomClub = linea.trim();
-                    clubs.put(nomClub, new Club(nomClub));
+                    String nomClub = linea;
+                    clubs.put(nomClub.toUpperCase(), new Club(nomClub));
                 }
             }
         }
@@ -79,8 +79,8 @@ public class Persistencia {
                         String id = d[1];
                         String nick = d[2];
 
-                        if (clubs.containsKey(nomClub)) {
-                            clubs.get(nomClub).addParticipant(new Participant(id, nick));
+                        if (clubs.containsKey(nomClub.toUpperCase())) {
+                            clubs.get(nomClub.toUpperCase()).addParticipant(new Participant(id, nick));
                         }
                     }
                 }
@@ -154,7 +154,7 @@ public class Persistencia {
                 while ((linea = br.readLine()) != null) {
                     String[] d = linea.split(";");
                     int num = Integer.parseInt(d[0]);
-                    taulesCarregades.put(num, new Taula(num, d[9], d[10]));
+                    taulesCarregades.put(num, new Taula(num, d[1], d[2]));
                 }
             }
         }
