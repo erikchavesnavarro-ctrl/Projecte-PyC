@@ -4,10 +4,11 @@
  */
 package com.mycompany.projectepyc.model;
 
+
 /**
- *
- * @author willg
+ * Representa una partida de Middle Earth Strategy Battle Game.
  */
+
 
    public class MESBG extends Joc {
 

@@ -4,15 +4,17 @@
  */
 package com.mycompany.projectepyc.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 /**
-* Entitat que representa un participant en els tornejos de l'AEPDA.
-*
-* <p>Aquesta classe emmagatzema la informació bàsica d'identificació
-* de cada jugador inscrit al club.</p>
-*
-* @author PyC
-* @version 2.0
-*/
+ * Entitat que representa un participant amb el seu historial de partides.
+ * 
+ * <p>A més de les dades bàsiques, manté un registre de les meses i ambients 
+ * visitats per evitar repeticions segons la Regla d'Or del client.</p>
+ */
+
 public class Participant {
     
     /**
@@ -33,12 +35,52 @@ public class Participant {
     * @param id identificador únic del participant.
     * @param nickname nom públic que utilitzarà el jugador.
     */
+    
+    private List<Integer> historialTaules;
+    private List<String> historialAmbients;
 
     public Participant(String id, String nickname) {
         this.id = id;
         this.nickname = nickname;
+        this.historialTaules = new ArrayList<>();
+        this.historialAmbients = new ArrayList<>();
+    }
+        /**
+     * Verifica si el participant ja ha jugat en una taula concreta.
+     * 
+     * @param numTaula el número de la taula a comprovar.
+     * @return true si ja hi ha jugat, false en cas contrari.
+     */
+
+    public boolean haJugatTaula(int numTaula) {
+        boolean trobat = historialTaules.contains(numTaula);
+        return trobat;
+    }
+      /**
+     * Verifica si el participant ja ha jugat en un ambient/escenari concret.
+     * 
+     * @param ambient el nom de l'ambient (Obert, Tancat, etc.).
+     * @return true si ja hi ha jugat, false en cas contrari.
+     */
+
+    public boolean haJugatAmbient(String ambient) {
+        boolean trobat = historialAmbients.contains(ambient.toUpperCase());
+        return trobat;
     }
     
+    
+    /**
+     * Registra una nova partida a l'historial del participant.
+     * 
+     * @param numTaula número de la taula on ha jugat.
+     * @param ambient ambient de la taula.
+     */
+
+    public void registrarPartida(int numTaula, String ambient) {
+        historialTaules.add(numTaula);
+        historialAmbients.add(ambient.toUpperCase());
+    }
+
     /**
     * Retorna l'ID del participant.
     *

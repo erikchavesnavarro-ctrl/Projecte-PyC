@@ -4,9 +4,9 @@
  */
 package com.mycompany.projectepyc.model;
 
+
 /**
- *
- * @author willg
+ * Representa una partida de Kill Team.
  */
 
  public class KillTeam extends Joc {
@@ -15,6 +15,9 @@ package com.mycompany.projectepyc.model;
     private int tacOps;
     private int killOps;
     private int primaryOps;
+   /**
+     * Crea una partida de Kill Team amb els seus desglossament de punts.
+     */
 
     public KillTeam(int crit, int tac, int kill, int primary) {
         super(); // Crida al constructor de Joc [5]
