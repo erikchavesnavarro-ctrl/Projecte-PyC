@@ -17,15 +17,19 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+
+
 /**
  * Gestiona la persistència en fitxers del projecte AEPDA.
- *
- * <p>
- * Utilitza un fitxer per als clubs i un altre per a tots els participants.</p>
- *
+ * 
+ * <p>Aquesta classe centralitza totes les operacions d'entrada i sortida (I/O), 
+ * encarregant-se de llegir i escriure les dades dels clubs, participants 
+ * i meses en fitxers de text pla.</p>
+ * 
  * @author PyC
  * @version 2.0
  */
+
 public class Persistencia {
 
     private File carpeta;
@@ -143,6 +147,13 @@ public class Persistencia {
             bw.newLine();
         }
     }
+
+    /**
+ * Llegeix totes les taules del fitxer.
+ * 
+ * @return un mapa amb les taules carregades.
+ * @throws IOException si falla la lectura.
+ */
 
     public Map<Integer, Taula> llegirTaules() throws IOException {
         Map<Integer, Taula> taulesCarregades = new HashMap<>();
