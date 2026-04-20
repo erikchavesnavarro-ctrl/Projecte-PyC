@@ -1,0 +1,3 @@
+1;Obert;Portes de Gondor
+2;Tancat;Destructor Estelar
+3;Tancat;Castillo Rohan

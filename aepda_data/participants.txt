@@ -1,0 +1,5 @@
+Jedi,3,Anakin Skywalker
+Jedi,4,Obi Wan Kenobi
+Casa Stark,5,Jon Snow
+Casa Stark,6,Robb Stark
+Comunidad del Anillo,2,Legolas
