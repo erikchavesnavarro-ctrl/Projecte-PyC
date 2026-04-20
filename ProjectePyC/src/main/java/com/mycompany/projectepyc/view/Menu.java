@@ -30,16 +30,10 @@ public class Menu {
 
     private GestorAEPDA gestor;
 
-<<<<<<< HEAD
-    /**
-     * Mètode d'arrencada de l'aplicació.
-     *
-=======
     
   /**
      * Mètode d'arrencada de l'aplicació que gestiona el bucle principal.
      * 
->>>>>>> Diego
      * @throws IOException si hi ha un problema crític d'entrada/sortida.
      */
 
@@ -219,8 +213,6 @@ public class Menu {
 
         System.out.println(dades);
     }
-<<<<<<< HEAD
-=======
  /**
      * Demana les dades d'una taula i gestiona el seu registre al sistema.
      * 
@@ -230,7 +222,6 @@ public class Menu {
      * @throws IOException si hi ha un error en la lectura de teclat.
      * @throws AEPDAException si la taula ja existeix al gestor.
      */
->>>>>>> Diego
 
     private void altaTaula() throws IOException, AEPDAException {
         System.out.println("--- ALTA DE NOVA TAULA ---");
@@ -242,14 +233,12 @@ public class Menu {
         gestor.addMesa(num, ambient, escenari);
         System.out.println("Taula registrada correctament.");
     }
-<<<<<<< HEAD
-=======
+
  /**
      * Executa la lògica del sorteig i en mostra l'informe per pantalla.
      * 
      * @throws AEPDAException si el sorteig no es pot realitzar per manca de jugadors o bloqueig.
      */
->>>>>>> Diego
 
     private void iniciarSorteig() throws AEPDAException {
         System.out.println("\n--- INICIANT SORTEIG DE LA 1a RONDA ---");
@@ -258,15 +247,12 @@ public class Menu {
         System.out.println(informe);
     }
 
-<<<<<<< HEAD
-=======
     /**
      * Mostra per pantalla el llistat de totes les taules del sistema.
      * 
      * <p>Aquest mètode de la vista agafa la informació 
      * del gestor i la imprimeix directament a la consola.</p>
      */
->>>>>>> Diego
     private void llistatTaules() {
         System.out.println("--- LLISTAT DE LES TAULES ---");
         String info = gestor.llistatTaules();

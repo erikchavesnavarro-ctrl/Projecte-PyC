@@ -1,16 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.projectepyc.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> Diego
 /**
  * Entitat que representa un participant amb el seu historial de partides.
  * 
@@ -50,20 +42,7 @@ public class Participant {
         this.nickname = nickname;
         this.historialTaules = new ArrayList<>();
         this.historialAmbients = new ArrayList<>();
-<<<<<<< HEAD
-    }
-    
-    public boolean haJugatTaula(int numTaula) {
-        boolean trobat = historialTaules.contains(numTaula);
-        return trobat;
-    }
-     
-    public boolean haJugatAmbient(String ambient) {
-        boolean trobat = historialAmbients.contains(ambient.toUpperCase());
-        return trobat;
-    }
-    
-=======
+
     }
         /**
      * Verifica si el participant ja ha jugat en una taula concreta.
@@ -96,7 +75,6 @@ public class Participant {
      * @param ambient ambient de la taula.
      */
 
->>>>>>> Diego
     public void registrarPartida(int numTaula, String ambient) {
         historialTaules.add(numTaula);
         historialAmbients.add(ambient.toUpperCase());
