@@ -1,3 +1,4 @@
 1;Obert;Portes de Gondor
 2;Tancat;Destructor Estelar
 3;Obert;Invernalia
+4;Tancat;Castell de Rohan
