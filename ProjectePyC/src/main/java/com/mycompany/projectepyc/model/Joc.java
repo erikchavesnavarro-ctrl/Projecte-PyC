@@ -16,7 +16,10 @@ package com.mycompany.projectepyc.model;
 
 public abstract class Joc {
 
-       /** Punts obtinguts per a la classificació general (3, 1 o 0). */
+    /**Identificador del joc */
+    protected int id;
+
+    /** Punts obtinguts per a la classificació general (3, 1 o 0). */
     protected int puntsTorneig;
 
     /**
