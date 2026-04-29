@@ -30,9 +30,10 @@ public class Menu {
 
     private GestorAEPDA gestor;
 
-    /**
-     * Mètode d'arrencada de l'aplicació.
-     *
+    
+  /**
+     * Mètode d'arrencada de l'aplicació que gestiona el bucle principal.
+     * 
      * @throws IOException si hi ha un problema crític d'entrada/sortida.
      */
 
@@ -103,6 +104,11 @@ public class Menu {
         }
         System.out.println("Tancant l'ull de Sauron...");
     }
+
+    /**
+     * Mostra les opcions disponibles del menú principal per pantalla.
+     */
+
 
     private void mostrarMenu() {
         System.out.println("\n--- GESTIÓ AEPDA ---");
@@ -207,10 +213,22 @@ public class Menu {
 
         System.out.println(dades);
     }
+ /**
+     * Demana les dades d'una taula i gestiona el seu registre al sistema.
+     * 
+     * <p>Utilitza AskData per assegurar que el número de taula sigui un enter 
+     * positiu i que els camps de text no estiguin buits.</p>
+     * 
+     * @throws IOException si hi ha un error en la lectura de teclat.
+     * @throws AEPDAException si la taula ja existeix al gestor.
+     */
 
     private void altaTaula() throws IOException, AEPDAException {
         System.out.println("--- ALTA DE NOVA TAULA ---");
         
+        List<String> tipus = List.of("KillTeam", "MESBG");
+        String tipusTaula = ask.askString("Per a quin joc és la taula (KillTeam o MESBG): ", tipus).toUpperCase();
+
         int num = ask.askInt("Número de la taula: ", "El número ha de ser 1 o superior.", 1);
         String ambient = ask.askString("Ambient (Obert/Tancat/Bheta Décima): ");
         String escenari = ask.askString("Nom de l'escenari: ");
@@ -219,6 +237,12 @@ public class Menu {
         System.out.println("Taula registrada correctament.");
     }
 
+ /**
+     * Executa la lògica del sorteig i en mostra l'informe per pantalla.
+     * 
+     * @throws AEPDAException si el sorteig no es pot realitzar per manca de jugadors o bloqueig.
+     */
+
     private void iniciarSorteig() throws AEPDAException {
         System.out.println("\n--- INICIANT SORTEIG DE LA 1a RONDA ---");
         
@@ -226,6 +250,12 @@ public class Menu {
         System.out.println(informe);
     }
 
+    /**
+     * Mostra per pantalla el llistat de totes les taules del sistema.
+     * 
+     * <p>Aquest mètode de la vista agafa la informació 
+     * del gestor i la imprimeix directament a la consola.</p>
+     */
     private void llistatTaules() {
         System.out.println("--- LLISTAT DE LES TAULES ---");
         String info = gestor.llistatTaules();
