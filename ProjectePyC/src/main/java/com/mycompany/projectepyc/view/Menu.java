@@ -226,6 +226,9 @@ public class Menu {
     private void altaTaula() throws IOException, AEPDAException {
         System.out.println("--- ALTA DE NOVA TAULA ---");
         
+        List<String> tipus = List.of("KillTeam", "MESBG");
+        String tipusTaula = ask.askString("Per a quin joc és la taula (KillTeam o MESBG): ", tipus).toUpperCase();
+
         int num = ask.askInt("Número de la taula: ", "El número ha de ser 1 o superior.", 1);
         String ambient = ask.askString("Ambient (Obert/Tancat/Bheta Décima): ");
         String escenari = ask.askString("Nom de l'escenari: ");

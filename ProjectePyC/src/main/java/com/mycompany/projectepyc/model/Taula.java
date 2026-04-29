@@ -19,23 +19,18 @@ package com.mycompany.projectepyc.model;
 public class Taula {
 
     private int numero;
-    private String ambient;
-    private String escenari;
+    
+    
     private Joc partidaActual;
 
     /**
      * Crea una nova instància de Mesa.
      * 
      * @param numero   el número identificador de la taula.
-     * @param ambient  el tipus d'ambient (Obert, Tancat o Bheta Décima).
-     * @param escenari el nom de l'escenari o mapa.
      */
 
-    public Taula(int numero, String ambient, String escenari) {
+    public Taula(int numero) {
         this.numero = numero;
-        this.ambient = ambient;
-        this.escenari = escenari;
-
     }
 
     /**
@@ -48,25 +43,9 @@ public class Taula {
         return numero;
     }
 
-    /**
-     * Retorna l'ambient de la taula.
-     * 
-     * @return una cadena amb l'ambient (ex: "Obert").
-     */
+    
 
-    public String getAmbient() {
-        return ambient;
-    }
-
-    /**
-     * Retorna l'escenari muntat a la taula.
-     * 
-     * @return el nom de l'escenari.
-     */
-
-    public String getEscenari() {
-        return escenari;
-    }
+    
 
     /**
      * Assigna una partida a la taula.
