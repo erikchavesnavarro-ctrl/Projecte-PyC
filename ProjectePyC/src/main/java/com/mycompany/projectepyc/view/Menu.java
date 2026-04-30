@@ -5,6 +5,7 @@
 package com.mycompany.projectepyc.view;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.mycompany.projectepyc.controller.GestorAEPDA;
 import com.mycompany.projectepyc.exception.AEPDAException;
@@ -226,14 +227,20 @@ public class Menu {
     private void altaTaula() throws IOException, AEPDAException {
         System.out.println("--- ALTA DE NOVA TAULA ---");
         
-        List<String> tipus = List.of("KillTeam", "MESBG");
+        List<String> tipus = List.of("KILLTEAM", "MESBG");
         String tipusTaula = ask.askString("Per a quin joc és la taula (KillTeam o MESBG): ", tipus).toUpperCase();
 
         int num = ask.askInt("Número de la taula: ", "El número ha de ser 1 o superior.", 1);
-        String ambient = ask.askString("Ambient (Obert/Tancat/Bheta Décima): ");
-        String escenari = ask.askString("Nom de l'escenari: ");
         
-        gestor.addMesa(num, ambient, escenari);
+        if (tipusTaula.equals("KILLTEAM")) {
+            List<String> tipusAmbient = List.of("OBERT", "TANCAT", "BETHA DECIMA");
+            String ambient = ask.askString("Quin ambient té la taula (obert, tancat, betha dècima):", tipusAmbient).toUpperCase();
+            gestor.addMesaKillTeam(num, ambient);
+        } else if(tipusTaula.equals("MESBG")) {
+            String escenari = ask.askString("Com és l'escenari? " );
+            gestor.addMesaMESBG(num, escenari);
+        }
+
         System.out.println("Taula registrada correctament.");
     }
 
@@ -243,11 +250,19 @@ public class Menu {
      * @throws AEPDAException si el sorteig no es pot realitzar per manca de jugadors o bloqueig.
      */
 
-    private void iniciarSorteig() throws AEPDAException {
+    private void iniciarSorteig() throws AEPDAException, IOException {
         System.out.println("\n--- INICIANT SORTEIG DE LA 1a RONDA ---");
         
-        String informe = gestor.generarSorteigRonda1();
-        System.out.println(informe);
+        List<String> tipus = List.of("KILLTEAM", "MESBG");
+        String joc = ask.askString("Per a quin joc vols veure les taules (KillTeam o MESBG): ", tipus).toUpperCase();
+
+        if(joc.equals("KILLTEAM")) {
+            String informe = gestor.generarSorteigRonda1KillTeam();
+            System.out.println(informe);
+        } else if(joc.equals("MESBG")) {
+            String informe = gestor.generarSorteigRonda1MESBG();
+            System.out.println(informe);
+        }
     }
 
     /**
@@ -256,10 +271,19 @@ public class Menu {
      * <p>Aquest mètode de la vista agafa la informació 
      * del gestor i la imprimeix directament a la consola.</p>
      */
-    private void llistatTaules() {
+    private void llistatTaules() throws IOException, AEPDAException {
         System.out.println("--- LLISTAT DE LES TAULES ---");
-        String info = gestor.llistatTaules();
-        System.out.println(info);
+
+        List<String> tipus = List.of("KILLTEAM", "MESBG");
+        String joc = ask.askString("Per a quin joc vols veure les taules (KillTeam o MESBG): ", tipus).toUpperCase();
+
+        if (joc.equals("KILLTEAM")) {
+            String info = gestor.llistatTaulesKillTeam();
+            System.out.println(info);
+        } else if(joc.equals("MESBG")) {
+            String info = gestor.llistatTaulesMESBG();
+            System.out.println(info);
+        }
     }
 
 }

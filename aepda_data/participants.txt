@@ -1,0 +1,6 @@
+Comunidad del Anillo,1,Aragorn
+Comunidad del Anillo,2,Legolas
+Jedi,3,Anakin Sky Walker
+Jedi,4,Obi Wan Kenobi
+Cavallers de la taula rodona,5,Rei Arturo
+Cavallers de la taula rodona,6,Lancelot
