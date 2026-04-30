@@ -7,7 +7,9 @@ package com.mycompany.projectepyc.persistence;
 import com.mycompany.projectepyc.exception.AEPDAException;
 import com.mycompany.projectepyc.model.Club;
 import com.mycompany.projectepyc.model.Participant;
-import com.mycompany.projectepyc.model.Taula;
+import com.mycompany.projectepyc.model.TaulaKillTeam;
+import com.mycompany.projectepyc.model.TaulaMESBG;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -139,10 +141,19 @@ public class Persistencia {
         }
     }
 
-    public void escriureTaula(Taula m) throws IOException {
+    public void escriureTaulaKillTeam(TaulaKillTeam m) throws IOException {
         // Utilitzem try-with-resources per tancar el stream automàticament
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("aepda_data/mesas.txt", true))) {
-            String linea = m.getNumero() + ";" + m.getAmbient() + ";" + m.getEscenari();
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("aepda_data/mesasKillTeam.txt", true))) {
+            String linea = m.getNumero() + ";" + m.getAmbient();
+            bw.write(linea);
+            bw.newLine();
+        }
+    }
+
+    public void escriureTaulaMESBG(TaulaMESBG m) throws IOException {
+        // Utilitzem try-with-resources per tancar el stream automàticament
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("aepda_data/mesasMESBG.txt", true))) {
+            String linea = m.getNumero() +  ";" + m.getEscenari();
             bw.write(linea);
             bw.newLine();
         }
@@ -155,9 +166,9 @@ public class Persistencia {
  * @throws IOException si falla la lectura.
  */
 
-    public Map<Integer, Taula> llegirTaules() throws IOException {
-        Map<Integer, Taula> taulesCarregades = new HashMap<>();
-        File f = new File("aepda_data/mesas.txt");
+    public Map<Integer, TaulaKillTeam> llegirTaulesKillTeam() throws IOException {
+        Map<Integer, TaulaKillTeam> taulesCarregadesKillTeam = new HashMap<>();
+        File f = new File("aepda_data/mesasKillTeam.txt");
 
         if (f.exists()) {
             try (BufferedReader br = new BufferedReader(new FileReader(f))) {
@@ -165,11 +176,32 @@ public class Persistencia {
                 while ((linea = br.readLine()) != null) {
                     String[] d = linea.split(";");
                     int num = Integer.parseInt(d[0]);
-                    taulesCarregades.put(num, new Taula(num, d[1], d[2]));
+                    String ambient = d[1];
+                    TaulaKillTeam t = new TaulaKillTeam(num, ambient);
+                    taulesCarregadesKillTeam.put(num, t);
                 }
             }
         }
-        return taulesCarregades; // Punt únic de sortida
+        return taulesCarregadesKillTeam; // Punt únic de sortida
+    }
+
+    public Map<Integer, TaulaMESBG> llegirTaulesMESBG() throws IOException {
+        Map<Integer, TaulaMESBG> taulesCarregadesMESBG = new HashMap<>();
+        File f = new File("aepda_data/mesasMESBG.txt");
+
+        if (f.exists()) {
+            try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+                String linea;
+                while ((linea = br.readLine()) != null) {
+                    String[] d = linea.split(";");
+                    int num = Integer.parseInt(d[0]);
+                    String escenari = d[1];
+                    TaulaMESBG t = new TaulaMESBG(num, escenari);
+                    taulesCarregadesMESBG.put(num, t);
+                }
+            }
+        }
+        return taulesCarregadesMESBG; // Punt únic de sortida
     }
 
 }
