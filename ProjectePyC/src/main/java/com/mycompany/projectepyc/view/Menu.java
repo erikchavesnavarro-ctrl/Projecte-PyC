@@ -62,23 +62,23 @@ public class Menu {
                         break;
 
                     case 2: // ALTA PARTICIPANT
-//                        altaParticipant();
+                        altaParticipant();
                         break;
 
                     case 3: // MODIFICAR PARTICIPANT
-//                        modificarParticipant();
+                        modificarParticipant();
                         break;
 
                     case 4: // ESBORRAR PARTICIPANT
-//                        esborrarParticipant();
+                        esborrarParticipant();
                         break;
 
                     case 5: // LLISTAT CLUBS
-//                        llistatClubs();
+                        llistatClubs();
                         break;
 
                     case 6: // MOSTRA INFORMACIO D'UN CLUB
-//                        informacioClub();
+                        informacioClub();
                         break;
 
                     case 7: //ALTA TAULA
@@ -113,7 +113,7 @@ public class Menu {
 
 
     private void mostrarMenu() {
-        System.out.println("\n--- GESTIÓ AEPDA ---");
+        System.out.println("\n--- GESTIO AEPDA ---");
         System.out.println("1. Alta Club");
         System.out.println("2. Alta Participant");
         System.out.println("3. Modificar Nickname");
@@ -149,7 +149,7 @@ public class Menu {
      * @throws AEPDAException si el club no existeix o el participant està duplicat.
      */
 
-    private void altaParticipant() throws IOException, AEPDAException {
+    private void altaParticipant() throws IOException, AEPDAException, SQLException {
         System.out.println("\n--- INSCRIPCIÓ DE PARTICIPANT ---");
         String nomClub = ask.askString("Nom del club on es vol inscriure: ");
         int id = ask.askInt("ID del participant: ", "No pot ser 0 o menys. ", 1);
@@ -158,63 +158,63 @@ public class Menu {
         gestor.afegirParticipantClub(nomClub, id, nick);
         System.out.println("Participant '" + nick + "' afegit amb èxit al club " + nomClub + ".");
     }
-//
-//    /**
-//     * Gestiona la modificació del sobrenom d'un participant.
-//     *
-//     * @throws IOException    si hi ha error de persistència.
-//     * @throws AEPDAException si no es troba el participant.
-//     */
-//
-//    private void modificarParticipant() throws IOException, AEPDAException {
-//        System.out.println("\n--- MODIFICAR SOBRENOM ---");
-//        String id = ask.askString("Introdueix l'ID del participant a modificar: ");
-//        String nouNick = ask.askString("Introdueix el nou sobrenom: ");
-//
-//        gestor.modificarParticipant(id, nouNick);
-//        System.out.println("El sobrenom s'ha actualitzat correctament.");
-//    }
-//
-//    /**
-//     * Gestiona l'eliminació d'un participant del sistema.
-//     *
-//     * @throws IOException    si falla l'actualització del fitxer.
-//     * @throws AEPDAException si l'identificador no és vàlid.
-//     */
-//
-//    private void esborrarParticipant() throws IOException, AEPDAException {
-//        System.out.println("\n--- ESBORRAR PARTICIPANT ---");
-//        String id = ask.askString("ID del participant que vols eliminar: ");
-//
-//        gestor.esborrarParticipant(id);
-//        System.out.println("El participant amb ID " + id + " ha estat eliminat.");
-//    }
-//
-//    /**
-//     * Mostra per pantalla el llistat formatat de tots els clubs.
-//     */
-//
-//    private void llistatClubs() {
-//
-//        String info = gestor.llistatClubs();
-//        System.out.println(info);
-//    }
-//
-//    /**
-//     * Demana el nom d'un club i en mostra la informació detallada.
-//     *
-//     * @throws IOException    si hi ha un error d'entrada de dades.
-//     * @throws AEPDAException si el club no existeix.
-//     */
-//
-//    private void informacioClub() throws IOException, AEPDAException {
-//
-//        String nom = ask.askString("Introdueix el nom del club que vols consultar: ");
-//
-//        String dades = gestor.infoClub(nom);
-//
-//        System.out.println(dades);
-//    }
+
+    /**
+     * Gestiona la modificació del sobrenom d'un participant.
+     *
+     * @throws IOException    si hi ha error de persistència.
+     * @throws AEPDAException si no es troba el participant.
+     */
+
+    private void modificarParticipant() throws IOException, AEPDAException, SQLException {
+        System.out.println("\n--- MODIFICAR SOBRENOM ---");
+        int id = ask.askInt("Introdueix l'ID del participant a modificar: ");
+        String nouNick = ask.askString("Introdueix el nou sobrenom: ");
+        
+        gestor.modificarParticipant(id, nouNick);
+        System.out.println("El sobrenom s'ha actualitzat correctament.");
+    }
+
+    /**
+     * Gestiona l'eliminació d'un participant del sistema.
+     *
+     * @throws IOException    si falla l'actualització del fitxer.
+     * @throws AEPDAException si l'identificador no és vàlid.
+     */
+
+    private void esborrarParticipant() throws IOException, AEPDAException, SQLException {
+        System.out.println("\n--- ESBORRAR PARTICIPANT ---");
+        int id = ask.askInt("Introdueix l'ID del participant a modificar: ");
+
+        gestor.esborrarParticipant(id);
+        System.out.println("El participant amb ID " + id + " ha estat eliminat.");
+    }
+
+    /**
+     * Mostra per pantalla el llistat formatat de tots els clubs.
+     */
+
+    private void llistatClubs() throws SQLException {
+
+        String info = gestor.llistatClubs();
+        System.out.println(info);
+    }
+
+    /**
+     * Demana el nom d'un club i en mostra la informació detallada.
+     *
+     * @throws IOException    si hi ha un error d'entrada de dades.
+     * @throws AEPDAException si el club no existeix.
+     */
+
+    private void informacioClub() throws IOException, AEPDAException, SQLException {
+
+        String nomClub = ask.askString("Introdueix el nom del club que vols consultar: ");
+
+        String dades = gestor.infoClub(nomClub);
+
+        System.out.println(dades);
+    }
 // /**
 //     * Demana les dades d'una taula i gestiona el seu registre al sistema.
 //     * 
