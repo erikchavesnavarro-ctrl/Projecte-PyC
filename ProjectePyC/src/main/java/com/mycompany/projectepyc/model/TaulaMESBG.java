@@ -28,16 +28,6 @@ public class TaulaMESBG extends Taula {
     }
 
     @Override
-    public Joc getPartidaActual() {
-        return super.getPartidaActual(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-    }
-
-    @Override
-    public void setPartidaActual(Joc partida) {
-        super.setPartidaActual(partida); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-    }
-
-    @Override
     public int getNumero() {
         return super.getNumero(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }

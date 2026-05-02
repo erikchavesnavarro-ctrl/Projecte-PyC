@@ -82,11 +82,11 @@ public class Menu {
                         break;
 
                     case 7: //ALTA TAULA
-//                        altaTaula();
+                        altaTaula();
                         break;
 
                     case 8: //MOSTRAR MESAS
-//                        llistatTaules();    
+                        llistatTaules();    
                         break;
                     
                     case 9: //INICIAR SORTEIG 1A RONDA
@@ -215,36 +215,36 @@ public class Menu {
 
         System.out.println(dades);
     }
-// /**
-//     * Demana les dades d'una taula i gestiona el seu registre al sistema.
-//     * 
-//     * <p>Utilitza AskData per assegurar que el número de taula sigui un enter 
-//     * positiu i que els camps de text no estiguin buits.</p>
-//     * 
-//     * @throws IOException si hi ha un error en la lectura de teclat.
-//     * @throws AEPDAException si la taula ja existeix al gestor.
-//     */
-//
-//    private void altaTaula() throws IOException, AEPDAException {
-//        System.out.println("--- ALTA DE NOVA TAULA ---");
-//        
-//        List<String> tipus = List.of("KILLTEAM", "MESBG");
-//        String tipusTaula = ask.askString("Per a quin joc és la taula (KillTeam o MESBG): ", tipus).toUpperCase();
-//
-//        int num = ask.askInt("Número de la taula: ", "El número ha de ser 1 o superior.", 1);
-//        
-//        if (tipusTaula.equals("KILLTEAM")) {
-//            List<String> tipusAmbient = List.of("OBERT", "TANCAT", "BETHA DECIMA");
-//            String ambient = ask.askString("Quin ambient té la taula (obert, tancat, betha dècima):", tipusAmbient).toUpperCase();
-//            gestor.addMesaKillTeam(num, ambient);
-//        } else if(tipusTaula.equals("MESBG")) {
-//            String escenari = ask.askString("Com és l'escenari? " );
-//            gestor.addMesaMESBG(num, escenari);
-//        }
-//
-//        System.out.println("Taula registrada correctament.");
-//    }
-//
+ /**
+     * Demana les dades d'una taula i gestiona el seu registre al sistema.
+     * 
+     * <p>Utilitza AskData per assegurar que el número de taula sigui un enter 
+     * positiu i que els camps de text no estiguin buits.</p>
+     * 
+     * @throws IOException si hi ha un error en la lectura de teclat.
+     * @throws AEPDAException si la taula ja existeix al gestor.
+     */
+
+    private void altaTaula() throws IOException, AEPDAException, SQLException {
+        System.out.println("--- ALTA DE NOVA TAULA ---");
+        
+        List<String> tipus = List.of("KILLTEAM", "MESBG");
+        String tipusTaula = ask.askString("Per a quin joc és la taula (KillTeam o MESBG): ", tipus).toUpperCase();
+
+        int num = ask.askInt("Número de la taula: ", "El número ha de ser 1 o superior.", 1);
+        
+        if (tipusTaula.equals("KILLTEAM")) {
+            List<String> tipusAmbient = List.of("OBERT", "TANCAT", "BETHA DECIMA");
+            String ambient = ask.askString("Quin ambient té la taula (obert, tancat, betha dècima):", tipusAmbient).toUpperCase();
+            gestor.addMesaKillTeam(num, ambient);
+        } else if(tipusTaula.equals("MESBG")) {
+            String escenari = ask.askString("Com és l'escenari? " );
+            gestor.addMesaMESBG(num, escenari);
+        }
+
+        System.out.println("Taula registrada correctament.");
+    }
+
 // /**
 //     * Executa la lògica del sorteig i en mostra l'informe per pantalla.
 //     * 
@@ -266,25 +266,25 @@ public class Menu {
 //        }
 //    }
 //
-//    /**
-//     * Mostra per pantalla el llistat de totes les taules del sistema.
-//     * 
-//     * <p>Aquest mètode de la vista agafa la informació 
-//     * del gestor i la imprimeix directament a la consola.</p>
-//     */
-//    private void llistatTaules() throws IOException, AEPDAException {
-//        System.out.println("--- LLISTAT DE LES TAULES ---");
-//
-//        List<String> tipus = List.of("KILLTEAM", "MESBG");
-//        String joc = ask.askString("Per a quin joc vols veure les taules (KillTeam o MESBG): ", tipus).toUpperCase();
-//
-//        if (joc.equals("KILLTEAM")) {
-//            String info = gestor.llistatTaulesKillTeam();
-//            System.out.println(info);
-//        } else if(joc.equals("MESBG")) {
-//            String info = gestor.llistatTaulesMESBG();
-//            System.out.println(info);
-//        }
-//    }
+    /**
+     * Mostra per pantalla el llistat de totes les taules del sistema.
+     * 
+     * <p>Aquest mètode de la vista agafa la informació 
+     * del gestor i la imprimeix directament a la consola.</p>
+     */
+    private void llistatTaules() throws IOException, AEPDAException, SQLException {
+        System.out.println("--- LLISTAT DE LES TAULES ---");
+
+        List<String> tipus = List.of("KILLTEAM", "MESBG");
+        String joc = ask.askString("Per a quin joc vols veure les taules (KillTeam o MESBG): ", tipus).toUpperCase();
+
+        if (joc.equals("KILLTEAM")) {
+            String info = gestor.llistatTaulesKillTeam();
+            System.out.println(info);
+        } else if(joc.equals("MESBG")) {
+            String info = gestor.llistatTaulesMESBG();
+            System.out.println(info);
+        }
+    }
 
 }

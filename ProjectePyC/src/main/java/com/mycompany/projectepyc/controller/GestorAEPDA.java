@@ -167,70 +167,72 @@ public class GestorAEPDA {
         }
         return info;
     }
-//
-//    /**
-//     * Registra una nova taula al sistema.
-//     * 
-//     * @param num      número de taula.
-//     * @param ambient  tipus d'entorn.
-//     * @param escenari nom del mapa.
-//     * @throws AEPDAException si el número de taula ja està registrat.
-//     * @throws IOException    si falla l'escriptura en el fitxer.
-//     */
-//
-//    public void addMesaKillTeam(int num, String ambient) throws AEPDAException, IOException {
-//         Validació Throw Early
-//        if (taulesKillTeam.containsKey(num)) {
-//            throw new AEPDAException("La taula " + num + " ja existeix.");
-//        }
-//
-//        TaulaKillTeam novaMesa = new TaulaKillTeam(num, ambient);
-//        taulesKillTeam.put(num, (TaulaKillTeam) novaMesa);
-//        persistencia.escriureTaulaKillTeam(novaMesa);
-//    }
-//
-//    public void addMesaMESBG(int num, String escenari) throws AEPDAException, IOException {
-//         Validació Throw Early
-//        if (taulesMESBG.containsKey(num)) {
-//            throw new AEPDAException("La taula " + num + " ja existeix.");
-//        }
-//
-//        TaulaMESBG novaMesa = new TaulaMESBG(num, escenari);
-//        taulesMESBG.put(num, (TaulaMESBG) novaMesa);
-//        persistencia.escriureTaulaMESBG(novaMesa);
-//    }
-//
-//    /**
-//     * Genera un llistat formatat de totes les taules.
-//     * 
-//     * @return un String amb la informació de les taules.
-//     */
-//
-//    public String llistatTaulesKillTeam() {
-//        String info = "";
-//        if (taulesKillTeam.isEmpty()) {
-//            info = "No hi ha taules registrades.";
-//        } else {
-//            for (TaulaKillTeam m : taulesKillTeam.values()) {
-//                info += "Taula " + m.getNumero();
-//                info += " - Ambient: " + m.getAmbient() + "\n";
-//            }
-//        }
-//        return info;
-//    }
-//
-//    public String llistatTaulesMESBG() {
-//        String info = "";
-//        if (taulesMESBG.isEmpty()) {
-//            info = "No hi ha taules registrades.";
-//        } else {
-//            for (TaulaMESBG m : taulesMESBG.values()) {
-//                info += "Taula " + m.getNumero();
-//                info += " - Escenari: " + m.getEscenari() + "\n";
-//            }
-//        }
-//        return info;
-//    }
+
+    /**
+     * Registra una nova taula al sistema.
+     * 
+     * @param num      número de taula.
+     * @param ambient  tipus d'entorn.
+     * @param escenari nom del mapa.
+     * @throws AEPDAException si el número de taula ja està registrat.
+     * @throws IOException    si falla l'escriptura en el fitxer.
+     */
+
+    public void addMesaKillTeam(int num, String ambient) throws AEPDAException, IOException, SQLException {
+        if (aepdaDAO.existeTaula(num)) {
+            throw new AEPDAException("La taula " + num + " ja existeix.");
+        }
+
+        TaulaKillTeam novaMesa = new TaulaKillTeam(num, ambient);
+        aepdaDAO.registrarTaulaKillTeam(novaMesa);
+    }
+
+    public void addMesaMESBG(int num, String escenari) throws AEPDAException, IOException, SQLException {
+        if (aepdaDAO.existeTaula(num)) {
+            throw new AEPDAException("La taula " + num + " ja existeix.");
+        }
+
+        TaulaMESBG novaMesa = new TaulaMESBG(num, escenari);
+        aepdaDAO.registrarTaulaMESBG(novaMesa);
+    }
+
+    /**
+     * Genera un llistat formatat de totes les taules.
+     * 
+     * @return un String amb la informació de les taules.
+     */
+
+    public String llistatTaulesKillTeam() throws SQLException {
+        String info = "";
+        
+        List<TaulaKillTeam> taulesKillTeam = aepdaDAO.agafarTaulesKillTeam();
+        
+        if (taulesKillTeam.isEmpty()) {
+            info = "No hi ha taules registrades.";
+        } else {
+            for (TaulaKillTeam m : taulesKillTeam) {
+                info += "Taula " + m.getNumero();
+                info += " - Ambient: " + m.getAmbient() + "\n";
+            }
+        }
+        return info;
+    }
+
+    public String llistatTaulesMESBG() throws SQLException {
+        String info = "";
+        
+        List<TaulaMESBG> taulesMESBG = aepdaDAO.agafarTaulesMESBG();
+        
+        if (taulesMESBG.isEmpty()) {
+            info = "No hi ha taules registrades.";
+        } else {
+            for (TaulaMESBG m : taulesMESBG) {
+                info += "Taula " + m.getNumero();
+                info += " - Escenari: " + m.getEscenari() + "\n";
+            }
+        }
+        return info;
+    }
 //
 //    /**
 //     * Genera els aparellaments de la primera ronda i registra l'historial.

@@ -6,6 +6,8 @@ package com.mycompany.projectepyc.persistence;
 
 import com.mycompany.projectepyc.model.Club;
 import com.mycompany.projectepyc.model.Participant;
+import com.mycompany.projectepyc.model.TaulaKillTeam;
+import com.mycompany.projectepyc.model.TaulaMESBG;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -162,6 +164,79 @@ public class AEPDADAO {
         return participants;
      }
      
-//     //Método que devuelve un club
-//     public Club c agafarClub()
+     //Método para añadir mesa
+     public void registrarTaulaKillTeam(TaulaKillTeam t) throws SQLException {
+        conectar();
+        /*Aquesta taula tenia l'atribut partida_actual_id, però no l'utilitzem al codi, així que l'he eliminat, ja que només
+        generava problemes ja que era una foreign key que no aportava res*/
+        ps = conexion.prepareStatement("insert into taula (numero) values(?)");
+        ps.setInt(1, t.getNumero());
+        ps.executeUpdate();
+        
+        ps = conexion.prepareStatement("insert into taulakillteam (numero, ambient) values(?,?);");
+        ps.setInt(1, t.getNumero());
+        ps.setString(2, t.getAmbient());
+        ps.executeUpdate();
+        ps.close();
+        desconectar();
+     }
+     
+     public void registrarTaulaMESBG(TaulaMESBG t) throws SQLException {
+        conectar();
+        ps = conexion.prepareStatement("insert into taula (numero) values(?)");
+        ps.setInt(1, t.getNumero());
+        ps.executeUpdate();
+        
+        ps = conexion.prepareStatement("insert into taulamesbg (numero, escenari) values(?,?);");
+        ps.setInt(1, t.getNumero());
+        ps.setString(2, t.getEscenari());
+        ps.executeUpdate();
+        ps.close();
+        desconectar();
+     }
+     
+     //Método para comprobar que ya existe una mesa
+     public boolean existeTaula(int numero) throws SQLException {
+        conectar();
+        ps = conexion.prepareStatement("select * from taula where numero = ?;");
+        ps.setInt(1, numero);
+        ResultSet rs = ps.executeQuery();
+        boolean existe = rs.next();
+        rs.close();
+        desconectar();
+        return existe;
+     }
+     
+     //Método que devuelve una lista de clubes
+        public List<TaulaKillTeam> agafarTaulesKillTeam() throws SQLException {
+        List<TaulaKillTeam> taulesKillTeam = new ArrayList<>();
+        conectar();
+        ps = conexion.prepareStatement("select * from taulakillteam;");
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int numero = rs.getInt("numero");
+            String ambient = rs.getString("ambient");
+            taulesKillTeam.add(new TaulaKillTeam(numero, ambient));
+        }
+        rs.close();
+        desconectar();
+        return taulesKillTeam;
+    }
+        
+        public List<TaulaMESBG> agafarTaulesMESBG() throws SQLException {
+        List<TaulaMESBG> taulesMESBG = new ArrayList<>();
+        conectar();
+        ps = conexion.prepareStatement("select * from taulamesbg;");
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()) {
+            int numero = rs.getInt("numero");
+            String escenari = rs.getString("escenari");
+            taulesMESBG.add(new TaulaMESBG(numero, escenari));
+        }
+        rs.close();
+        desconectar();
+        return taulesMESBG;
+    }
+     
+     
 }
