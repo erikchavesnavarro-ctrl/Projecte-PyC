@@ -10,8 +10,9 @@ import com.mycompany.projectepyc.model.Participant;
 import com.mycompany.projectepyc.model.ParticipantSorteig;
 import com.mycompany.projectepyc.model.TaulaKillTeam;
 import com.mycompany.projectepyc.model.TaulaMESBG;
-import com.mycompany.projectepyc.persistence.Persistencia;
+import com.mycompany.projectepyc.persistence.AEPDADAO;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,26 +31,8 @@ import java.util.Map;
 
 public class GestorAEPDA {
 
-    /**
-     * Diccionari de clubs registrats (Clau: Nom del club).
-     */
-    private Map<String, Club> clubs;
-
-    /**
-     * Diccionari de taules de KillTeamregistrades (Clau: Numero de la taula).
-     */
-    private Map<Integer, TaulaKillTeam> taulesKillTeam;
-
-    /**
-     * Diccionari de taules de KillTeamregistrades (Clau: Numero de la taula).
-     */
-    private Map<Integer, TaulaMESBG> taulesMESBG;
-
-    /**
-     * Objecte per gestionar la persistència en fitxers.
-     */
-    private Persistencia persistencia;
-
+    private AEPDADAO aepdaDAO;
+    
     /**
      * Inicialitza el gestor carregant les dades existents.
      *
@@ -57,10 +40,7 @@ public class GestorAEPDA {
      * @throws AEPDAException si hi ha incoherències en les dades.
      */
     public GestorAEPDA() throws IOException, AEPDAException {
-        persistencia = new Persistencia();
-        this.clubs = persistencia.carregarData();
-        this.taulesKillTeam = persistencia.llegirTaulesKillTeam();
-        this.taulesMESBG = persistencia.llegirTaulesMESBG();
+        aepdaDAO = new AEPDADAO();
     }
 
     /**
@@ -70,13 +50,12 @@ public class GestorAEPDA {
      * @throws AEPDAException si el club ja existeix.
      * @throws IOException    si falla l'escriptura en disc.
      */
-    public void registrarClub(String nom) throws AEPDAException, IOException {
-        if (clubs.containsKey(nom.toUpperCase())) {
-            throw new AEPDAException("Ja existeix un club amb el nom: " + nom);
+    public void registrarClub(String nom) throws AEPDAException, IOException, SQLException {
+        if(aepdaDAO.existeClub(nom)) {
+            throw new AEPDAException("Ja existeix un club amb aquest nom");
         }
-        Club nou = new Club(nom);
-        clubs.put(nom.toUpperCase(), nou);
-        persistencia.escriureClub(nou);
+        Club nouClub = new Club(nom);
+        aepdaDAO.registrarClub(nouClub);
     }
 
     /**
@@ -89,35 +68,18 @@ public class GestorAEPDA {
      *                        duplicat.
      * @throws IOException    si falla la persistència.
      */
-    public void afegirParticipantClub(String nomClub, String id, String nick) throws AEPDAException, IOException {
-        if (!clubs.containsKey(nomClub.toUpperCase())) {
+    public void afegirParticipantClub(String nomClub, int  id, String nick) throws AEPDAException, IOException, SQLException {
+        if (!aepdaDAO.existeClub(nomClub)) {
             throw new AEPDAException("El club " + nomClub + " no existeix.");
         }
 
         // Verificació global: el participant no pot estar en cap altre club
-        if (existeixParticpantClub(id)) {
+        if (aepdaDAO.existeParticipant(id)) {
             throw new AEPDAException("El participant amb ID " + id + " ja està registrat en un altre club.");
         }
 
-        Club c = clubs.get(nomClub.toUpperCase());
         Participant p = new Participant(id, nick);
-        c.addParticipant(p);
-        persistencia.escriureParticipant(nomClub, p);
-    }
-
-    /**
-     * Verifica si un participant existeix en qualsevol dels clubs.
-     *
-     * @param id l'identificador a buscar.
-     * @return true si es troba, false en cas contrari.
-     */
-    private boolean existeixParticpantClub(String id) {
-        for (Club c : clubs.values()) {
-            if (c.existsParticipant(id)) {
-                return true;
-            }
-        }
-        return false;
+        aepdaDAO.registrarParticipant(p, nomClub);
     }
 
     /**

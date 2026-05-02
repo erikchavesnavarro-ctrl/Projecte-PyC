@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.mycompany.projectepyc.controller.GestorAEPDA;
 import com.mycompany.projectepyc.exception.AEPDAException;
+import java.sql.SQLException;
 
 /**
  * Gestiona el Menu y la vista con el usuario.
@@ -38,7 +39,7 @@ public class Menu {
      * @throws IOException si hi ha un problema crític d'entrada/sortida.
      */
 
-    public void start() throws IOException {
+    public void start() throws IOException, SQLException {
 
         try {
             gestor = new GestorAEPDA();
@@ -61,35 +62,35 @@ public class Menu {
                         break;
 
                     case 2: // ALTA PARTICIPANT
-                        altaParticipant();
+//                        altaParticipant();
                         break;
 
                     case 3: // MODIFICAR PARTICIPANT
-                        modificarParticipant();
+//                        modificarParticipant();
                         break;
 
                     case 4: // ESBORRAR PARTICIPANT
-                        esborrarParticipant();
+//                        esborrarParticipant();
                         break;
 
                     case 5: // LLISTAT CLUBS
-                        llistatClubs();
+//                        llistatClubs();
                         break;
 
                     case 6: // MOSTRA INFORMACIO D'UN CLUB
-                        informacioClub();
+//                        informacioClub();
                         break;
 
                     case 7: //ALTA TAULA
-                        altaTaula();
+//                        altaTaula();
                         break;
 
                     case 8: //MOSTRAR MESAS
-                        llistatTaules();    
+//                        llistatTaules();    
                         break;
                     
                     case 9: //INICIAR SORTEIG 1A RONDA
-                        iniciarSorteig();
+//                        iniciarSorteig();
                         break;
 
                     case 0:
@@ -132,7 +133,7 @@ public class Menu {
      * @throws AEPDAException si el club ja existeix segons la lògica del gestor.
      */
 
-    private void altaClub() throws IOException, AEPDAException {
+    private void altaClub() throws IOException, AEPDAException, SQLException {
         System.out.println("\n--- ALTA DE NOU CLUB ---");
 
         String nom = ask.askString("Introdueix el nom del club: ");
@@ -151,139 +152,139 @@ public class Menu {
     private void altaParticipant() throws IOException, AEPDAException {
         System.out.println("\n--- INSCRIPCIÓ DE PARTICIPANT ---");
         String nomClub = ask.askString("Nom del club on es vol inscriure: ");
-        String id = ask.askString("ID (DNI/NIE) del participant: ");
+        int id = ask.askInt("ID del participant: ", "No pot ser 0 o menys. ", 1);
         String nick = ask.askString("Sobrenom (Nickname) a la competició: ");
 
         gestor.afegirParticipantClub(nomClub, id, nick);
         System.out.println("Participant '" + nick + "' afegit amb èxit al club " + nomClub + ".");
     }
-
-    /**
-     * Gestiona la modificació del sobrenom d'un participant.
-     *
-     * @throws IOException    si hi ha error de persistència.
-     * @throws AEPDAException si no es troba el participant.
-     */
-
-    private void modificarParticipant() throws IOException, AEPDAException {
-        System.out.println("\n--- MODIFICAR SOBRENOM ---");
-        String id = ask.askString("Introdueix l'ID del participant a modificar: ");
-        String nouNick = ask.askString("Introdueix el nou sobrenom: ");
-
-        gestor.modificarParticipant(id, nouNick);
-        System.out.println("El sobrenom s'ha actualitzat correctament.");
-    }
-
-    /**
-     * Gestiona l'eliminació d'un participant del sistema.
-     *
-     * @throws IOException    si falla l'actualització del fitxer.
-     * @throws AEPDAException si l'identificador no és vàlid.
-     */
-
-    private void esborrarParticipant() throws IOException, AEPDAException {
-        System.out.println("\n--- ESBORRAR PARTICIPANT ---");
-        String id = ask.askString("ID del participant que vols eliminar: ");
-
-        gestor.esborrarParticipant(id);
-        System.out.println("El participant amb ID " + id + " ha estat eliminat.");
-    }
-
-    /**
-     * Mostra per pantalla el llistat formatat de tots els clubs.
-     */
-
-    private void llistatClubs() {
-
-        String info = gestor.llistatClubs();
-        System.out.println(info);
-    }
-
-    /**
-     * Demana el nom d'un club i en mostra la informació detallada.
-     *
-     * @throws IOException    si hi ha un error d'entrada de dades.
-     * @throws AEPDAException si el club no existeix.
-     */
-
-    private void informacioClub() throws IOException, AEPDAException {
-
-        String nom = ask.askString("Introdueix el nom del club que vols consultar: ");
-
-        String dades = gestor.infoClub(nom);
-
-        System.out.println(dades);
-    }
- /**
-     * Demana les dades d'una taula i gestiona el seu registre al sistema.
-     * 
-     * <p>Utilitza AskData per assegurar que el número de taula sigui un enter 
-     * positiu i que els camps de text no estiguin buits.</p>
-     * 
-     * @throws IOException si hi ha un error en la lectura de teclat.
-     * @throws AEPDAException si la taula ja existeix al gestor.
-     */
-
-    private void altaTaula() throws IOException, AEPDAException {
-        System.out.println("--- ALTA DE NOVA TAULA ---");
-        
-        List<String> tipus = List.of("KILLTEAM", "MESBG");
-        String tipusTaula = ask.askString("Per a quin joc és la taula (KillTeam o MESBG): ", tipus).toUpperCase();
-
-        int num = ask.askInt("Número de la taula: ", "El número ha de ser 1 o superior.", 1);
-        
-        if (tipusTaula.equals("KILLTEAM")) {
-            List<String> tipusAmbient = List.of("OBERT", "TANCAT", "BETHA DECIMA");
-            String ambient = ask.askString("Quin ambient té la taula (obert, tancat, betha dècima):", tipusAmbient).toUpperCase();
-            gestor.addMesaKillTeam(num, ambient);
-        } else if(tipusTaula.equals("MESBG")) {
-            String escenari = ask.askString("Com és l'escenari? " );
-            gestor.addMesaMESBG(num, escenari);
-        }
-
-        System.out.println("Taula registrada correctament.");
-    }
-
- /**
-     * Executa la lògica del sorteig i en mostra l'informe per pantalla.
-     * 
-     * @throws AEPDAException si el sorteig no es pot realitzar per manca de jugadors o bloqueig.
-     */
-
-    private void iniciarSorteig() throws AEPDAException, IOException {
-        System.out.println("\n--- INICIANT SORTEIG DE LA 1a RONDA ---");
-        
-        List<String> tipus = List.of("KILLTEAM", "MESBG");
-        String joc = ask.askString("Per a quin joc vols veure les taules (KillTeam o MESBG): ", tipus).toUpperCase();
-
-        if(joc.equals("KILLTEAM")) {
-            String informe = gestor.generarSorteigRonda1KillTeam();
-            System.out.println(informe);
-        } else if(joc.equals("MESBG")) {
-            String informe = gestor.generarSorteigRonda1MESBG();
-            System.out.println(informe);
-        }
-    }
-
-    /**
-     * Mostra per pantalla el llistat de totes les taules del sistema.
-     * 
-     * <p>Aquest mètode de la vista agafa la informació 
-     * del gestor i la imprimeix directament a la consola.</p>
-     */
-    private void llistatTaules() throws IOException, AEPDAException {
-        System.out.println("--- LLISTAT DE LES TAULES ---");
-
-        List<String> tipus = List.of("KILLTEAM", "MESBG");
-        String joc = ask.askString("Per a quin joc vols veure les taules (KillTeam o MESBG): ", tipus).toUpperCase();
-
-        if (joc.equals("KILLTEAM")) {
-            String info = gestor.llistatTaulesKillTeam();
-            System.out.println(info);
-        } else if(joc.equals("MESBG")) {
-            String info = gestor.llistatTaulesMESBG();
-            System.out.println(info);
-        }
-    }
+//
+//    /**
+//     * Gestiona la modificació del sobrenom d'un participant.
+//     *
+//     * @throws IOException    si hi ha error de persistència.
+//     * @throws AEPDAException si no es troba el participant.
+//     */
+//
+//    private void modificarParticipant() throws IOException, AEPDAException {
+//        System.out.println("\n--- MODIFICAR SOBRENOM ---");
+//        String id = ask.askString("Introdueix l'ID del participant a modificar: ");
+//        String nouNick = ask.askString("Introdueix el nou sobrenom: ");
+//
+//        gestor.modificarParticipant(id, nouNick);
+//        System.out.println("El sobrenom s'ha actualitzat correctament.");
+//    }
+//
+//    /**
+//     * Gestiona l'eliminació d'un participant del sistema.
+//     *
+//     * @throws IOException    si falla l'actualització del fitxer.
+//     * @throws AEPDAException si l'identificador no és vàlid.
+//     */
+//
+//    private void esborrarParticipant() throws IOException, AEPDAException {
+//        System.out.println("\n--- ESBORRAR PARTICIPANT ---");
+//        String id = ask.askString("ID del participant que vols eliminar: ");
+//
+//        gestor.esborrarParticipant(id);
+//        System.out.println("El participant amb ID " + id + " ha estat eliminat.");
+//    }
+//
+//    /**
+//     * Mostra per pantalla el llistat formatat de tots els clubs.
+//     */
+//
+//    private void llistatClubs() {
+//
+//        String info = gestor.llistatClubs();
+//        System.out.println(info);
+//    }
+//
+//    /**
+//     * Demana el nom d'un club i en mostra la informació detallada.
+//     *
+//     * @throws IOException    si hi ha un error d'entrada de dades.
+//     * @throws AEPDAException si el club no existeix.
+//     */
+//
+//    private void informacioClub() throws IOException, AEPDAException {
+//
+//        String nom = ask.askString("Introdueix el nom del club que vols consultar: ");
+//
+//        String dades = gestor.infoClub(nom);
+//
+//        System.out.println(dades);
+//    }
+// /**
+//     * Demana les dades d'una taula i gestiona el seu registre al sistema.
+//     * 
+//     * <p>Utilitza AskData per assegurar que el número de taula sigui un enter 
+//     * positiu i que els camps de text no estiguin buits.</p>
+//     * 
+//     * @throws IOException si hi ha un error en la lectura de teclat.
+//     * @throws AEPDAException si la taula ja existeix al gestor.
+//     */
+//
+//    private void altaTaula() throws IOException, AEPDAException {
+//        System.out.println("--- ALTA DE NOVA TAULA ---");
+//        
+//        List<String> tipus = List.of("KILLTEAM", "MESBG");
+//        String tipusTaula = ask.askString("Per a quin joc és la taula (KillTeam o MESBG): ", tipus).toUpperCase();
+//
+//        int num = ask.askInt("Número de la taula: ", "El número ha de ser 1 o superior.", 1);
+//        
+//        if (tipusTaula.equals("KILLTEAM")) {
+//            List<String> tipusAmbient = List.of("OBERT", "TANCAT", "BETHA DECIMA");
+//            String ambient = ask.askString("Quin ambient té la taula (obert, tancat, betha dècima):", tipusAmbient).toUpperCase();
+//            gestor.addMesaKillTeam(num, ambient);
+//        } else if(tipusTaula.equals("MESBG")) {
+//            String escenari = ask.askString("Com és l'escenari? " );
+//            gestor.addMesaMESBG(num, escenari);
+//        }
+//
+//        System.out.println("Taula registrada correctament.");
+//    }
+//
+// /**
+//     * Executa la lògica del sorteig i en mostra l'informe per pantalla.
+//     * 
+//     * @throws AEPDAException si el sorteig no es pot realitzar per manca de jugadors o bloqueig.
+//     */
+//
+//    private void iniciarSorteig() throws AEPDAException, IOException {
+//        System.out.println("\n--- INICIANT SORTEIG DE LA 1a RONDA ---");
+//        
+//        List<String> tipus = List.of("KILLTEAM", "MESBG");
+//        String joc = ask.askString("Per a quin joc vols veure les taules (KillTeam o MESBG): ", tipus).toUpperCase();
+//
+//        if(joc.equals("KILLTEAM")) {
+//            String informe = gestor.generarSorteigRonda1KillTeam();
+//            System.out.println(informe);
+//        } else if(joc.equals("MESBG")) {
+//            String informe = gestor.generarSorteigRonda1MESBG();
+//            System.out.println(informe);
+//        }
+//    }
+//
+//    /**
+//     * Mostra per pantalla el llistat de totes les taules del sistema.
+//     * 
+//     * <p>Aquest mètode de la vista agafa la informació 
+//     * del gestor i la imprimeix directament a la consola.</p>
+//     */
+//    private void llistatTaules() throws IOException, AEPDAException {
+//        System.out.println("--- LLISTAT DE LES TAULES ---");
+//
+//        List<String> tipus = List.of("KILLTEAM", "MESBG");
+//        String joc = ask.askString("Per a quin joc vols veure les taules (KillTeam o MESBG): ", tipus).toUpperCase();
+//
+//        if (joc.equals("KILLTEAM")) {
+//            String info = gestor.llistatTaulesKillTeam();
+//            System.out.println(info);
+//        } else if(joc.equals("MESBG")) {
+//            String info = gestor.llistatTaulesMESBG();
+//            System.out.println(info);
+//        }
+//    }
 
 }

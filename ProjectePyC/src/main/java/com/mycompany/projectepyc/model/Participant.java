@@ -19,7 +19,7 @@ public class Participant {
        * Identificador únic del participant (ex: DNI o ID intern).
     */
     
-    private String id;
+    private int id;
     
     /**
     * Nom de guerra o sobrenom del participant.
@@ -37,7 +37,7 @@ public class Participant {
     private List<Integer> historialTaules;
     private List<String> historialAmbients;
 
-    public Participant(String id, String nickname) {
+    public Participant(int id, String nickname) {
         this.id = id;
         this.nickname = nickname;
         this.historialTaules = new ArrayList<>();
@@ -86,7 +86,7 @@ public class Participant {
     * @return el valor de l'ID.
     */
     
-    public String getID() {
+    public int getID() {
         return id;
     }
     
