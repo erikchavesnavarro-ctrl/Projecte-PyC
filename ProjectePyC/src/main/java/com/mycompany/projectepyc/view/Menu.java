@@ -90,7 +90,7 @@ public class Menu {
                         break;
                     
                     case 9: //INICIAR SORTEIG 1A RONDA
-//                        iniciarSorteig();
+                        iniciarSorteig();
                         break;
 
                     case 0:
@@ -245,27 +245,27 @@ public class Menu {
         System.out.println("Taula registrada correctament.");
     }
 
-// /**
-//     * Executa la lògica del sorteig i en mostra l'informe per pantalla.
-//     * 
-//     * @throws AEPDAException si el sorteig no es pot realitzar per manca de jugadors o bloqueig.
-//     */
-//
-//    private void iniciarSorteig() throws AEPDAException, IOException {
-//        System.out.println("\n--- INICIANT SORTEIG DE LA 1a RONDA ---");
-//        
-//        List<String> tipus = List.of("KILLTEAM", "MESBG");
-//        String joc = ask.askString("Per a quin joc vols veure les taules (KillTeam o MESBG): ", tipus).toUpperCase();
-//
-//        if(joc.equals("KILLTEAM")) {
-//            String informe = gestor.generarSorteigRonda1KillTeam();
-//            System.out.println(informe);
-//        } else if(joc.equals("MESBG")) {
-//            String informe = gestor.generarSorteigRonda1MESBG();
-//            System.out.println(informe);
-//        }
-//    }
-//
+ /**
+     * Executa la lògica del sorteig i en mostra l'informe per pantalla.
+     * 
+     * @throws AEPDAException si el sorteig no es pot realitzar per manca de jugadors o bloqueig.
+     */
+
+    private void iniciarSorteig() throws AEPDAException, IOException, SQLException {
+        System.out.println("\n--- INICIANT SORTEIG DE LA 1a RONDA ---");
+        
+        List<String> tipus = List.of("KILLTEAM", "MESBG");
+        String joc = ask.askString("Per a quin joc vols veure les taules (KillTeam o MESBG): ", tipus).toUpperCase();
+
+        if(joc.equals("KILLTEAM")) {
+            String informe = gestor.generarSorteigRonda1KillTeam();
+            System.out.println(informe);
+        } else if(joc.equals("MESBG")) {
+            String informe = gestor.generarSorteigRonda1MESBG();
+            System.out.println(informe);
+        }
+    }
+
     /**
      * Mostra per pantalla el llistat de totes les taules del sistema.
      * 

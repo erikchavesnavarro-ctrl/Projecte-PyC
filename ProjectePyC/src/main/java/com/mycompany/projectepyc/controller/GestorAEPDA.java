@@ -233,155 +233,139 @@ public class GestorAEPDA {
         }
         return info;
     }
-//
-//    /**
-//     * Genera els aparellaments de la primera ronda i registra l'historial.
-//     * 
-//     * <p>
-//     * En aquesta ronda s'inicia l'historial de cada jugador per garantir
-//     * que no repeteixin taula ni escenari en el futur.
-//     * </p>
-//     * 
-//     * @return String amb l'informe detallat.
-//     * @throws AEPDAException si hi ha bloqueig per restriccions de club.
-//     */
-//
-//    public String generarSorteigRonda1KillTeam() throws AEPDAException {
-//        if (taulesKillTeam.isEmpty()) {
-//            throw new AEPDAException("No es pot realitzar el sorteig perquè no hi ha cap taula creada.");
-//        }
-//        String info = "";
-//
-//        List<ParticipantSorteig> sorteig = prepararSorteig();
-//        info += "--- SORTEIG 1a RONDA (ALEATORI) ---\n";
-//
-//        int numTaula = 1;
-//        boolean possible = true;
-//
-//        int mesasNecesarias = sorteig.size() / 2;
-//        if (taulesKillTeam.size() < mesasNecesarias) {
-//            throw new AEPDAException(
-//                    "Faltan mesas: necesitas " + mesasNecesarias + " y solo tienes " + taulesKillTeam.size());
-//        }
-//
-//        while (sorteig.size() >= 2 && numTaula <= 30 && possible) {
-//
-//            int index1 = (int) (Math.random() * sorteig.size());
-//            ParticipantSorteig p1 = sorteig.get(index1);
-//            sorteig.remove(index1);
-//
-//            ParticipantSorteig p2 = triarRivalAleatori(p1, sorteig);
-//
-//            TaulaKillTeam t = taulesKillTeam.get(numTaula);
-//
-//            if (taulesKillTeam.isEmpty())
-//                p1.getP().registrarPartida(numTaula, t.getAmbient());
-//            p2.getP().registrarPartida(numTaula, t.getAmbient());
-//
-//            info += "Taula " + numTaula + " " + " [" + t.getAmbient() + "]: " + p1.getP().getNickname() + " vs "
-//                    + p2.getP().getNickname() + "\n";
-//
-//            numTaula += 1;
-//        }
-//
-//        if (numTaula == 1) {
-//            info = "No hi ha participants suficients.";
-//        }
-//        return info;
-//    }
-//
-//    public String generarSorteigRonda1MESBG() throws AEPDAException {
-//        if (taulesMESBG.isEmpty()) {
-//            throw new AEPDAException("No es pot realitzar el sorteig perquè no hi ha cap taula creada.");
-//        }
-//        String info = "";
-//
-//        List<ParticipantSorteig> sorteig = prepararSorteig();
-//        info += "--- SORTEIG 1a RONDA (ALEATORI) ---\n";
-//
-//        int numTaula = 1;
-//        boolean possible = true;
-//
-//        int mesasNecesarias = sorteig.size() / 2;
-//        if (taulesMESBG.size() < mesasNecesarias) {
-//            throw new AEPDAException(
-//                    "Faltan mesas: necesitas " + mesasNecesarias + " y solo tienes " + taulesMESBG.size());
-//        }
-//
-//        while (sorteig.size() >= 2 && numTaula <= 30 && possible) {
-//
-//            int index1 = (int) (Math.random() * sorteig.size());
-//            ParticipantSorteig p1 = sorteig.get(index1);
-//            sorteig.remove(index1);
-//
-//            ParticipantSorteig p2 = triarRivalAleatori(p1, sorteig);
-//
-//            TaulaMESBG t = taulesMESBG.get(numTaula);
-//            p1.getP().registrarPartida(numTaula, t.getEscenari());
-//            p2.getP().registrarPartida(numTaula, t.getEscenari());
-//
-//            info += "Taula " + numTaula + " " + " [" + t.getEscenari() + "]: " + p1.getP().getNickname() + " vs "
-//                    + p2.getP().getNickname() + "\n";
-//
-//            numTaula += 1;
-//        }
-//
-//        if (numTaula == 1) {
-//            info = "No hi ha participants suficients.";
-//        }
-//        return info;
-//    }
-//
-//    /**
-//     * Selecciona un oponent aleatori que no pertanyi al mateix club que el jugador
-//     * donat.
-//     * 
-//     * @param p1      el participant que busca oponent.
-//     * @param sorteig la llista de participants disponibles.
-//     * @return un objecte ParticipantSorteig que representa l'oponent vàlid trobat.
-//     * @throws AEPDAException si tots els participants restants són del mateix club
-//     *                        que p1.
-//     */
-//
-//    private ParticipantSorteig triarRivalAleatori(ParticipantSorteig p1, List<ParticipantSorteig> sorteig)
-//            throws AEPDAException {
-//        int intents = 0;
-//        int indexRival = -1;
-//        boolean trobat = false;
-//
-//        while (intents < sorteig.size() && trobat == false) {
-//            int index2 = (int) (Math.random() * sorteig.size());
-//            if (!sorteig.get(index2).getNomClub().equalsIgnoreCase(p1.getNomClub())) {
-//                indexRival = index2;
-//                trobat = true;
-//            }
-//            intents++;
-//        }
-//
-//        if (trobat == false) {
-//            throw new AEPDAException(
-//                    "No s'ha trobat cap rival disponible, tots els que queden pertanyen al club " + p1.getNomClub());
-//        }
-//        ParticipantSorteig p2 = sorteig.get(indexRival);
-//        sorteig.remove(indexRival);
-//        return p2;
-//    }
-//
-//    /**
-//     * Recull tots els participants registrats en una única llista plana per al
-//     * sorteig.
-//     * 
-//     * @return una llista de tipus ParticipantSorteig amb tota la informació
-//     *         necessària.
-//     */
-//
-//    private List<ParticipantSorteig> prepararSorteig() {
-//        List<ParticipantSorteig> llista = new ArrayList<>();
-//        for (Club c : clubs.values()) {
-//            for (Participant p : c.getParticipants().values()) {
-//                llista.add(new ParticipantSorteig(p, c.getNom()));
-//            }
-//        }
-//        return llista;
-//    }
+
+    /**
+     * Genera els aparellaments de la primera ronda i registra l'historial.
+     * 
+     * <p>
+     * En aquesta ronda s'inicia l'historial de cada jugador per garantir
+     * que no repeteixin taula ni escenari en el futur.
+     * </p>
+     * 
+     * @return String amb l'informe detallat.
+     * @throws AEPDAException si hi ha bloqueig per restriccions de club.
+     */
+
+    public String generarSorteigRonda1KillTeam() throws AEPDAException, SQLException {
+        List<TaulaKillTeam> taulesKillTeam = aepdaDAO.agafarTaulesKillTeam();
+        if (taulesKillTeam.isEmpty()) {
+            throw new AEPDAException("No es pot realitzar el sorteig perquè no hi ha cap taula creada.");
+        }
+        String info = "";
+
+        List<ParticipantSorteig> sorteig = aepdaDAO.agafarParticipantsSorteig();
+        info += "--- SORTEIG 1a RONDA (ALEATORI) ---\n";
+
+        int numTaula = 0;
+        boolean possible = true;
+
+        int mesasNecesarias = sorteig.size() / 2;
+        if (taulesKillTeam.size() < mesasNecesarias) {
+            throw new AEPDAException(
+                    "Faltan mesas: necesitas " + mesasNecesarias + " y solo tienes " + taulesKillTeam.size());
+        }
+
+        while (sorteig.size() >= 2 && numTaula <= 30 && possible) {
+
+            int index1 = (int) (Math.random() * sorteig.size());
+            ParticipantSorteig p1 = sorteig.get(index1);
+            sorteig.remove(index1);
+
+            ParticipantSorteig p2 = triarRivalAleatori(p1, sorteig);
+
+            TaulaKillTeam t = taulesKillTeam.get(numTaula);
+
+            if (taulesKillTeam.isEmpty())
+                p1.getP().registrarPartida(numTaula, t.getAmbient());
+            p2.getP().registrarPartida(numTaula, t.getAmbient());
+
+            info += "Taula " + numTaula + " " + " [" + t.getAmbient() + "]: " + p1.getP().getNickname() + " vs "
+                    + p2.getP().getNickname() + "\n";
+
+            numTaula += 1;
+        }
+
+        if (numTaula == 1) {
+            info = "No hi ha participants suficients.";
+        }
+        return info;
+    }
+
+    public String generarSorteigRonda1MESBG() throws AEPDAException, SQLException {
+        List<TaulaMESBG> taulesMESBG = aepdaDAO.agafarTaulesMESBG();
+        if (taulesMESBG.isEmpty()) {
+            throw new AEPDAException("No es pot realitzar el sorteig perquè no hi ha cap taula creada.");
+        }
+        String info = "";
+
+        List<ParticipantSorteig> sorteig = aepdaDAO.agafarParticipantsSorteig();
+        info += "--- SORTEIG 1a RONDA (ALEATORI) ---\n";
+
+        int numTaula = 0;
+        boolean possible = true;
+
+        int mesasNecesarias = sorteig.size() / 2;
+        if (taulesMESBG.size() < mesasNecesarias) {
+            throw new AEPDAException(
+                    "Faltan mesas: necesitas " + mesasNecesarias + " y solo tienes " + taulesMESBG.size());
+        }
+
+        while (sorteig.size() >= 2 && numTaula <= 30 && possible) {
+
+            int index1 = (int) (Math.random() * sorteig.size());
+            ParticipantSorteig p1 = sorteig.get(index1);
+            sorteig.remove(index1);
+
+            ParticipantSorteig p2 = triarRivalAleatori(p1, sorteig);
+
+            TaulaMESBG t = taulesMESBG.get(numTaula);
+            p1.getP().registrarPartida(numTaula, t.getEscenari());
+            p2.getP().registrarPartida(numTaula, t.getEscenari());
+
+            info += "Taula " + numTaula + " " + " [" + t.getEscenari() + "]: " + p1.getP().getNickname() + " vs "
+                    + p2.getP().getNickname() + "\n";
+
+            numTaula += 1;
+        }
+
+        if (numTaula == 1) {
+            info = "No hi ha participants suficients.";
+        }
+        return info;
+    }
+
+    /**
+     * Selecciona un oponent aleatori que no pertanyi al mateix club que el jugador
+     * donat.
+     * 
+     * @param p1      el participant que busca oponent.
+     * @param sorteig la llista de participants disponibles.
+     * @return un objecte ParticipantSorteig que representa l'oponent vàlid trobat.
+     * @throws AEPDAException si tots els participants restants són del mateix club
+     *                        que p1.
+     */
+
+    private ParticipantSorteig triarRivalAleatori(ParticipantSorteig p1, List<ParticipantSorteig> sorteig) throws AEPDAException {
+        int intents = 0;
+        int indexRival = -1;
+        boolean trobat = false;
+
+        while (intents < sorteig.size() && trobat == false) {
+            int index2 = (int) (Math.random() * sorteig.size());
+            if (!sorteig.get(index2).getNomClub().equalsIgnoreCase(p1.getNomClub())) {
+                indexRival = index2;
+                trobat = true;
+            }
+            intents++;
+        }
+
+        if (trobat == false) {
+            throw new AEPDAException(
+                    "No s'ha trobat cap rival disponible, tots els que queden pertanyen al club " + p1.getNomClub());
+        }
+        ParticipantSorteig p2 = sorteig.get(indexRival);
+        sorteig.remove(indexRival);
+        return p2;
+    }
+
 }
