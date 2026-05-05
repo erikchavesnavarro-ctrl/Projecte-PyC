@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.mycompany.projectepyc.controller.GestorAEPDA;
 import com.mycompany.projectepyc.exception.AEPDAException;
+import java.sql.SQLException;
 
 /**
  * Gestiona el Menu y la vista con el usuario.
@@ -38,7 +39,7 @@ public class Menu {
      * @throws IOException si hi ha un problema crític d'entrada/sortida.
      */
 
-    public void start() throws IOException {
+    public void start() throws IOException, SQLException {
 
         try {
             gestor = new GestorAEPDA();
@@ -112,7 +113,7 @@ public class Menu {
 
 
     private void mostrarMenu() {
-        System.out.println("\n--- GESTIÓ AEPDA ---");
+        System.out.println("\n--- GESTIO AEPDA ---");
         System.out.println("1. Alta Club");
         System.out.println("2. Alta Participant");
         System.out.println("3. Modificar Nickname");
@@ -132,7 +133,7 @@ public class Menu {
      * @throws AEPDAException si el club ja existeix segons la lògica del gestor.
      */
 
-    private void altaClub() throws IOException, AEPDAException {
+    private void altaClub() throws IOException, AEPDAException, SQLException {
         System.out.println("\n--- ALTA DE NOU CLUB ---");
 
         String nom = ask.askString("Introdueix el nom del club: ");
@@ -148,10 +149,10 @@ public class Menu {
      * @throws AEPDAException si el club no existeix o el participant està duplicat.
      */
 
-    private void altaParticipant() throws IOException, AEPDAException {
+    private void altaParticipant() throws IOException, AEPDAException, SQLException {
         System.out.println("\n--- INSCRIPCIÓ DE PARTICIPANT ---");
         String nomClub = ask.askString("Nom del club on es vol inscriure: ");
-        String id = ask.askString("ID (DNI/NIE) del participant: ");
+        int id = ask.askInt("ID del participant: ", "No pot ser 0 o menys. ", 1);
         String nick = ask.askString("Sobrenom (Nickname) a la competició: ");
 
         gestor.afegirParticipantClub(nomClub, id, nick);
@@ -165,11 +166,11 @@ public class Menu {
      * @throws AEPDAException si no es troba el participant.
      */
 
-    private void modificarParticipant() throws IOException, AEPDAException {
+    private void modificarParticipant() throws IOException, AEPDAException, SQLException {
         System.out.println("\n--- MODIFICAR SOBRENOM ---");
-        String id = ask.askString("Introdueix l'ID del participant a modificar: ");
+        int id = ask.askInt("Introdueix l'ID del participant a modificar: ");
         String nouNick = ask.askString("Introdueix el nou sobrenom: ");
-
+        
         gestor.modificarParticipant(id, nouNick);
         System.out.println("El sobrenom s'ha actualitzat correctament.");
     }
@@ -181,9 +182,9 @@ public class Menu {
      * @throws AEPDAException si l'identificador no és vàlid.
      */
 
-    private void esborrarParticipant() throws IOException, AEPDAException {
+    private void esborrarParticipant() throws IOException, AEPDAException, SQLException {
         System.out.println("\n--- ESBORRAR PARTICIPANT ---");
-        String id = ask.askString("ID del participant que vols eliminar: ");
+        int id = ask.askInt("Introdueix l'ID del participant a modificar: ");
 
         gestor.esborrarParticipant(id);
         System.out.println("El participant amb ID " + id + " ha estat eliminat.");
@@ -193,7 +194,7 @@ public class Menu {
      * Mostra per pantalla el llistat formatat de tots els clubs.
      */
 
-    private void llistatClubs() {
+    private void llistatClubs() throws SQLException {
 
         String info = gestor.llistatClubs();
         System.out.println(info);
@@ -206,11 +207,11 @@ public class Menu {
      * @throws AEPDAException si el club no existeix.
      */
 
-    private void informacioClub() throws IOException, AEPDAException {
+    private void informacioClub() throws IOException, AEPDAException, SQLException {
 
-        String nom = ask.askString("Introdueix el nom del club que vols consultar: ");
+        String nomClub = ask.askString("Introdueix el nom del club que vols consultar: ");
 
-        String dades = gestor.infoClub(nom);
+        String dades = gestor.infoClub(nomClub);
 
         System.out.println(dades);
     }
@@ -224,7 +225,7 @@ public class Menu {
      * @throws AEPDAException si la taula ja existeix al gestor.
      */
 
-    private void altaTaula() throws IOException, AEPDAException {
+    private void altaTaula() throws IOException, AEPDAException, SQLException {
         System.out.println("--- ALTA DE NOVA TAULA ---");
         
         List<String> tipus = List.of("KILLTEAM", "MESBG");
@@ -250,7 +251,7 @@ public class Menu {
      * @throws AEPDAException si el sorteig no es pot realitzar per manca de jugadors o bloqueig.
      */
 
-    private void iniciarSorteig() throws AEPDAException, IOException {
+    private void iniciarSorteig() throws AEPDAException, IOException, SQLException {
         System.out.println("\n--- INICIANT SORTEIG DE LA 1a RONDA ---");
         
         List<String> tipus = List.of("KILLTEAM", "MESBG");
@@ -271,7 +272,7 @@ public class Menu {
      * <p>Aquest mètode de la vista agafa la informació 
      * del gestor i la imprimeix directament a la consola.</p>
      */
-    private void llistatTaules() throws IOException, AEPDAException {
+    private void llistatTaules() throws IOException, AEPDAException, SQLException {
         System.out.println("--- LLISTAT DE LES TAULES ---");
 
         List<String> tipus = List.of("KILLTEAM", "MESBG");
