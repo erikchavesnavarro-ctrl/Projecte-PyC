@@ -104,8 +104,8 @@ public class AEPDADAO {
     public int comptarParticipantsClub(String nomClub) throws SQLException {
         int participants = 0;
         conectar();
-        ps = conexion.prepareStatement("select count(club) from participant where club = '" + nomClub + "';");
-        //ps.setString(1, nomClub);
+        ps = conexion.prepareStatement("select count(club) from participant where club = ?;");
+        ps.setString(1, nomClub);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
             participants = rs.getInt(1);
@@ -118,7 +118,9 @@ public class AEPDADAO {
     //Método para cambiar el nick de un participante
     public void modificarParticipant(int id, String nouNick) throws SQLException {
         conectar();
-        ps = conexion.prepareStatement("update participant set nickname = '" + nouNick + "' where id = " + id + ";");
+        ps = conexion.prepareStatement("update participant set nickname = ? where id = ?;");
+        ps.setString(1, nouNick);
+        ps.setInt(2, id);
         ps.executeUpdate();
         ps.close();
         desconectar();
@@ -128,7 +130,8 @@ public class AEPDADAO {
     public String agafarNicnkname(int id) throws SQLException {
         String nick = "";
         conectar();
-        ps = conexion.prepareStatement("select nickname from participant where id = " + id + ";");
+        ps = conexion.prepareStatement("select nickname from participant where id = ?;");
+        ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
             nick += rs.getString(1);
@@ -141,7 +144,8 @@ public class AEPDADAO {
     //Método para borrar un participante
     public void borrarParticipant(int id) throws SQLException {
         conectar();
-        ps = conexion.prepareStatement("delete from participant where id = '" + id + "';");
+        ps = conexion.prepareStatement("delete from participant where id = ?;");
+        ps.setInt(1, id);
         ps.executeUpdate();
         ps.close();
         desconectar();
@@ -151,7 +155,8 @@ public class AEPDADAO {
     public List<Participant> agafarParticipantsClub(String nomClub) throws SQLException {
         List<Participant> participants = new ArrayList<>();
         conectar();
-        ps = conexion.prepareStatement("select id, nickname from participant where club = '" + nomClub + "';");
+        ps = conexion.prepareStatement("select id, nickname from participant where club = ?;");
+        ps.setString(1, nomClub);
         ResultSet rs = ps.executeQuery();
         //ps.setString(1, nomClub);
         while (rs.next()) {
