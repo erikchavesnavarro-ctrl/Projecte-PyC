@@ -6,6 +6,7 @@ package com.mycompany.projectepyc;
 
 import com.mycompany.projectepyc.view.Menu;
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
 * Classe principal de l'aplicació AEPDA.
@@ -15,7 +16,7 @@ import java.io.IOException;
 
 public class AEPDA {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
       
         Menu m = new Menu();
         try {
