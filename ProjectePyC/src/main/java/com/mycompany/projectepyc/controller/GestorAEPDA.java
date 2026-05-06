@@ -157,8 +157,7 @@ public class GestorAEPDA {
         if (participants.isEmpty()) {
             info += "Aquest club encara no té membres inscrits.\n";
         } else {
-            info += "*** MEMBRES DEL CLUB ***\n";
-             
+            info += "*** MEMBRES DEL CLUB ***\n";             
             for (Participant p : aepdaDAO.agafarParticipantsClub(nomClub)) {
                 info += "- " + p.getNickname();
                 info += " [ID: " + p.getID() + "]\n";
