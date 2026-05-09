@@ -106,6 +106,11 @@ public class InfoClubJTable extends javax.swing.JDialog {
         jScrollPane1.setViewportView(TaulaParticipants);
 
         Enrere.setText("Enrere");
+        Enrere.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EnrereActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -135,6 +140,11 @@ public class InfoClubJTable extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void EnrereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnrereActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_EnrereActionPerformed
 
     
 

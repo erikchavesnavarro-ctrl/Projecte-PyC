@@ -16,7 +16,6 @@ public class SeleccionarJocTaulaJDialog extends javax.swing.JDialog {
 
     private GestorAEPDA gestor;
     private JFrame ventanaPare;
-
     /**
      * Creates new form AltaTaula
      */

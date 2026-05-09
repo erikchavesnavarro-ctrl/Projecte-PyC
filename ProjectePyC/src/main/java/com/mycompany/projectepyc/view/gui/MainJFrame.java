@@ -7,6 +7,7 @@ package com.mycompany.projectepyc.view.gui;
 import com.mycompany.projectepyc.controller.GestorAEPDA;
 import com.mycompany.projectepyc.exception.AEPDAException;
 import com.mycompany.projectepyc.view.gui.InfoClub.InfoClubSelector;
+import com.mycompany.projectepyc.view.gui.sorteig.SeleccioJocSorteigJDialog;
 import com.mycompany.projectepyc.view.gui.taules.SeleccionarJocLlistatJDialog;
 import com.mycompany.projectepyc.view.gui.taules.SeleccionarJocTaulaJDialog;
 import java.io.IOException;
@@ -65,7 +66,7 @@ public class MainJFrame extends javax.swing.JFrame {
         RegistrarParticipant = new javax.swing.JMenuItem();
         ModificarParticipant = new javax.swing.JMenuItem();
         EsborrarParticipant = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        LlistatClubs = new javax.swing.JMenuItem();
         MembresClub = new javax.swing.JMenuItem();
         RegistrarTaula = new javax.swing.JMenuItem();
         LlistatTaules = new javax.swing.JMenuItem();
@@ -200,8 +201,14 @@ public class MainJFrame extends javax.swing.JFrame {
         });
         jMenu1.add(EsborrarParticipant);
 
-        jMenuItem3.setText("Llistat Clubs");
-        jMenu1.add(jMenuItem3);
+        LlistatClubs.setBackground(new java.awt.Color(0, 204, 255));
+        LlistatClubs.setText("Llistat Clubs");
+        LlistatClubs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LlistatClubsActionPerformed(evt);
+            }
+        });
+        jMenu1.add(LlistatClubs);
 
         MembresClub.setBackground(new java.awt.Color(0, 204, 255));
         MembresClub.setText("Mostrar Membres d'un Club");
@@ -230,7 +237,13 @@ public class MainJFrame extends javax.swing.JFrame {
         });
         jMenu1.add(LlistatTaules);
 
+        jMenuItem5.setBackground(new java.awt.Color(0, 204, 255));
         jMenuItem5.setText("Generar Sorteig 1a Ronda");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem5);
 
         jMenuBar1.add(jMenu1);
@@ -303,8 +316,21 @@ public class MainJFrame extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_SortirActionPerformed
 
+    private void LlistatClubsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LlistatClubsActionPerformed
+        // TODO add your handling code here:
+        LlistatClubsJDialog clubsJDialog = new LlistatClubsJDialog(this, true);
+        clubsJDialog.setVisible(true);
+    }//GEN-LAST:event_LlistatClubsActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        SeleccioJocSorteigJDialog SorteigJDialog = new SeleccioJocSorteigJDialog(this, true, gestor);
+        SorteigJDialog.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem EsborrarParticipant;
+    private javax.swing.JMenuItem LlistatClubs;
     private javax.swing.JMenuItem LlistatTaules;
     private javax.swing.JMenuItem MembresClub;
     private javax.swing.JMenuItem ModificarParticipant;
@@ -322,7 +348,6 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
