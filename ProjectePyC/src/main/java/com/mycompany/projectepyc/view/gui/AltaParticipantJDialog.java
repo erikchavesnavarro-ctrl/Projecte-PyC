@@ -25,6 +25,7 @@ public class AltaParticipantJDialog extends javax.swing.JFrame {
     public AltaParticipantJDialog(GestorAEPDA gestor) {
         this.gestor = gestor;
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -44,6 +45,7 @@ public class AltaParticipantJDialog extends javax.swing.JFrame {
         jTxtF_NombreClub = new javax.swing.JTextField();
         jTxtF_Nickname = new javax.swing.JTextField();
         jBut_GuardarParticipant = new javax.swing.JButton();
+        Enrere = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,6 +70,13 @@ public class AltaParticipantJDialog extends javax.swing.JFrame {
             }
         });
 
+        Enrere.setText("Enrere");
+        Enrere.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EnrereActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -85,8 +94,9 @@ public class AltaParticipantJDialog extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(63, 63, 63)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Enrere))
+                        .addGap(45, 45, 45)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jBut_GuardarParticipant, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -117,7 +127,9 @@ public class AltaParticipantJDialog extends javax.swing.JFrame {
                         .addGap(42, 42, 42)
                         .addComponent(jTxtF_Nickname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(27, 27, 27)
-                .addComponent(jBut_GuardarParticipant)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBut_GuardarParticipant)
+                    .addComponent(Enrere))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
 
@@ -140,7 +152,7 @@ public class AltaParticipantJDialog extends javax.swing.JFrame {
         } catch (AEPDAException ex) {
             JOptionPane.showMessageDialog(this, "Error de la app registrant participant: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
-            Logger.getLogger(AltaCursJDialog.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AltaClubJDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jBut_GuardarParticipantActionPerformed
 
@@ -148,8 +160,14 @@ public class AltaParticipantJDialog extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTxtF_NombreClubActionPerformed
 
+    private void EnrereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnrereActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_EnrereActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Enrere;
     private javax.swing.JButton jBut_GuardarParticipant;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

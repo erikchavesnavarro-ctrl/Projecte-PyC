@@ -39,8 +39,9 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel4" alignment="0" min="-2" pref="52" max="-2" attributes="0"/>
+                          <Component id="Enrere" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="jBut_GuardarParticipant" min="-2" pref="135" max="-2" attributes="0"/>
@@ -83,7 +84,10 @@
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-              <Component id="jBut_GuardarParticipant" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jBut_GuardarParticipant" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="Enrere" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace pref="41" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -125,6 +129,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBut_GuardarParticipantActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="Enrere">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Enrere"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EnrereActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

@@ -366,5 +366,22 @@ public class GestorAEPDA {
         sorteig.remove(indexRival);
         return p2;
     }
+    
+    public ArrayList<String> getCopiaNombresClubs() throws SQLException {
+        List<Club> clubsReals = aepdaDAO.agafarTotsClubs();
+        ArrayList<String> nombresClubs = new ArrayList<>();
+        for(Club c : clubsReals) {
+            nombresClubs.add(c.getNom());
+        }
+        return nombresClubs;
+    }
+    
+    public ArrayList<Participant> getCopiaParticipants(String nombreClub) throws AEPDAException, SQLException {
+        if(!aepdaDAO.existeClub(nombreClub)) {
+            throw new AEPDAException("El club " + nombreClub + " no existeix.");
+        }
+        ArrayList<Participant> copiaParticipants = new ArrayList<>(aepdaDAO.agafarParticipantsClub(nombreClub));
+        return copiaParticipants;
+    }
 
 }

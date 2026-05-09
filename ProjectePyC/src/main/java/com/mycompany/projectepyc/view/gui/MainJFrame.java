@@ -42,18 +42,67 @@ public class MainJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jColorChooser1 = new javax.swing.JColorChooser();
+        jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        RegistrarClub = new javax.swing.JMenuItem();
+        RegistrarParticipant = new javax.swing.JMenuItem();
+        ModificarParticipant = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(0, 204, 255));
 
+        jPanel1.setBackground(new java.awt.Color(51, 153, 255));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 277, Short.MAX_VALUE)
+        );
+
+        jMenuBar1.setBackground(new java.awt.Color(0, 204, 255));
+
+        jMenu1.setBackground(new java.awt.Color(0, 0, 0));
         jMenu1.setText("Opcions");
 
-        jMenuItem1.setText("Registrar Club");
+        RegistrarClub.setBackground(new java.awt.Color(0, 204, 255));
+        RegistrarClub.setText("Registrar Club");
+        RegistrarClub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegistrarClubActionPerformed(evt);
+            }
+        });
+        jMenu1.add(RegistrarClub);
+
+        RegistrarParticipant.setBackground(new java.awt.Color(0, 204, 255));
+        RegistrarParticipant.setText("Registrar Participant");
+        RegistrarParticipant.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegistrarParticipantActionPerformed(evt);
+            }
+        });
+        jMenu1.add(RegistrarParticipant);
+
+        ModificarParticipant.setBackground(new java.awt.Color(0, 204, 255));
+        ModificarParticipant.setText("Modificar Participant");
+        ModificarParticipant.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModificarParticipantActionPerformed(evt);
+            }
+        });
+        jMenu1.add(ModificarParticipant);
+
+        jMenuItem1.setBackground(new java.awt.Color(0, 204, 255));
+        jMenuItem1.setText("Esborrar Participant");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -61,12 +110,11 @@ public class MainJFrame extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
-        jMenuItem2.setText("Registrar Participant");
-        jMenu1.add(jMenuItem2);
-
+        jMenuItem3.setBackground(new java.awt.Color(0, 204, 255));
         jMenuItem3.setText("Llistat Clubs");
         jMenu1.add(jMenuItem3);
 
+        jMenuItem4.setBackground(new java.awt.Color(0, 204, 255));
         jMenuItem4.setText("Mostrar Membres d'un Club");
         jMenu1.add(jMenuItem4);
 
@@ -78,34 +126,50 @@ public class MainJFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void RegistrarClubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarClubActionPerformed
         // TODO add your handling code here:
-        AltaCursJDialog altaDialogC = new AltaCursJDialog(gestor);
+        AltaClubJDialog altaDialogC = new AltaClubJDialog(gestor);
         altaDialogC.setVisible(true);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_RegistrarClubActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {
+    private void RegistrarParticipantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarParticipantActionPerformed
         // TODO add your handling code here:
         AltaParticipantJDialog altaDialogP = new AltaParticipantJDialog(gestor);
         altaDialogP.setVisible(true);
-    }
+    }//GEN-LAST:event_RegistrarParticipantActionPerformed
+
+    private void ModificarParticipantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarParticipantActionPerformed
+        // TODO add your handling code here:
+        ModificarParticipantJDialog modificarPDialog = new ModificarParticipantJDialog(gestor);
+        modificarPDialog.setVisible(true);
+    }//GEN-LAST:event_ModificarParticipantActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        BorrarParticipantJDialog borrarJDialog = new BorrarParticipantJDialog(gestor);
+        borrarJDialog.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem ModificarParticipant;
+    private javax.swing.JMenuItem RegistrarClub;
+    private javax.swing.JMenuItem RegistrarParticipant;
+    private javax.swing.JColorChooser jColorChooser1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

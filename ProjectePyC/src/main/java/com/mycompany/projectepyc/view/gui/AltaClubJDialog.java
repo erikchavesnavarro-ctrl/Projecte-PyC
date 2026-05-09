@@ -16,15 +16,16 @@ import javax.swing.JOptionPane;
  *
  * @author Mario
  */
- public class AltaCursJDialog extends javax.swing.JFrame {
+ public class AltaClubJDialog extends javax.swing.JFrame {
     
     private GestorAEPDA gestor;
     /**
      * Creates new form AltaCursJDialog
      */
-    public AltaCursJDialog(GestorAEPDA gestor) {
+    public AltaClubJDialog(GestorAEPDA gestor) {
         this.gestor = gestor;
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -41,6 +42,7 @@ import javax.swing.JOptionPane;
         jLabel2 = new javax.swing.JLabel();
         jTxtF_NombreClub = new javax.swing.JTextField();
         jBut_GuardarClub = new javax.swing.JButton();
+        jBut_GuardarClub1 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -66,6 +68,13 @@ import javax.swing.JOptionPane;
             }
         });
 
+        jBut_GuardarClub1.setText("Enrere");
+        jBut_GuardarClub1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBut_GuardarClub1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -76,14 +85,16 @@ import javax.swing.JOptionPane;
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addComponent(jLabel2)
-                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jBut_GuardarClub1))
+                .addGap(69, 69, 69)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jBut_GuardarClub, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTxtF_NombreClub, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                        .addComponent(jTxtF_NombreClub, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
                         .addGap(16, 16, 16))))
         );
         layout.setVerticalGroup(
@@ -96,7 +107,9 @@ import javax.swing.JOptionPane;
                     .addComponent(jLabel2)
                     .addComponent(jTxtF_NombreClub, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
-                .addComponent(jBut_GuardarClub)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBut_GuardarClub)
+                    .addComponent(jBut_GuardarClub1))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
@@ -117,13 +130,19 @@ import javax.swing.JOptionPane;
         } catch (AEPDAException ex) {
             JOptionPane.showMessageDialog(this, "Error de la app registrant club: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
-            Logger.getLogger(AltaCursJDialog.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AltaClubJDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jBut_GuardarClubActionPerformed
+
+    private void jBut_GuardarClub1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBut_GuardarClub1ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jBut_GuardarClub1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBut_GuardarClub;
+    private javax.swing.JButton jBut_GuardarClub1;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
