@@ -9,20 +9,27 @@ import com.mycompany.projectepyc.exception.AEPDAException;
 import com.mycompany.projectepyc.model.Participant;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Mario
  */
-public class InfoClubSelector extends javax.swing.JFrame {
+public class InfoClubSelector extends javax.swing.JDialog {
     
     
     private GestorAEPDA gestor;
     private ArrayList<Participant> listaParticipantesClubActual;
+    private JFrame ventanaPare;
     /**
      * Creates new form IngoClubSelector
      */
-    public InfoClubSelector(GestorAEPDA gestor) {
+    public InfoClubSelector(java.awt.Frame parent, boolean modal,GestorAEPDA gestor) throws SQLException {
+        super(parent,modal);
+        this.ventanaPare = (JFrame) parent;
         this.gestor = gestor;
         initComponents();
         this.setLocationRelativeTo(null);
@@ -59,7 +66,7 @@ public class InfoClubSelector extends javax.swing.JFrame {
         Enrere = new javax.swing.JButton();
         veureInfo = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Selecciona club:");
 
@@ -123,13 +130,27 @@ public class InfoClubSelector extends javax.swing.JFrame {
         // Afafo el nom de la nau del ComboBox.
         String nombreClubSeleccionado = (String) jComB_ClubesDisponibles.getSelectedItem();
 
-        if (nombreClubSeleccionada == null || nombreClubSeleccionada.equals("No hi ha naus")) {
+        if (nombreClubSeleccionado == null || nombreClubSeleccionado.equals("No hi ha naus")) {
             return;
         }
 
-        listaAstronautasNaveActual = getListaAstronautaYGestionBoton(nombreNaveSeleccionada);
+        try {
+            listaParticipantesClubActual = getListaParticipantSinGestionBoton(nombreClubSeleccionado);
+        } catch (SQLException ex) {
+            Logger.getLogger(InfoClubSelector.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jComB_ClubesDisponiblesActionPerformed
 
+    private ArrayList<Participant> getListaParticipantSinGestionBoton(String nombreClub) throws SQLException {
+        ArrayList<Participant> listaParticipants = new ArrayList<>();
+        try{
+            listaParticipants = gestor.getCopiaParticipants(nombreClub);
+        } catch (AEPDAException ex) {
+            JOptionPane.showMessageDialog(this, "Error seleccionant club: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return listaParticipants;
+    }
+    
     private void EnrereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnrereActionPerformed
         // TODO add your handling code here:
         this.dispose();
@@ -147,17 +168,17 @@ public class InfoClubSelector extends javax.swing.JFrame {
                 throw new AEPDAException("El club " + nombreClubSeleccionado + " no tiene particpantes apuntados ahora mismo.");
             }
 
-            // Aquí hi ha nau i no està buida! Perfecte, ara sí hem de obrir el nou dialeg.
-            // Recupero el JFrame pare
-            JFrame mainJFramePare = (JFrame) this.getParent();
+            JFrame mainJFramePare = (JFrame) this.ventanaPare;
 
-            // ja no necessito dades del dialeg.
             this.dispose();
 
-            InfoNaveJTable infoNaveJTable = new InfoNaveJTable(mainJFramePare, true, gestor, nombreNaveSeleccionada, listaAstronautasNaveActual);
-            infoNaveJTable.setVisible(true);
-        } catch (GalaxiaException ex) {
-            JOptionPane.showMessageDialog(this, "Error seleccionando nave: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            InfoClubJTable infoClubJTable = new InfoClubJTable(mainJFramePare, true, gestor, nombreClubSeleccionado, listaParticipantesClubActual);
+            infoClubJTable.setVisible(true);
+        } catch (AEPDAException ex) {
+            JOptionPane.showMessageDialog(this, "Error seleccionant club: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error seleccionant club: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            
         }
     }//GEN-LAST:event_veureInfoActionPerformed
 

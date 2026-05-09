@@ -16,13 +16,14 @@ import javax.swing.JOptionPane;
  *
  * @author Mario
  */
- public class AltaClubJDialog extends javax.swing.JFrame {
+ public class AltaClubJDialog extends javax.swing.JDialog {
     
     private GestorAEPDA gestor;
     /**
      * Creates new form AltaCursJDialog
      */
-    public AltaClubJDialog(GestorAEPDA gestor) {
+    public AltaClubJDialog(java.awt.Frame parent, boolean modal, GestorAEPDA gestor) {
+        super(parent, modal);
         this.gestor = gestor;
         initComponents();
         this.setLocationRelativeTo(null);
@@ -55,7 +56,7 @@ import javax.swing.JOptionPane;
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("ALTA CLUB");
 

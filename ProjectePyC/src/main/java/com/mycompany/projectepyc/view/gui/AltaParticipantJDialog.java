@@ -16,13 +16,14 @@ import javax.swing.JOptionPane;
  *
  * @author Mario
  */
-public class AltaParticipantJDialog extends javax.swing.JFrame {
+public class AltaParticipantJDialog extends javax.swing.JDialog {
 
     private GestorAEPDA gestor;
     /**
      * Creates new form AltaParticipantJDialog
      */
-    public AltaParticipantJDialog(GestorAEPDA gestor) {
+    public AltaParticipantJDialog(java.awt.Frame parent, boolean modal, GestorAEPDA gestor) {
+        super(parent, modal);
         this.gestor = gestor;
         initComponents();
         this.setLocationRelativeTo(null);
@@ -47,7 +48,7 @@ public class AltaParticipantJDialog extends javax.swing.JFrame {
         jBut_GuardarParticipant = new javax.swing.JButton();
         Enrere = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("INSCRIPCIÓ PARTICIPANT");
 
@@ -82,10 +83,6 @@ public class AltaParticipantJDialog extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(129, 129, 129)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -107,16 +104,20 @@ public class AltaParticipantJDialog extends javax.swing.JFrame {
                                     .addComponent(jTxtF_NombreClub, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
                                     .addComponent(jTxtF_Nickname))
                                 .addGap(32, 32, 32))))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(122, 122, 122)
+                .addComponent(jLabel1)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel4)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(44, 44, 44)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(jTxtF_NombreClub, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))

@@ -6,7 +6,13 @@ package com.mycompany.projectepyc.view.gui;
 
 import com.mycompany.projectepyc.controller.GestorAEPDA;
 import com.mycompany.projectepyc.exception.AEPDAException;
+import com.mycompany.projectepyc.view.gui.InfoClub.InfoClubSelector;
+import com.mycompany.projectepyc.view.gui.taules.SeleccionarJocLlistatJDialog;
+import com.mycompany.projectepyc.view.gui.taules.SeleccionarJocTaulaJDialog;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -43,30 +49,114 @@ public class MainJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jColorChooser1 = new javax.swing.JColorChooser();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        Sortir = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         RegistrarClub = new javax.swing.JMenuItem();
         RegistrarParticipant = new javax.swing.JMenuItem();
         ModificarParticipant = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        EsborrarParticipant = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        MembresClub = new javax.swing.JMenuItem();
+        RegistrarTaula = new javax.swing.JMenuItem();
+        LlistatTaules = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+
+        jMenuItem4.setText("jMenuItem4");
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 204, 255));
 
         jPanel1.setBackground(new java.awt.Color(51, 153, 255));
 
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 2, 48)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("AEPDA");
+
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Aquesta aplicació permet registrar clubs,");
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("participants i taules per als jocs KillTeam i MESBG");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setText("També mostra tota la informació necesaria per als tornejos");
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("I porta incorporat un generador de sortejos automàtic");
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setText("per poder iniciar amb la primera ronda !");
+
+        Sortir.setText("Sortir");
+        Sortir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SortirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(94, 94, 94)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel5))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel6))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(Sortir)
+                            .addComponent(jLabel4))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addGap(29, 29, 29)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addGap(18, 18, 18)
+                .addComponent(Sortir)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         jMenuBar1.setBackground(new java.awt.Color(0, 204, 255));
@@ -101,22 +191,47 @@ public class MainJFrame extends javax.swing.JFrame {
         });
         jMenu1.add(ModificarParticipant);
 
-        jMenuItem1.setBackground(new java.awt.Color(0, 204, 255));
-        jMenuItem1.setText("Esborrar Participant");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        EsborrarParticipant.setBackground(new java.awt.Color(0, 204, 255));
+        EsborrarParticipant.setText("Esborrar Participant");
+        EsborrarParticipant.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                EsborrarParticipantActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(EsborrarParticipant);
 
-        jMenuItem3.setBackground(new java.awt.Color(0, 204, 255));
         jMenuItem3.setText("Llistat Clubs");
         jMenu1.add(jMenuItem3);
 
-        jMenuItem4.setBackground(new java.awt.Color(0, 204, 255));
-        jMenuItem4.setText("Mostrar Membres d'un Club");
-        jMenu1.add(jMenuItem4);
+        MembresClub.setBackground(new java.awt.Color(0, 204, 255));
+        MembresClub.setText("Mostrar Membres d'un Club");
+        MembresClub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MembresClubActionPerformed(evt);
+            }
+        });
+        jMenu1.add(MembresClub);
+
+        RegistrarTaula.setBackground(new java.awt.Color(0, 204, 255));
+        RegistrarTaula.setText("Registrar Taula");
+        RegistrarTaula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegistrarTaulaActionPerformed(evt);
+            }
+        });
+        jMenu1.add(RegistrarTaula);
+
+        LlistatTaules.setBackground(new java.awt.Color(0, 204, 255));
+        LlistatTaules.setText("Llistat Taules");
+        LlistatTaules.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LlistatTaulesActionPerformed(evt);
+            }
+        });
+        jMenu1.add(LlistatTaules);
+
+        jMenuItem5.setText("Generar Sorteig 1a Ronda");
+        jMenu1.add(jMenuItem5);
 
         jMenuBar1.add(jMenu1);
 
@@ -138,38 +253,78 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void RegistrarClubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarClubActionPerformed
         // TODO add your handling code here:
-        AltaClubJDialog altaDialogC = new AltaClubJDialog(gestor);
+        AltaClubJDialog altaDialogC = new AltaClubJDialog(this,true,gestor);
         altaDialogC.setVisible(true);
     }//GEN-LAST:event_RegistrarClubActionPerformed
 
     private void RegistrarParticipantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarParticipantActionPerformed
         // TODO add your handling code here:
-        AltaParticipantJDialog altaDialogP = new AltaParticipantJDialog(gestor);
+        AltaParticipantJDialog altaDialogP = new AltaParticipantJDialog(this,true,gestor);
         altaDialogP.setVisible(true);
     }//GEN-LAST:event_RegistrarParticipantActionPerformed
 
     private void ModificarParticipantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarParticipantActionPerformed
         // TODO add your handling code here:
-        ModificarParticipantJDialog modificarPDialog = new ModificarParticipantJDialog(gestor);
+        ModificarParticipantJDialog modificarPDialog = new ModificarParticipantJDialog(this,true,gestor);
         modificarPDialog.setVisible(true);
     }//GEN-LAST:event_ModificarParticipantActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void EsborrarParticipantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EsborrarParticipantActionPerformed
         // TODO add your handling code here:
-        BorrarParticipantJDialog borrarJDialog = new BorrarParticipantJDialog(gestor);
+        BorrarParticipantJDialog borrarJDialog = new BorrarParticipantJDialog(this,true,gestor);
         borrarJDialog.setVisible(true);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_EsborrarParticipantActionPerformed
+
+    private void MembresClubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MembresClubActionPerformed
+        // TODO add your handling code here:
+        InfoClubSelector infoClubSelector;
+        try {
+            infoClubSelector = new InfoClubSelector(this,true,gestor);
+            infoClubSelector.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_MembresClubActionPerformed
+
+    private void RegistrarTaulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarTaulaActionPerformed
+        // TODO add your handling code here:
+        SeleccionarJocTaulaJDialog SeleccionarJocJDialog = new SeleccionarJocTaulaJDialog(this, true, gestor);
+        SeleccionarJocJDialog.setVisible(true);
+    }//GEN-LAST:event_RegistrarTaulaActionPerformed
+
+    private void LlistatTaulesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LlistatTaulesActionPerformed
+        // TODO add your handling code here:
+        SeleccionarJocLlistatJDialog SeleccionarJocJDialog = new SeleccionarJocLlistatJDialog(this, true, gestor);
+        SeleccionarJocJDialog.setVisible(true);
+    }//GEN-LAST:event_LlistatTaulesActionPerformed
+
+    private void SortirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SortirActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_SortirActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem EsborrarParticipant;
+    private javax.swing.JMenuItem LlistatTaules;
+    private javax.swing.JMenuItem MembresClub;
     private javax.swing.JMenuItem ModificarParticipant;
     private javax.swing.JMenuItem RegistrarClub;
     private javax.swing.JMenuItem RegistrarParticipant;
+    private javax.swing.JMenuItem RegistrarTaula;
+    private javax.swing.JButton Sortir;
     private javax.swing.JColorChooser jColorChooser1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

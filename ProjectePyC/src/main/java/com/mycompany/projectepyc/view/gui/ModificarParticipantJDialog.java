@@ -16,14 +16,15 @@ import javax.swing.JOptionPane;
  *
  * @author Mario
  */
-public class ModificarParticipantJDialog extends javax.swing.JFrame {
+public class ModificarParticipantJDialog extends javax.swing.JDialog {
 
     
     private GestorAEPDA gestor;
     /**
      * Creates new form ModificarParticipant
      */
-    public ModificarParticipantJDialog(GestorAEPDA gestor) {
+    public ModificarParticipantJDialog(java.awt.Frame parent, boolean modal, GestorAEPDA gestor) {
+        super(parent, modal);
         this.gestor = gestor;
         initComponents();
         this.setLocationRelativeTo(null);
@@ -46,7 +47,7 @@ public class ModificarParticipantJDialog extends javax.swing.JFrame {
         jBut_ModificarParticipant = new javax.swing.JButton();
         jBut_Enrere = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Modificar Participant");
 

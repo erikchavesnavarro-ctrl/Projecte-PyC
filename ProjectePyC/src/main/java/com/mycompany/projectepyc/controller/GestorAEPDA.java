@@ -8,6 +8,7 @@ import com.mycompany.projectepyc.exception.AEPDAException;
 import com.mycompany.projectepyc.model.Club;
 import com.mycompany.projectepyc.model.Participant;
 import com.mycompany.projectepyc.model.ParticipantSorteig;
+import com.mycompany.projectepyc.model.Taula;
 import com.mycompany.projectepyc.model.TaulaKillTeam;
 import com.mycompany.projectepyc.model.TaulaMESBG;
 import com.mycompany.projectepyc.persistence.AEPDADAO;
@@ -383,5 +384,25 @@ public class GestorAEPDA {
         ArrayList<Participant> copiaParticipants = new ArrayList<>(aepdaDAO.agafarParticipantsClub(nombreClub));
         return copiaParticipants;
     }
+    
+    public ArrayList<TaulaKillTeam> getCopiaTaulesKillTeam() throws AEPDAException, SQLException {
+        List<TaulaKillTeam> taulesKillTeam = aepdaDAO.agafarTaulesKillTeam();
+        
+        if (taulesKillTeam.isEmpty()) {
+            throw new AEPDAException("No hi ha cap taula registrada.");
+        }
+        ArrayList<TaulaKillTeam> copiaTaulesKillTeam = new ArrayList<>(aepdaDAO.agafarTaulesKillTeam());
+        return copiaTaulesKillTeam;
+    }
+    
+    public ArrayList<TaulaMESBG> getCopiaTaulesMESBG() throws AEPDAException, SQLException {
+        List<TaulaMESBG> taulesMESBG = aepdaDAO.agafarTaulesMESBG();
+        
+        if (taulesMESBG.isEmpty()) {
+            throw new AEPDAException("No hi ha cap taula registrada.");
+        }
+        ArrayList<TaulaMESBG> copiaTaulesMESBGs = new ArrayList<>(aepdaDAO.agafarTaulesMESBG());
+        return copiaTaulesMESBGs;
+    }
 
-}
+}   

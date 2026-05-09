@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package com.mycompany.projectepyc.view.gui.InfoClub;
+package com.mycompany.projectepyc.view.gui.taules;
 
 import com.mycompany.projectepyc.controller.GestorAEPDA;
 import com.mycompany.projectepyc.exception.AEPDAException;
-import com.mycompany.projectepyc.model.Participant;
+import com.mycompany.projectepyc.model.TaulaMESBG;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -16,58 +16,51 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Mario
  */
-public class InfoClubJTable extends javax.swing.JDialog {
+public class LlistatTaulesMESBGJDialog extends javax.swing.JDialog {
 
     private GestorAEPDA gestor;
-    private String nombreClub;
-    private ArrayList<Participant> copiaParticipants;
+    private ArrayList<TaulaMESBG> copiaTaulesMESBG;
     /**
-     * Creates new form InfoClubJTablee
+     * Creates new form LlistatTaulesKillTeamJDialog
      */
-    public InfoClubJTable(java.awt.Frame parent, boolean modal, GestorAEPDA gestor, String nombreClub) throws SQLException{
-        super(parent,modal);
+    public LlistatTaulesMESBGJDialog(java.awt.Frame parent, boolean modal, GestorAEPDA gestor) throws SQLException {
+        super(parent, modal);
         this.gestor = gestor;
-        this.nombreClub = nombreClub;
-        cargarParticipants();
+        cargarTaulesMESBG();
         initComponents();
         this.setLocationRelativeTo(null);
-        
-        jLabel1.setText("Participants del club: " + nombreClub);
-        
+
+        cargarTabla();
+    }
+
+    public LlistatTaulesMESBGJDialog(java.awt.Frame parent, boolean modal, GestorAEPDA gestor, ArrayList<TaulaMESBG> taulesMESBG) throws SQLException {
+        super(parent, modal);
+        this.gestor = gestor;
+        this.copiaTaulesMESBG = taulesMESBG;
+        initComponents();
+        this.setLocationRelativeTo(null);
+
         cargarTabla();
     }
     
-    public InfoClubJTable(java.awt.Frame parent, boolean modal, GestorAEPDA gestor, String nombreClub, ArrayList<Participant> participants) throws SQLException {
-        super(parent,modal);
-        this.gestor = gestor;
-        this.nombreClub = nombreClub;
-        this.copiaParticipants = participants;
-        initComponents();
-        this.setLocationRelativeTo(null);
-        
-        jLabel1.setText("Participants del club: " + nombreClub);
-        
-        cargarTabla();
-    }
-    
-    private void cargarParticipants() throws SQLException {
+    public void cargarTaulesMESBG() throws SQLException {
         try {
-            copiaParticipants = gestor.getCopiaParticipants(nombreClub);
-        } catch(AEPDAException ex) {
-            JOptionPane.showMessageDialog(this, "Error obtenint participants: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);            
+            copiaTaulesMESBG = gestor.getCopiaTaulesMESBG();
+        } catch (AEPDAException ex) {
+            JOptionPane.showMessageDialog(this, "Error obtenint les taules de KillTeam: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
     private void cargarTabla() {
-        DefaultTableModel modeloTabla = (DefaultTableModel) TaulaParticipants.getModel();
+        DefaultTableModel modeloTabla = (DefaultTableModel) TaulaTaulesMESBG.getModel();
         modeloTabla.setRowCount(0);
-        if(copiaParticipants != null) {
-            int numeroColumnasTabla = TaulaParticipants.getColumnCount();
+        if(copiaTaulesMESBG != null) {
+            int numeroColumnasTabla = TaulaTaulesMESBG.getColumnCount();
             
-            for(Participant p : copiaParticipants) {
+            for(TaulaMESBG t : copiaTaulesMESBG) {
                 Object[] objetoParaFilaDeTaba = new Object[numeroColumnasTabla];
-                objetoParaFilaDeTaba[0] = p.getID();
-                objetoParaFilaDeTaba[1] = p.getNickname();
+                objetoParaFilaDeTaba[0] = t.getNumero();
+                objetoParaFilaDeTaba[1] = t.getEscenari();
                 
                 modeloTabla.addRow(objetoParaFilaDeTaba);
             }
@@ -85,14 +78,14 @@ public class InfoClubJTable extends javax.swing.JDialog {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TaulaParticipants = new javax.swing.JTable();
+        TaulaTaulesMESBG = new javax.swing.JTable();
         Enrere = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Nom del club");
+        jLabel1.setText("LLISTAT DE TAULES DE MESBG");
 
-        TaulaParticipants.setModel(new javax.swing.table.DefaultTableModel(
+        TaulaTaulesMESBG.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -100,47 +93,58 @@ public class InfoClubJTable extends javax.swing.JDialog {
                 {null, null}
             },
             new String [] {
-                "ID", "Nickname"
+                "Numero Taula", "Escenari"
             }
         ));
-        jScrollPane1.setViewportView(TaulaParticipants);
+        jScrollPane1.setViewportView(TaulaTaulesMESBG);
 
         Enrere.setText("Enrere");
+        Enrere.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EnrereActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(Enrere)
-                        .addGap(352, 352, 352)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                        .addGap(124, 124, 124)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Enrere)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(Enrere)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+    private void EnrereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnrereActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_EnrereActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Enrere;
-    private javax.swing.JTable TaulaParticipants;
+    private javax.swing.JTable TaulaTaulesMESBG;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

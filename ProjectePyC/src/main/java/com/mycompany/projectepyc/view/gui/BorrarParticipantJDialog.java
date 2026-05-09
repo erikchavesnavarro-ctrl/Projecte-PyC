@@ -16,14 +16,15 @@ import javax.swing.JOptionPane;
  *
  * @author Mario
  */
-public class BorrarParticipantJDialog extends javax.swing.JFrame {
+public class BorrarParticipantJDialog extends javax.swing.JDialog {
 
     
     private GestorAEPDA gestor;
     /**
      * Creates new form BorrarParticipantJDialog
      */
-    public BorrarParticipantJDialog(GestorAEPDA gestor) {
+    public BorrarParticipantJDialog(java.awt.Frame parent, boolean modal, GestorAEPDA gestor) {
+        super(parent, modal);
         this.gestor = gestor;
         initComponents();
         this.setLocationRelativeTo(null);
@@ -44,7 +45,7 @@ public class BorrarParticipantJDialog extends javax.swing.JFrame {
         jBut_EsborrarParticipant = new javax.swing.JButton();
         Enrere = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("ESBORRAR PARTICIPANT");
 

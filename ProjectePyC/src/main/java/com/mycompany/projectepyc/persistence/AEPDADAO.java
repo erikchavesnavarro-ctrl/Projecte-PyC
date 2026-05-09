@@ -7,6 +7,7 @@ package com.mycompany.projectepyc.persistence;
 import com.mycompany.projectepyc.model.Club;
 import com.mycompany.projectepyc.model.Participant;
 import com.mycompany.projectepyc.model.ParticipantSorteig;
+import com.mycompany.projectepyc.model.Taula;
 import com.mycompany.projectepyc.model.TaulaKillTeam;
 import com.mycompany.projectepyc.model.TaulaMESBG;
 import java.sql.Connection;
@@ -242,7 +243,7 @@ public class AEPDADAO {
         desconectar();
         return taulesMESBG;
     }
-
+    
     //Métode que retorna la llista dels participants del sorteig
     public List<ParticipantSorteig> agafarParticipantsSorteig() throws SQLException {
         List<ParticipantSorteig> participantsSorteig = new ArrayList<>();
