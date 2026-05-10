@@ -7,6 +7,7 @@ package com.mycompany.projectepyc.view.gui.sorteig;
 import com.mycompany.projectepyc.controller.GestorAEPDA;
 import com.mycompany.projectepyc.exception.AEPDAException;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,7 +22,17 @@ public class SorteigKillTeamJDialog extends javax.swing.JDialog {
     public SorteigKillTeamJDialog(java.awt.Frame parent, boolean modal, GestorAEPDA gestor) throws AEPDAException, SQLException {
         super(parent, modal);
         initComponents();
-        jTxtA_InfoFlotaCutre.setText(gestor.generarSorteigRonda1KillTeam());
+        this.setLocationRelativeTo(null);
+        
+        try {
+            jTxtA_InfoFlotaCutre.setText(gestor.generarSorteigRonda1KillTeam());
+        } catch (AEPDAException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Avís de Sorteig", JOptionPane.WARNING_MESSAGE);
+            this.dispose();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error de conexió con la base de dades:\n" + ex.getMessage(), "Error SQL", JOptionPane.ERROR_MESSAGE);
+            this.dispose();
+        }
     }
 
     /**
@@ -36,6 +47,7 @@ public class SorteigKillTeamJDialog extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTxtA_InfoFlotaCutre = new javax.swing.JTextArea();
+        jBut_GuardarClub1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -45,37 +57,54 @@ public class SorteigKillTeamJDialog extends javax.swing.JDialog {
         jTxtA_InfoFlotaCutre.setRows(5);
         jScrollPane1.setViewportView(jTxtA_InfoFlotaCutre);
 
+        jBut_GuardarClub1.setText("Enrere");
+        jBut_GuardarClub1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBut_GuardarClub1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addGap(0, 260, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(266, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(14, 14, 14)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
-                    .addGap(15, 15, 15)))
+                .addComponent(jBut_GuardarClub1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(278, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(29, 29, 29)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
-                    .addGap(30, 30, 30)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jBut_GuardarClub1)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jBut_GuardarClub1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBut_GuardarClub1ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jBut_GuardarClub1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBut_GuardarClub1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTxtA_InfoFlotaCutre;

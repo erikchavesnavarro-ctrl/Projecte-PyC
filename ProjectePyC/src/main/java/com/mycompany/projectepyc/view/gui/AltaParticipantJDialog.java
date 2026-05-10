@@ -42,11 +42,11 @@ public class AltaParticipantJDialog extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTxtF_ID = new javax.swing.JTextField();
         jTxtF_NombreClub = new javax.swing.JTextField();
         jTxtF_Nickname = new javax.swing.JTextField();
         jBut_GuardarParticipant = new javax.swing.JButton();
         Enrere = new javax.swing.JButton();
+        SeleccionarID = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -78,6 +78,8 @@ public class AltaParticipantJDialog extends javax.swing.JDialog {
             }
         });
 
+        SeleccionarID.setModel(new javax.swing.SpinnerNumberModel(1, 1, 100, 1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -85,25 +87,21 @@ public class AltaParticipantJDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Enrere)
+                    .addComponent(jLabel3))
+                .addGap(45, 45, 45)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Enrere))
-                        .addGap(45, 45, 45)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jBut_GuardarParticipant, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTxtF_ID, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jTxtF_NombreClub, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
-                                    .addComponent(jTxtF_Nickname))
-                                .addGap(32, 32, 32))))))
+                        .addComponent(jBut_GuardarParticipant, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(SeleccionarID, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTxtF_NombreClub, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                            .addComponent(jTxtF_Nickname, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(32, 32, 32))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(122, 122, 122)
                 .addComponent(jLabel1)
@@ -123,8 +121,8 @@ public class AltaParticipantJDialog extends javax.swing.JDialog {
                             .addComponent(jTxtF_NombreClub, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(35, 35, 35)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTxtF_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
+                            .addComponent(jLabel3)
+                            .addComponent(SeleccionarID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(42, 42, 42)
                         .addComponent(jTxtF_Nickname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(27, 27, 27)
@@ -140,12 +138,11 @@ public class AltaParticipantJDialog extends javax.swing.JDialog {
     private void jBut_GuardarParticipantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBut_GuardarParticipantActionPerformed
         // TODO add your handling code here:
         String nomClub = jTxtF_NombreClub.getText();
-        int id = Integer.parseInt(jTxtF_Nickname.getText());
+        int id = (Integer) SeleccionarID.getValue();
         String nickname = jTxtF_Nickname.getText();
         
         try {
-            gestor.registrarClub(nomClub);
-
+            gestor.afegirParticipantClub(nomClub, id, nickname);
             JOptionPane.showMessageDialog(this, "Participant registrat correctament", "Ok", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
         } catch (IOException ex) {
@@ -153,8 +150,8 @@ public class AltaParticipantJDialog extends javax.swing.JDialog {
         } catch (AEPDAException ex) {
             JOptionPane.showMessageDialog(this, "Error de la app registrant participant: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
-            Logger.getLogger(AltaClubJDialog.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            JOptionPane.showMessageDialog(this, "Error de la app registrant participant : \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }   
     }//GEN-LAST:event_jBut_GuardarParticipantActionPerformed
 
     private void jTxtF_NombreClubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtF_NombreClubActionPerformed
@@ -169,12 +166,12 @@ public class AltaParticipantJDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Enrere;
+    private javax.swing.JSpinner SeleccionarID;
     private javax.swing.JButton jBut_GuardarParticipant;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTxtF_ID;
     private javax.swing.JTextField jTxtF_Nickname;
     private javax.swing.JTextField jTxtF_NombreClub;
     // End of variables declaration//GEN-END:variables

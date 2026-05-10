@@ -43,9 +43,9 @@ public class AltaTaulaMESBGJDialog extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         Escenari = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        NumeroTaula1 = new javax.swing.JTextField();
         Enrere = new javax.swing.JButton();
-        jBut_GuardarTaulaKillTeam = new javax.swing.JButton();
+        jBut_GuardarTaulaMESBG = new javax.swing.JButton();
+        SeleccionarID = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -61,12 +61,6 @@ public class AltaTaulaMESBGJDialog extends javax.swing.JDialog {
 
         jLabel3.setText("Escenari:");
 
-        NumeroTaula1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NumeroTaula1ActionPerformed(evt);
-            }
-        });
-
         Enrere.setText("Enrere");
         Enrere.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -74,12 +68,14 @@ public class AltaTaulaMESBGJDialog extends javax.swing.JDialog {
             }
         });
 
-        jBut_GuardarTaulaKillTeam.setText("Guardar");
-        jBut_GuardarTaulaKillTeam.addActionListener(new java.awt.event.ActionListener() {
+        jBut_GuardarTaulaMESBG.setText("Guardar");
+        jBut_GuardarTaulaMESBG.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBut_GuardarTaulaKillTeamActionPerformed(evt);
+                jBut_GuardarTaulaMESBGActionPerformed(evt);
             }
         });
+
+        SeleccionarID.setModel(new javax.swing.SpinnerNumberModel(1, 1, 100, 1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -94,10 +90,10 @@ public class AltaTaulaMESBGJDialog extends javax.swing.JDialog {
                             .addComponent(jLabel2)
                             .addComponent(Enrere))
                         .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Escenari, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(NumeroTaula1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jBut_GuardarTaulaKillTeam, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(Escenari, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                            .addComponent(jBut_GuardarTaulaMESBG, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                            .addComponent(SeleccionarID)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(105, 105, 105)
                         .addComponent(jLabel1)))
@@ -111,7 +107,7 @@ public class AltaTaulaMESBGJDialog extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(NumeroTaula1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(SeleccionarID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -119,38 +115,34 @@ public class AltaTaulaMESBGJDialog extends javax.swing.JDialog {
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Enrere)
-                    .addComponent(jBut_GuardarTaulaKillTeam))
+                    .addComponent(jBut_GuardarTaulaMESBG))
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void NumeroTaula1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumeroTaula1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NumeroTaula1ActionPerformed
-
     private void EnrereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnrereActionPerformed
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_EnrereActionPerformed
 
-    private void jBut_GuardarTaulaKillTeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBut_GuardarTaulaKillTeamActionPerformed
-        int numeroTaula = Integer.parseInt(Escenari.getText());
-        String escenari = (String) Escenari.getText();
+    private void jBut_GuardarTaulaMESBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBut_GuardarTaulaMESBGActionPerformed
+        int numeroTaula = (Integer) SeleccionarID.getValue();
+        String escenari = Escenari.getText();
 
         try {
             gestor.addMesaMESBG(numeroTaula, escenari);
             JOptionPane.showMessageDialog(this, "Taula per a KillTeam registrada correctament", "Ok", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Error de sistema registrant participant : \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error de sistema registrant la taula per a MESBG: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (AEPDAException ex) {
-            JOptionPane.showMessageDialog(this, "Error de la app registrant participant: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error de la app registrant la taula per a MESBG: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
-            Logger.getLogger(AltaClubJDialog.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error de la app registrant la taula per a MESBG: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jBut_GuardarTaulaKillTeamActionPerformed
+    }//GEN-LAST:event_jBut_GuardarTaulaMESBGActionPerformed
 
     private void EscenariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EscenariActionPerformed
         // TODO add your handling code here:
@@ -159,8 +151,8 @@ public class AltaTaulaMESBGJDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Enrere;
     private javax.swing.JTextField Escenari;
-    private javax.swing.JTextField NumeroTaula1;
-    private javax.swing.JButton jBut_GuardarTaulaKillTeam;
+    private javax.swing.JSpinner SeleccionarID;
+    private javax.swing.JButton jBut_GuardarTaulaMESBG;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

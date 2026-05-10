@@ -42,11 +42,11 @@ public class AltaTaulaKillTeamJDialog extends javax.swing.JDialog {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        NumeroTaula = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         Ambient = new javax.swing.JComboBox<>();
         Enrere = new javax.swing.JButton();
         jBut_GuardarTaulaKillTeam = new javax.swing.JButton();
+        SeleccionarID = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -54,15 +54,9 @@ public class AltaTaulaKillTeamJDialog extends javax.swing.JDialog {
 
         jLabel2.setText("Número de la Taula:");
 
-        NumeroTaula.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NumeroTaulaActionPerformed(evt);
-            }
-        });
-
         jLabel3.setText("Ambient: ");
 
-        Ambient.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Obert", "Tancat", "Betha Dècima", " " }));
+        Ambient.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OBERT", "TANCAT", "BETHA DECIMA", " " }));
         Ambient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AmbientActionPerformed(evt);
@@ -83,6 +77,8 @@ public class AltaTaulaKillTeamJDialog extends javax.swing.JDialog {
             }
         });
 
+        SeleccionarID.setModel(new javax.swing.SpinnerNumberModel(1, 1, 100, 1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -94,10 +90,10 @@ public class AltaTaulaKillTeamJDialog extends javax.swing.JDialog {
                     .addComponent(jLabel3)
                     .addComponent(Enrere))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Ambient, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBut_GuardarTaulaKillTeam, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(NumeroTaula, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(Ambient, 0, 135, Short.MAX_VALUE)
+                    .addComponent(jBut_GuardarTaulaKillTeam, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                    .addComponent(SeleccionarID))
                 .addGap(44, 44, 44))
             .addGroup(layout.createSequentialGroup()
                 .addGap(116, 116, 116)
@@ -112,7 +108,7 @@ public class AltaTaulaKillTeamJDialog extends javax.swing.JDialog {
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(NumeroTaula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(SeleccionarID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -127,10 +123,6 @@ public class AltaTaulaKillTeamJDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void NumeroTaulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumeroTaulaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NumeroTaulaActionPerformed
-
     private void AmbientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AmbientActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_AmbientActionPerformed
@@ -141,7 +133,7 @@ public class AltaTaulaKillTeamJDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_EnrereActionPerformed
 
     private void jBut_GuardarTaulaKillTeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBut_GuardarTaulaKillTeamActionPerformed
-        int numeroTaula = Integer.parseInt(NumeroTaula.getText());
+        int numeroTaula = (Integer) SeleccionarID.getValue();
         String ambient = (String) Ambient.getSelectedItem();
 
         try {
@@ -149,11 +141,11 @@ public class AltaTaulaKillTeamJDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Taula per a KillTeam registrada correctament", "Ok", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Error de sistema registrant participant : \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error de sistema registrant la taula per a KillTeam: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (AEPDAException ex) {
-            JOptionPane.showMessageDialog(this, "Error de la app registrant participant: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error de la app registrant la taula per a KillTeam: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
-            Logger.getLogger(AltaClubJDialog.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error de la app registrant la taula per a KillTeam: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jBut_GuardarTaulaKillTeamActionPerformed
 
@@ -161,7 +153,7 @@ public class AltaTaulaKillTeamJDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> Ambient;
     private javax.swing.JButton Enrere;
-    private javax.swing.JTextField NumeroTaula;
+    private javax.swing.JSpinner SeleccionarID;
     private javax.swing.JButton jBut_GuardarTaulaKillTeam;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

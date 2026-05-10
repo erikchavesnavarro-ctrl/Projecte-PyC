@@ -42,10 +42,10 @@ public class ModificarParticipantJDialog extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTxtF_ID = new javax.swing.JTextField();
         jTxtF_NouNickname = new javax.swing.JTextField();
         jBut_ModificarParticipant = new javax.swing.JButton();
         jBut_Enrere = new javax.swing.JButton();
+        SeleccionarID = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -54,12 +54,6 @@ public class ModificarParticipantJDialog extends javax.swing.JDialog {
         jLabel2.setText("ID");
 
         jLabel3.setText("Nou Nickname");
-
-        jTxtF_ID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTxtF_IDActionPerformed(evt);
-            }
-        });
 
         jTxtF_NouNickname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,6 +75,8 @@ public class ModificarParticipantJDialog extends javax.swing.JDialog {
             }
         });
 
+        SeleccionarID.setModel(new javax.swing.SpinnerNumberModel(1, 1, 100, 1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -88,25 +84,24 @@ public class ModificarParticipantJDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(144, 144, 144)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(50, 50, 50)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(98, 98, 98)
-                                .addComponent(jTxtF_ID, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jBut_Enrere)
                                 .addGap(38, 38, 38)
-                                .addComponent(jBut_ModificarParticipant, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(jBut_ModificarParticipant, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2))
                                 .addGap(32, 32, 32)
-                                .addComponent(jTxtF_NouNickname, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)))))
-                .addGap(27, 27, 27))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(SeleccionarID, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+                                    .addComponent(jTxtF_NouNickname)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(131, 131, 131)
+                        .addComponent(jLabel1)))
+                .addGap(0, 24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,7 +111,7 @@ public class ModificarParticipantJDialog extends javax.swing.JDialog {
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTxtF_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(SeleccionarID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -131,17 +126,13 @@ public class ModificarParticipantJDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTxtF_IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtF_IDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTxtF_IDActionPerformed
-
     private void jTxtF_NouNicknameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtF_NouNicknameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTxtF_NouNicknameActionPerformed
 
     private void jBut_ModificarParticipantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBut_ModificarParticipantActionPerformed
         // TODO add your handling code here:
-        int id = Integer.parseInt(jTxtF_ID.getText());
+        int id = (Integer) SeleccionarID.getValue();
         String nouNickname = jTxtF_NouNickname.getText();
         
         try {
@@ -152,7 +143,7 @@ public class ModificarParticipantJDialog extends javax.swing.JDialog {
         } catch (AEPDAException ex) {
             JOptionPane.showMessageDialog(this, "Error de la app modificant el nickname del participant: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
-            Logger.getLogger(AltaClubJDialog.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error de la app modificant el nickname del participant: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jBut_ModificarParticipantActionPerformed
 
@@ -163,12 +154,12 @@ public class ModificarParticipantJDialog extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JSpinner SeleccionarID;
     private javax.swing.JButton jBut_Enrere;
     private javax.swing.JButton jBut_ModificarParticipant;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField jTxtF_ID;
     private javax.swing.JTextField jTxtF_NouNickname;
     // End of variables declaration//GEN-END:variables
 }

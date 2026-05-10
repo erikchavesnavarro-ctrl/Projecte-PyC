@@ -41,21 +41,15 @@ public class BorrarParticipantJDialog extends javax.swing.JDialog {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTxtF_ID = new javax.swing.JTextField();
         jBut_EsborrarParticipant = new javax.swing.JButton();
         Enrere = new javax.swing.JButton();
+        SeleccionarID = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("ESBORRAR PARTICIPANT");
 
         jLabel2.setText("ID de l'usuari què es vol esborrar: ");
-
-        jTxtF_ID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTxtF_IDActionPerformed(evt);
-            }
-        });
 
         jBut_EsborrarParticipant.setText("Esborrar");
         jBut_EsborrarParticipant.addActionListener(new java.awt.event.ActionListener() {
@@ -71,6 +65,8 @@ public class BorrarParticipantJDialog extends javax.swing.JDialog {
             }
         });
 
+        SeleccionarID.setModel(new javax.swing.SpinnerNumberModel(1, 1, 100, 1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -83,16 +79,16 @@ public class BorrarParticipantJDialog extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(SeleccionarID, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(Enrere)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                                 .addComponent(jBut_EsborrarParticipant, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTxtF_ID, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGap(46, 46, 46)
                                 .addComponent(jLabel1)
                                 .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap(46, Short.MAX_VALUE))))
+                        .addGap(46, 46, 46))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -101,9 +97,9 @@ public class BorrarParticipantJDialog extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addGap(44, 44, 44)
                 .addComponent(jLabel2)
-                .addGap(38, 38, 38)
-                .addComponent(jTxtF_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
+                .addGap(36, 36, 36)
+                .addComponent(SeleccionarID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBut_EsborrarParticipant)
                     .addComponent(Enrere))
@@ -113,13 +109,9 @@ public class BorrarParticipantJDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTxtF_IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtF_IDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTxtF_IDActionPerformed
-
     private void jBut_EsborrarParticipantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBut_EsborrarParticipantActionPerformed
         // TODO add your handling code here:
-        int id = Integer.parseInt(jTxtF_ID.getText());
+        int id = (Integer) SeleccionarID.getValue();
 
         try {
             gestor.esborrarParticipant(id);
@@ -129,7 +121,7 @@ public class BorrarParticipantJDialog extends javax.swing.JDialog {
         } catch (AEPDAException ex) {
             JOptionPane.showMessageDialog(this, "Error de la app esborrant el participant: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
-            Logger.getLogger(AltaClubJDialog.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error de la app esborrant el participant: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "Error de sistema esborrant al participant : \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -142,9 +134,9 @@ public class BorrarParticipantJDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Enrere;
+    private javax.swing.JSpinner SeleccionarID;
     private javax.swing.JButton jBut_EsborrarParticipant;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTxtF_ID;
     // End of variables declaration//GEN-END:variables
 }

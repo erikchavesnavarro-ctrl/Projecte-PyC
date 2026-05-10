@@ -131,7 +131,7 @@ import javax.swing.JOptionPane;
         } catch (AEPDAException ex) {
             JOptionPane.showMessageDialog(this, "Error de la app registrant club: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
-            Logger.getLogger(AltaClubJDialog.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error de la app registrant club: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jBut_GuardarClubActionPerformed
 
