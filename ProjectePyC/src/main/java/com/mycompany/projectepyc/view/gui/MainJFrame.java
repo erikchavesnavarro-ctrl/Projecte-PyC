@@ -318,8 +318,13 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void LlistatClubsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LlistatClubsActionPerformed
         // TODO add your handling code here:
-        LlistatClubsJDialog clubsJDialog = new LlistatClubsJDialog(this, true);
-        clubsJDialog.setVisible(true);
+        LlistatClubsJDialog clubsJDialog;
+        try {
+            clubsJDialog = new LlistatClubsJDialog(this, true, gestor);
+            clubsJDialog.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_LlistatClubsActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed

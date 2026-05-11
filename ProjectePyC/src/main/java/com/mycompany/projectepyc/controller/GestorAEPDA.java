@@ -8,6 +8,7 @@ import com.mycompany.projectepyc.exception.AEPDAException;
 import com.mycompany.projectepyc.model.Club;
 import com.mycompany.projectepyc.model.Participant;
 import com.mycompany.projectepyc.model.ParticipantSorteig;
+import com.mycompany.projectepyc.model.ResumenTO;
 import com.mycompany.projectepyc.model.Taula;
 import com.mycompany.projectepyc.model.TaulaKillTeam;
 import com.mycompany.projectepyc.model.TaulaMESBG;
@@ -399,6 +400,16 @@ public class GestorAEPDA {
         }
         ArrayList<TaulaMESBG> copiaTaulesMESBGs = new ArrayList<>(aepdaDAO.agafarTaulesMESBG());
         return copiaTaulesMESBGs;
+    }
+    
+    public ArrayList<ResumenTO> getCopiaResumenTO() throws AEPDAException, SQLException {
+        List<ResumenTO> clubsMembres = aepdaDAO.getResumen();
+
+        if (clubsMembres.isEmpty()) {
+            throw new AEPDAException("No hi ha cap club amb membres actualment..");
+        }
+        ArrayList<ResumenTO> clubMembres = new ArrayList<>(aepdaDAO.getResumen());
+        return clubMembres;
     }
 
 }

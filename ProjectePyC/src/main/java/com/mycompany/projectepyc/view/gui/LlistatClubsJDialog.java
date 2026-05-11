@@ -4,19 +4,68 @@
  */
 package com.mycompany.projectepyc.view.gui;
 
+import com.mycompany.projectepyc.controller.GestorAEPDA;
+import com.mycompany.projectepyc.exception.AEPDAException;
+import com.mycompany.projectepyc.model.Participant;
+import com.mycompany.projectepyc.model.ResumenTO;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Mario
  */
 public class LlistatClubsJDialog extends javax.swing.JDialog {
 
+    private GestorAEPDA gestor;
+    private ArrayList<ResumenTO> copiaResumenTO;
     /**
-     * Creates new form LlistatClubsJDialog
+     * Creates new form InfoClubJTablee
      */
-    public LlistatClubsJDialog(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public LlistatClubsJDialog(java.awt.Frame parent, boolean modal, GestorAEPDA gestor) throws SQLException{
+        super(parent,modal);
+        this.gestor = gestor;
+        cargarResumenTO();
         initComponents();
         this.setLocationRelativeTo(null);
+                
+        cargarTabla();
+    }
+    
+    public LlistatClubsJDialog(java.awt.Frame parent, boolean modal, GestorAEPDA gestor, ArrayList<ResumenTO> resumenTO) throws SQLException {
+        super(parent,modal);
+        this.gestor = gestor;
+        this.copiaResumenTO = resumenTO;
+        initComponents();
+        this.setLocationRelativeTo(null);
+        
+        cargarTabla();
+    }
+    
+    public void cargarResumenTO() throws SQLException{
+        try {
+            copiaResumenTO = gestor.getCopiaResumenTO();
+        } catch(AEPDAException ex) {
+            JOptionPane.showMessageDialog(this, "Error obtenint la informacio dels clubs: \n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);            
+        }
+    }
+    
+    public void cargarTabla() throws SQLException {
+        DefaultTableModel modeloTabla = (DefaultTableModel) TaulaClubs.getModel();
+        modeloTabla.setRowCount(0);
+        if(copiaResumenTO != null) {
+            int numeroColumnasTabla = TaulaClubs.getColumnCount();
+            
+            for(ResumenTO r : copiaResumenTO) {
+                Object[] objetoParaFilaDeTaba = new Object[numeroColumnasTabla];
+                objetoParaFilaDeTaba[0] = r.getNombreClub();
+                objetoParaFilaDeTaba[1] = r.getCantidadParticipantes();
+                
+                modeloTabla.addRow(objetoParaFilaDeTaba);
+            }
+        }
     }
 
     /**
@@ -28,35 +77,79 @@ public class LlistatClubsJDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TaulaClubs = new javax.swing.JTable();
+        Enrere = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel1.setText("LLISTAT NO IMPLEMENTAT");
+        TaulaClubs.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "ID", "Número Participants"
+            }
+        ));
+        jScrollPane1.setViewportView(TaulaClubs);
+
+        Enrere.setText("Enrere");
+        Enrere.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EnrereActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Llistat Clubs");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(Enrere))
+                .addContainerGap(374, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(22, 22, 22)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(23, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(17, 17, 17)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(308, 308, 308)
+                .addComponent(Enrere)
+                .addContainerGap(17, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(52, 52, 52)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(63, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void EnrereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnrereActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_EnrereActionPerformed
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Enrere;
+    private javax.swing.JTable TaulaClubs;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

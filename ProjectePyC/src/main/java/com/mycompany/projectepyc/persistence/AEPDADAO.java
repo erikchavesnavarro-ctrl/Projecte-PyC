@@ -7,6 +7,7 @@ package com.mycompany.projectepyc.persistence;
 import com.mycompany.projectepyc.model.Club;
 import com.mycompany.projectepyc.model.Participant;
 import com.mycompany.projectepyc.model.ParticipantSorteig;
+import com.mycompany.projectepyc.model.ResumenTO;
 import com.mycompany.projectepyc.model.Taula;
 import com.mycompany.projectepyc.model.TaulaKillTeam;
 import com.mycompany.projectepyc.model.TaulaMESBG;
@@ -263,6 +264,22 @@ public class AEPDADAO {
         rs.close();
         desconectar();
         return participantsSorteig;
+    }
+    
+    public List<ResumenTO> getResumen() throws SQLException {
+        List<ResumenTO> resumen = new ArrayList<>();
+        conectar();
+        ps = conexion.prepareStatement("select c.nom, count(p.club) as quantitat from club as c left join participant as p on c.nom = p.club group by c.nom");
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            String club = rs.getString("c.nom");
+            int quantitat = rs.getInt("quantitat");
+            resumen.add(new ResumenTO(club, quantitat));
+        }
+        rs.close();
+        ps.close();
+        desconectar();
+        return resumen;
     }
 
 }
