@@ -20,14 +20,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Classe Data Access Object (DAO) encarregada de gestionar la persistència de dades.
+ * 
  * @author Mario
  */
 public class AEPDADAO {
-
+    
     private Connection conexion;
     private PreparedStatement ps;
 
+    /**
+     * Estableix la connexió amb la base de dades local MySQL.
+     * 
+     * @throws SQLException Si es produeix un error en intentar connectar amb la base de dades.
+     */
     private void conectar() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/aepda";
         String user = "root";
@@ -35,13 +41,24 @@ public class AEPDADAO {
         conexion = DriverManager.getConnection(url, user, pass);
     }
 
+    /**
+     * Tanca la connexió activa amb la base de dades, si n'hi ha cap.
+     * 
+     * @throws SQLException Si es produeix un error en intentar tancar la connexió.
+     */
     private void desconectar() throws SQLException {
         if (conexion != null) {
             conexion.close();
         }
     }
 
-    //Método para comprobar que existe un club
+    /**
+     * Comprova si existeix un club a la base de dades amb el nom especificat.
+     * 
+     * @param nombre El nom del club a buscar.
+     * @return true si el club existeix, false si no existeix.
+     * @throws SQLException si es produeix un error d'accés a la base de dades.
+     */
     public boolean existeClub(String nombre) throws SQLException {
         conectar();
         ps = conexion.prepareStatement("select * from club where nom = ?;");
@@ -52,8 +69,13 @@ public class AEPDADAO {
         desconectar();
         return existe;
     }
-
-    //Método para registrar un club
+    
+    /**
+     * Registra un nou club a la base de dades.
+     * 
+     * @param c L'objecte Club que conté les dades a insertar.
+     * @throws SQLException si es produeix un error durant la inserció.
+     */
     public void registrarClub(Club c) throws SQLException {
         conectar();
         ps = conexion.prepareStatement("insert into club (nom) values(?);");
@@ -62,8 +84,14 @@ public class AEPDADAO {
         ps.close();
         desconectar();
     }
-
-    //Método para comprobar que existe un participante
+    
+    /**
+     * Comprova si existeix un participant a la base de dades mitjançant la seva ID.
+     * 
+     * @param id L'identificador únic del participant.
+     * @return true si el participant existeix, false si no existeix.
+     * @throws SQLException si es produeix un error en la consulta.
+     */
     public boolean existeParticipant(int id) throws SQLException {
         conectar();
         ps = conexion.prepareStatement("select * from participant where id = ?;");
@@ -75,7 +103,13 @@ public class AEPDADAO {
         return existe;
     }
 
-    //Método para registrar un participante
+    /**
+     * Registra un nou participant a un club específic.
+     * 
+     * @param p L'objecte Participant amb les dades a insertar.
+     * @param nomClub El nom del club al qual es registra el participant.
+     * @throws SQLException si es produeix un error durant l'insert.
+     */
     public void registrarParticipant(Participant p, String nomClub) throws SQLException {
         conectar();
         ps = conexion.prepareStatement("insert into participant (id, nickname, club) values(?,?,?);");
@@ -87,7 +121,12 @@ public class AEPDADAO {
         desconectar();
     }
 
-    //Método que devuelve una lista de clubes
+    /**
+     * Obté una llista amb tots els clubs registrats a la base de dades.
+     * 
+     * @return Una List<Club> amb tots els clubs.
+     * @throws SQLException si es produeix un error quan es consulta la taula de clubs.
+     */
     public List<Club> agafarTotsClubs() throws SQLException {
         List<Club> clubs = new ArrayList<>();
         conectar();
@@ -102,7 +141,13 @@ public class AEPDADAO {
         return clubs;
     }
 
-    //Método para contar cuantos participantes hay en x club
+    /**
+     * Compta el numero de participants que pertanyen a un club.
+     * 
+     * @param nomClub El nom del club del qual es volen comptar els participants.
+     * @return El nombre total de participants del club.
+     * @throws SQLException si es produeix un error en realitzar el recompte.
+     */
     public int comptarParticipantsClub(String nomClub) throws SQLException {
         int participants = 0;
         conectar();
@@ -117,7 +162,13 @@ public class AEPDADAO {
         return participants;
     }
 
-    //Método para cambiar el nick de un participante
+    /**
+     * Modifica el nickname d'un participant existent.
+     * 
+     * @param id L'identificador del participant a modificar.
+     * @param nouNick El nou nickname que se li assignarà.
+     * @throws SQLException si es produeix un error durant l'actualització del nickname.
+     */
     public void modificarParticipant(int id, String nouNick) throws SQLException {
         conectar();
         ps = conexion.prepareStatement("update participant set nickname = ? where id = ?;");
@@ -128,7 +179,13 @@ public class AEPDADAO {
         desconectar();
     }
 
-    //Método para coger el nickname de un participante
+    /**
+     * Obté el nickname d'un participant mitjançant la seva ID.
+     * 
+     * @param id L'identificador del participant.
+     * @return El nickname del participant.
+     * @throws SQLException si es produeix un error en la consulta.
+     */
     public String agafarNicnkname(int id) throws SQLException {
         String nick = "";
         conectar();
@@ -143,7 +200,12 @@ public class AEPDADAO {
         return nick;
     }
 
-    //Método para borrar un participante
+    /**
+     * Elimina un participant de la base de dades.
+     * 
+     * @param id L'identificador del participant que es vol esborrar.
+     * @throws SQLException si es produeix un error durant l'eliminació.
+     */
     public void borrarParticipant(int id) throws SQLException {
         conectar();
         ps = conexion.prepareStatement("delete from participant where id = ?;");
@@ -153,7 +215,13 @@ public class AEPDADAO {
         desconectar();
     }
 
-    //Método que devuelve los participantes de un club
+    /**
+     * Obté una llista amb tots els participants que pertanyen a un club en específic.
+     * 
+     * @param nomClub El nom del club.
+     * @return Una List<Participant> amb els participants del club.
+     * @throws SQLException si es produeix un error en consultar els participants.
+     */
     public List<Participant> agafarParticipantsClub(String nomClub) throws SQLException {
         List<Participant> participants = new ArrayList<>();
         conectar();
@@ -171,7 +239,13 @@ public class AEPDADAO {
         return participants;
     }
 
-    //Método para añadir mesa
+    /**
+     * Registra una nova taula de KillTeam a la base de dades.
+     * Afegeix el registre a la taula genèrica 'taula' i, a continuació, a 'taulakillteam'.
+     * 
+     * @param t L'objecte TaulaKillTeam a insertar.
+     * @throws SQLException si es produeix un error durant la doble inserció.
+     */
     public void registrarTaulaKillTeam(TaulaKillTeam t) throws SQLException {
         conectar();
         /*Aquesta taula tenia l'atribut partida_actual_id, però no l'utilitzem al codi, així que l'he eliminat, ja que només
@@ -188,6 +262,13 @@ public class AEPDADAO {
         desconectar();
     }
 
+    /**
+     * Registra una nova taula de MESBG a la base de dades.
+     * Afegeix el registre a la taula genèrica 'taula' i, a continuació, a 'taulamesbg'.
+     * 
+     * @param t L'objecte TaulaMESBG a insertar.
+     * @throws SQLException si es produeix un error durant la doble inserció.
+     */
     public void registrarTaulaMESBG(TaulaMESBG t) throws SQLException {
         conectar();
         ps = conexion.prepareStatement("insert into taula (numero) values(?)");
@@ -202,7 +283,13 @@ public class AEPDADAO {
         desconectar();
     }
 
-    //Método para comprobar que ya existe una mesa
+    /**
+     * Comprova si ja existeix una taula amb el número indicat.
+     * 
+     * @param numero El número de la taula a comprovar.
+     * @return true si la taula existeix, false si no existeix.
+     * @throws SQLException si es produeix un error d'accés a la base de dades.
+     */
     public boolean existeTaula(int numero) throws SQLException {
         conectar();
         ps = conexion.prepareStatement("select * from taula where numero = ?;");
@@ -214,7 +301,12 @@ public class AEPDADAO {
         return existe;
     }
 
-    //Método que devuelve una lista de clubes
+    /**
+     * Obté una llista de totes les taules registrades com a KillTeam.
+     * 
+     * @return Una List<TaulaKillTeam> amb les taules de KillTeam que existeixen.
+     * @throws SQLException si es produeix un error en la consulta.
+     */
     public List<TaulaKillTeam> agafarTaulesKillTeam() throws SQLException {
         List<TaulaKillTeam> taulesKillTeam = new ArrayList<>();
         conectar();
@@ -230,6 +322,12 @@ public class AEPDADAO {
         return taulesKillTeam;
     }
 
+    /**
+     * Obté una llista de totes les taules registrades com a MESBG.
+     * 
+     * @return Una List<TaulaMESBG> amb les taules de MESBG que existeixen.
+     * @throws SQLException si es produeix un error en la consulta.
+     */
     public List<TaulaMESBG> agafarTaulesMESBG() throws SQLException {
         List<TaulaMESBG> taulesMESBG = new ArrayList<>();
         conectar();
@@ -245,7 +343,13 @@ public class AEPDADAO {
         return taulesMESBG;
     }
     
-    //Métode que retorna la llista dels participants del sorteig
+    /**
+     * Obté la llista de participants per al sorteig.
+     * Realitza un 'JOIN' entre les taules 'participant' i 'club' per obtenir tota la informació necessària de forma eficient.
+     * 
+     * @return Una List<ParticipantSorteig> amb els participants del sorteig i els seus clubs.
+     * @throws SQLException si es produeix un error en executar la consulta.
+     */
     public List<ParticipantSorteig> agafarParticipantsSorteig() throws SQLException {
         List<ParticipantSorteig> participantsSorteig = new ArrayList<>();
         conectar();
@@ -266,6 +370,13 @@ public class AEPDADAO {
         return participantsSorteig;
     }
     
+    /**
+     * Obté un resum general amb la quantitat de participants que té cada club.
+     * Utilitza un 'LEFT JOIN' per assegurar que es llistin tots els clubs, fins i tot si no tenen participants.
+     * 
+     * @return Una List<ResumenTO> amb el resum de dades de clubs i les seves quantitats de participants.
+     * @throws SQLException si es produeix un error en executar la consulta.
+     */
     public List<ResumenTO> getResumen() throws SQLException {
         List<ResumenTO> resumen = new ArrayList<>();
         conectar();
