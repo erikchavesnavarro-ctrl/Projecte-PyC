@@ -365,6 +365,12 @@ public class GestorAEPDA {
         return p2;
     }
 
+    /**
+     * Obté una llista amb els noms de tots els clubs registrats.
+     *
+     * @return Un ArrayList<String> que conté els noms dels clubs.
+     * @throws SQLException Si es produeix un error de connexió o consulta a la base de dades.
+     */
     public ArrayList<String> getCopiaNombresClubs() throws SQLException {
         List<Club> clubsReals = aepdaDAO.agafarTotsClubs();
         ArrayList<String> nombresClubs = new ArrayList<>();
@@ -374,6 +380,14 @@ public class GestorAEPDA {
         return nombresClubs;
     }
 
+    /**
+     * Obté una còpia de la llista de participants que pertanyen a un club específic.
+     *
+     * @param nombreClub El nom del club del qual es volen obtenir els participants.
+     * @return Un ArrayList<Participant> amb els participants del club especificat.
+     * @throws AEPDAException Si el club indicat no existeix al sistema.
+     * @throws SQLException Si es produeix un error en accedir a la base de dades.
+     */
     public ArrayList<Participant> getCopiaParticipants(String nombreClub) throws AEPDAException, SQLException {
         if (!aepdaDAO.existeClub(nombreClub)) {
             throw new AEPDAException("El club " + nombreClub + " no existeix.");
@@ -382,6 +396,13 @@ public class GestorAEPDA {
         return copiaParticipants;
     }
 
+    /**
+     * Obté una llista amb totes les taules registrades per al sistema Kill Team.
+     *
+     * @return Un ArrayList<TaulaKillTeam> que conté les taules de Kill Team.
+     * @throws AEPDAException Si no hi ha cap taula registrada al sistema.
+     * @throws SQLException Si es produeix un error en fer la consulta a la base de dades.
+     */
     public ArrayList<TaulaKillTeam> getCopiaTaulesKillTeam() throws AEPDAException, SQLException {
         List<TaulaKillTeam> taulesKillTeam = aepdaDAO.agafarTaulesKillTeam();
 
@@ -392,6 +413,13 @@ public class GestorAEPDA {
         return copiaTaulesKillTeam;
     }
 
+    /**
+     * Obté una llista amb totes les taules registrades per al sistema MESBG.
+     *
+     * @return Un ArrayList<TaulaMESBG> que conté les taules de MESBG.
+     * @throws AEPDAException Si no hi ha cap taula registrada al sistema.
+     * @throws SQLException Si es produeix un error de connexió o accés a la base de dades.
+     */
     public ArrayList<TaulaMESBG> getCopiaTaulesMESBG() throws AEPDAException, SQLException {
         List<TaulaMESBG> taulesMESBG = aepdaDAO.agafarTaulesMESBG();
 
@@ -402,6 +430,13 @@ public class GestorAEPDA {
         return copiaTaulesMESBGs;
     }
     
+    /**
+     * Obté un resum dels clubs que compten amb membres en l'actualitat.
+     *
+     * @return Un ArrayList<ResumenTO> amb les dades resumides dels clubs i els seus participants.
+     * @throws AEPDAException Si no es troba cap club amb membres registrats.
+     * @throws SQLException Si es produeix un error en consultar la informació a la base de dades.
+     */
     public ArrayList<ResumenTO> getCopiaResumenTO() throws AEPDAException, SQLException {
         List<ResumenTO> clubsMembres = aepdaDAO.getResumen();
 
