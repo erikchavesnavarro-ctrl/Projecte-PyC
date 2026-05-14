@@ -63,6 +63,7 @@ public class AltaParticipantJDialog extends javax.swing.JDialog {
 
         jTxtF_NombreClub.setBackground(new java.awt.Color(22, 20, 20));
         jTxtF_NombreClub.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jTxtF_NombreClub.setForeground(new java.awt.Color(255, 255, 255));
         jTxtF_NombreClub.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTxtF_NombreClubActionPerformed(evt);
@@ -73,9 +74,17 @@ public class AltaParticipantJDialog extends javax.swing.JDialog {
         SeleccionarID.setModel(new javax.swing.SpinnerNumberModel(1, 1, 100, 1));
 
         jTxtF_Nickname.setBackground(new java.awt.Color(22, 20, 20));
+        jTxtF_Nickname.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jTxtF_Nickname.setForeground(new java.awt.Color(255, 255, 255));
+        jTxtF_Nickname.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTxtF_NicknameActionPerformed(evt);
+            }
+        });
 
         jBut_GuardarParticipant.setBackground(new java.awt.Color(22, 20, 20));
         jBut_GuardarParticipant.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jBut_GuardarParticipant.setForeground(new java.awt.Color(255, 255, 255));
         jBut_GuardarParticipant.setText("Guardar");
         jBut_GuardarParticipant.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -93,6 +102,7 @@ public class AltaParticipantJDialog extends javax.swing.JDialog {
 
         Enrere.setBackground(new java.awt.Color(22, 20, 20));
         Enrere.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        Enrere.setForeground(new java.awt.Color(255, 255, 255));
         Enrere.setText("Enrere");
         Enrere.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -194,6 +204,10 @@ public class AltaParticipantJDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_EnrereActionPerformed
+
+    private void jTxtF_NicknameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtF_NicknameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTxtF_NicknameActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

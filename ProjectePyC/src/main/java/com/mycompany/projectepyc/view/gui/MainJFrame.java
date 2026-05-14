@@ -105,6 +105,9 @@ public class MainJFrame extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("per poder iniciar amb la primera ronda !");
 
+        Sortir.setBackground(new java.awt.Color(22, 20, 20));
+        Sortir.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        Sortir.setForeground(new java.awt.Color(255, 255, 255));
         Sortir.setText("Sortir");
         Sortir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

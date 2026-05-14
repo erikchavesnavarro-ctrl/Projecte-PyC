@@ -71,6 +71,7 @@ import javax.swing.JOptionPane;
 
         jBut_GuardarClub1.setBackground(new java.awt.Color(22, 20, 20));
         jBut_GuardarClub1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jBut_GuardarClub1.setForeground(new java.awt.Color(255, 255, 255));
         jBut_GuardarClub1.setText("Enrere");
         jBut_GuardarClub1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -80,6 +81,7 @@ import javax.swing.JOptionPane;
 
         jTxtF_NombreClub.setBackground(new java.awt.Color(25, 22, 22));
         jTxtF_NombreClub.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jTxtF_NombreClub.setForeground(new java.awt.Color(255, 255, 255));
 
         jBut_GuardarClub.setBackground(new java.awt.Color(22, 20, 20));
         jBut_GuardarClub.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N

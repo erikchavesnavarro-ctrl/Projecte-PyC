@@ -61,6 +61,7 @@ public class ModificarParticipantJDialog extends javax.swing.JDialog {
 
         jTxtF_NouNickname.setBackground(new java.awt.Color(22, 20, 20));
         jTxtF_NouNickname.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jTxtF_NouNickname.setForeground(new java.awt.Color(255, 255, 255));
         jTxtF_NouNickname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTxtF_NouNicknameActionPerformed(evt);
@@ -69,6 +70,7 @@ public class ModificarParticipantJDialog extends javax.swing.JDialog {
 
         jBut_ModificarParticipant.setBackground(new java.awt.Color(22, 20, 20));
         jBut_ModificarParticipant.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jBut_ModificarParticipant.setForeground(new java.awt.Color(255, 255, 255));
         jBut_ModificarParticipant.setText("Modificar");
         jBut_ModificarParticipant.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

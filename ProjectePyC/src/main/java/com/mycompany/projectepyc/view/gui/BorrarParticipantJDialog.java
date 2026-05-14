@@ -63,6 +63,7 @@ public class BorrarParticipantJDialog extends javax.swing.JDialog {
 
         Enrere.setBackground(new java.awt.Color(22, 20, 20));
         Enrere.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        Enrere.setForeground(new java.awt.Color(255, 255, 255));
         Enrere.setText("Enrere");
         Enrere.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -72,6 +73,7 @@ public class BorrarParticipantJDialog extends javax.swing.JDialog {
 
         jBut_EsborrarParticipant.setBackground(new java.awt.Color(22, 20, 20));
         jBut_EsborrarParticipant.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jBut_EsborrarParticipant.setForeground(new java.awt.Color(255, 255, 255));
         jBut_EsborrarParticipant.setText("Esborrar");
         jBut_EsborrarParticipant.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
