@@ -8,6 +8,13 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>21</maven.compiler.release>
-        <exec.mainClass>com.mycompany.projectepyc.ProjectePyC</exec.mainClass>
+        <exec.mainClass>com.mycompany.projectepyc.AEPDA</exec.mainClass>
     </properties>
+    <dependencies>
+    <dependency>
+        <groupId>com.mysql</groupId>
+        <artifactId>mysql-connector-j</artifactId>
+        <version>8.3.0</version>
+    </dependency>
+</dependencies>
 </project>

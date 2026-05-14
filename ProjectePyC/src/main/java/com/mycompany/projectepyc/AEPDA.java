@@ -4,26 +4,22 @@
  */
 package com.mycompany.projectepyc;
 
+import com.mycompany.projectepyc.exception.AEPDAException;
 import com.mycompany.projectepyc.view.Menu;
+import com.mycompany.projectepyc.view.gui.MainJFrame;
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
-* Classe principal de l'aplicació AEPDA.
-* @author PyC
-* @version 1.0
-*/
-
+ * Classe principal de l'aplicació AEPDA.
+ *
+ * @author PyC
+ * @version 1.0
+ */
 public class AEPDA {
 
-    public static void main(String[] args) {
-      
-        Menu m = new Menu();
-        try {
-            m.start();
-        } catch (IOException ex) {
-            System.out.println("ERROR INESPERADO o que no debería darse: " + ex.getMessage());
-        }
+    public static void main(String[] args) throws IOException, AEPDAException {
+        MainJFrame gui = new MainJFrame();
+        gui.setVisible(true);
     }
-    }
-    
-
+}

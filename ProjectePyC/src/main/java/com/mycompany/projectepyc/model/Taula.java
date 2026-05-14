@@ -20,9 +20,6 @@ public class Taula {
 
     private int numero;
     
-    
-    private Joc partidaActual;
-
     /**
      * Crea una nova instància de Mesa.
      * 
@@ -41,29 +38,6 @@ public class Taula {
 
     public int getNumero() {
         return numero;
-    }
-
-    
-
-    
-
-    /**
-     * Assigna una partida a la taula.
-     * 
-     * @param partida el joc (KillTeam o MESBG) a realitzar.
-     */
-
-    public void setPartidaActual(Joc partida) {
-        this.partidaActual = partida;
-    }
-
-    /**
-     * Retorna la partida que s'està disputant actualment en aquesta taula.
-     * 
-     * @return l'objecte {@link Joc} assignat a la taula.
-     */
-    public Joc getPartidaActual() {
-        return partidaActual;
     }
 
 }

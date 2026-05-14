@@ -8,10 +8,13 @@ import com.mycompany.projectepyc.exception.AEPDAException;
 import com.mycompany.projectepyc.model.Club;
 import com.mycompany.projectepyc.model.Participant;
 import com.mycompany.projectepyc.model.ParticipantSorteig;
+import com.mycompany.projectepyc.model.ResumenTO;
+import com.mycompany.projectepyc.model.Taula;
 import com.mycompany.projectepyc.model.TaulaKillTeam;
 import com.mycompany.projectepyc.model.TaulaMESBG;
-import com.mycompany.projectepyc.persistence.Persistencia;
+import com.mycompany.projectepyc.persistence.AEPDADAO;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,40 +30,18 @@ import java.util.Map;
  * @author PyC
  * @version 2.0
  */
-
 public class GestorAEPDA {
 
-    /**
-     * Diccionari de clubs registrats (Clau: Nom del club).
-     */
-    private Map<String, Club> clubs;
-
-    /**
-     * Diccionari de taules de KillTeamregistrades (Clau: Numero de la taula).
-     */
-    private Map<Integer, TaulaKillTeam> taulesKillTeam;
-
-    /**
-     * Diccionari de taules de KillTeamregistrades (Clau: Numero de la taula).
-     */
-    private Map<Integer, TaulaMESBG> taulesMESBG;
-
-    /**
-     * Objecte per gestionar la persistència en fitxers.
-     */
-    private Persistencia persistencia;
+    private AEPDADAO aepdaDAO;
 
     /**
      * Inicialitza el gestor carregant les dades existents.
      *
-     * @throws IOException    si falla la lectura dels fitxers.
+     * @throws IOException si falla la lectura dels fitxers.
      * @throws AEPDAException si hi ha incoherències en les dades.
      */
     public GestorAEPDA() throws IOException, AEPDAException {
-        persistencia = new Persistencia();
-        this.clubs = persistencia.carregarData();
-        this.taulesKillTeam = persistencia.llegirTaulesKillTeam();
-        this.taulesMESBG = persistencia.llegirTaulesMESBG();
+        aepdaDAO = new AEPDADAO();
     }
 
     /**
@@ -68,56 +49,38 @@ public class GestorAEPDA {
      *
      * @param nom el nom del club.
      * @throws AEPDAException si el club ja existeix.
-     * @throws IOException    si falla l'escriptura en disc.
+     * @throws IOException si falla l'escriptura en disc.
      */
-    public void registrarClub(String nom) throws AEPDAException, IOException {
-        if (clubs.containsKey(nom.toUpperCase())) {
-            throw new AEPDAException("Ja existeix un club amb el nom: " + nom);
+    public void registrarClub(String nom) throws AEPDAException, IOException, SQLException {
+        if (aepdaDAO.existeClub(nom)) {
+            throw new AEPDAException("Ja existeix un club amb aquest nom");
         }
-        Club nou = new Club(nom);
-        clubs.put(nom.toUpperCase(), nou);
-        persistencia.escriureClub(nou);
+        Club nouClub = new Club(nom);
+        aepdaDAO.registrarClub(nouClub);
     }
 
     /**
      * Afegeix un participant a un club específic.
      *
      * @param nomClub nom del club destí.
-     * @param id      identificador del participant.
-     * @param nick    sobrenom del participant.
+     * @param id identificador del participant.
+     * @param nick sobrenom del participant.
      * @throws AEPDAException si el club no existeix o el participant està
-     *                        duplicat.
-     * @throws IOException    si falla la persistència.
+     * duplicat.
+     * @throws IOException si falla la persistència.
      */
-    public void afegirParticipantClub(String nomClub, String id, String nick) throws AEPDAException, IOException {
-        if (!clubs.containsKey(nomClub.toUpperCase())) {
+    public void afegirParticipantClub(String nomClub, int id, String nick) throws AEPDAException, IOException, SQLException {
+        if (!aepdaDAO.existeClub(nomClub)) {
             throw new AEPDAException("El club " + nomClub + " no existeix.");
         }
 
         // Verificació global: el participant no pot estar en cap altre club
-        if (existeixParticpantClub(id)) {
+        if (aepdaDAO.existeParticipant(id)) {
             throw new AEPDAException("El participant amb ID " + id + " ja està registrat en un altre club.");
         }
 
-        Club c = clubs.get(nomClub.toUpperCase());
         Participant p = new Participant(id, nick);
-        c.addParticipant(p);
-        persistencia.escriureParticipant(nomClub, p);
-    }
-
-    /**
-     * Verifica si un participant existeix en qualsevol dels clubs.
-     *
-     * @param id l'identificador a buscar.
-     * @return true si es troba, false en cas contrari.
-     */
-    private boolean existeixParticpantClub(String id) {
-        for (Club c : clubs.values()) {
-            if (c.existsParticipant(id)) {
-                return true;
-            }
-        }
-        return false;
+        aepdaDAO.registrarParticipant(p, nomClub);
     }
 
     /**
@@ -125,16 +88,20 @@ public class GestorAEPDA {
      *
      * @return String amb la informació resumida.
      */
-    public String llistatClubs() {
+    public String llistatClubs() throws SQLException {
         String resultat = "";
 
-        if (clubs.isEmpty()) {
+        List<Club> llistaClubs = aepdaDAO.agafarTotsClubs();
+
+        if (llistaClubs.isEmpty()) {
             resultat = "No hi ha clubs registrats.";
         } else {
             resultat += "*** LLISTAT DE CLUBS ***\n";
-            for (Club c : clubs.values()) {
+            for (Club c : llistaClubs) {
+                int participants = aepdaDAO.comptarParticipantsClub(c.getNom());
+
                 resultat += "- " + c.getNom();
-                resultat += " (" + c.getParticipants().size() + " membres)\n";
+                resultat += " (" + participants + " membres)\n";
             }
         }
 
@@ -143,64 +110,28 @@ public class GestorAEPDA {
 
     /**
      * Cerca un participant i en modifica el sobrenom.
-     * 
-     * @param id      l'identificador del participant.
+     *
+     * @param id l'identificador del participant.
      * @param nouNick el nou sobrenom a assignar.
      * @throws AEPDAException si el participant no existeix.
      */
-
-    public void modificarParticipant(String id, String nouNick) throws AEPDAException {
-        Participant p = cercarParticipantGlobal(id);
-
-        if (p == null) {
-            throw new AEPDAException("No s'ha trobat cap participant amb l'ID: " + id);
+    public void modificarParticipant(int id, String nouNick) throws AEPDAException, SQLException {
+        String modificacio = "";
+        if (!aepdaDAO.existeParticipant(id)) {
+            throw new AEPDAException("El participant amb ID " + id + " no existeix.");
         }
-
-        p.setNickname(nouNick);
-    }
-
-    /**
-     * Cerca un participant en tots els clubs i en retorna l'objecte.
-     * 
-     * @param id l'identificador del participant a cercar.
-     * @return l'objecte Participant trobat.
-     * @throws AEPDAException si el participant no existeix en cap club.
-     */
-
-    private Participant cercarParticipantGlobal(String id) throws AEPDAException {
-        String nomClubTrobat = "";
-        boolean trobat = false;
-
-        for (Club c : clubs.values()) {
-            if (trobat == false && c.existsParticipant(id)) {
-                nomClubTrobat = c.getNom().toUpperCase();
-                trobat = true;
-            }
-        }
-        if (trobat == false) {
-            throw new AEPDAException("No s'ha trobat cap participant amb l'ID: " + id);
-        }
-        return clubs.get(nomClubTrobat).getParticipants().get(id);
+        aepdaDAO.modificarParticipant(id, nouNick);
     }
 
     /**
      * Elimina un participant seguint la regla de flux net i sortida única.
      */
-    public void esborrarParticipant(String id) throws AEPDAException, IOException {
-        boolean eliminat = false;
-
-        for (Club c : clubs.values()) {
-            if (!eliminat && c.existsParticipant(id)) {
-                c.getParticipants().remove(id);
-                eliminat = true;
-            }
+    public void esborrarParticipant(int id) throws AEPDAException, IOException, SQLException {
+        if (!aepdaDAO.existeParticipant(id)) {
+            throw new AEPDAException("No hi ha cap participant amb aquest id");
         }
 
-        if (eliminat) {
-            persistencia.guardarTotsParticipants(clubs);
-        } else {
-            throw new AEPDAException("No es pot esborrar: ID " + id + " no trobat.");
-        }
+        aepdaDAO.borrarParticipant(id);
     }
 
     /**
@@ -208,79 +139,75 @@ public class GestorAEPDA {
      *
      * @param nom el nom del club a consultar.
      * @return un String formatat amb les dades del club i la llista de
-     *         participants.
+     * participants.
      * @throws AEPDAException si el club no existeix en el sistema.
      */
-    public String infoClub(String nom) throws AEPDAException {
+    public String infoClub(String nomClub) throws AEPDAException, SQLException {
         String info = "";
-        String clau = nom.toUpperCase(); // Normalitzem la clau segons el model Galaxia [6]
 
-        if (!clubs.containsKey(clau)) {
-            throw new AEPDAException("No s'ha trobat cap club amb el nom: " + nom);
+        List<Participant> participants = aepdaDAO.agafarParticipantsClub(nomClub);
+
+        if (!aepdaDAO.existeClub(nomClub)) {
+            throw new AEPDAException("No s'ha trobat cap club amb el nom: " + nomClub);
         }
 
-        Club c = clubs.get(clau);
         info += "--- INFORMACIÓ DEL CLUB ---\n";
-        info += "Nom: " + c.getNom() + "\n";
+        info += "Club: " + nomClub + "\n";
 
-        if (c.getParticipants().isEmpty()) {
+        if (participants.isEmpty()) {
             info += "Aquest club encara no té membres inscrits.\n";
         } else {
             info += "*** MEMBRES DEL CLUB ***\n";
-            // Recorrem els valors del mapa de participants [2]
-            for (Participant p : c.getParticipants().values()) {
+            for (Participant p : aepdaDAO.agafarParticipantsClub(nomClub)) {
                 info += "- " + p.getNickname();
                 info += " [ID: " + p.getID() + "]\n";
             }
-            info += "Total: " + c.getParticipants().size() + " membres.";
+            info += "Total: " + participants.size() + " membres.";
         }
         return info;
     }
 
     /**
      * Registra una nova taula al sistema.
-     * 
-     * @param num      número de taula.
-     * @param ambient  tipus d'entorn.
+     *
+     * @param num número de taula.
+     * @param ambient tipus d'entorn.
      * @param escenari nom del mapa.
      * @throws AEPDAException si el número de taula ja està registrat.
-     * @throws IOException    si falla l'escriptura en el fitxer.
+     * @throws IOException si falla l'escriptura en el fitxer.
      */
-
-    public void addMesaKillTeam(int num, String ambient) throws AEPDAException, IOException {
-        // Validació Throw Early
-        if (taulesKillTeam.containsKey(num)) {
+    public void addMesaKillTeam(int num, String ambient) throws AEPDAException, IOException, SQLException {
+        if (aepdaDAO.existeTaula(num)) {
             throw new AEPDAException("La taula " + num + " ja existeix.");
         }
 
         TaulaKillTeam novaMesa = new TaulaKillTeam(num, ambient);
-        taulesKillTeam.put(num, (TaulaKillTeam) novaMesa);
-        persistencia.escriureTaulaKillTeam(novaMesa);
+        aepdaDAO.registrarTaulaKillTeam(novaMesa);
     }
 
-    public void addMesaMESBG(int num, String escenari) throws AEPDAException, IOException {
-        // Validació Throw Early
-        if (taulesMESBG.containsKey(num)) {
+    public void addMesaMESBG(int num, String escenari) throws AEPDAException, IOException, SQLException {
+        if (aepdaDAO.existeTaula(num)) {
             throw new AEPDAException("La taula " + num + " ja existeix.");
         }
 
         TaulaMESBG novaMesa = new TaulaMESBG(num, escenari);
-        taulesMESBG.put(num, (TaulaMESBG) novaMesa);
-        persistencia.escriureTaulaMESBG(novaMesa);
+        aepdaDAO.registrarTaulaMESBG(novaMesa);
     }
 
     /**
      * Genera un llistat formatat de totes les taules.
-     * 
+     *
      * @return un String amb la informació de les taules.
      */
-
-    public String llistatTaulesKillTeam() {
+    public String llistatTaulesKillTeam() throws SQLException {
         String info = "";
+
+        List<TaulaKillTeam> taulesKillTeam = aepdaDAO.agafarTaulesKillTeam();
+
         if (taulesKillTeam.isEmpty()) {
             info = "No hi ha taules registrades.";
         } else {
-            for (TaulaKillTeam m : taulesKillTeam.values()) {
+            for (TaulaKillTeam m : taulesKillTeam) {
                 info += "Taula " + m.getNumero();
                 info += " - Ambient: " + m.getAmbient() + "\n";
             }
@@ -288,12 +215,15 @@ public class GestorAEPDA {
         return info;
     }
 
-    public String llistatTaulesMESBG() {
+    public String llistatTaulesMESBG() throws SQLException {
         String info = "";
+
+        List<TaulaMESBG> taulesMESBG = aepdaDAO.agafarTaulesMESBG();
+
         if (taulesMESBG.isEmpty()) {
             info = "No hi ha taules registrades.";
         } else {
-            for (TaulaMESBG m : taulesMESBG.values()) {
+            for (TaulaMESBG m : taulesMESBG) {
                 info += "Taula " + m.getNumero();
                 info += " - Escenari: " + m.getEscenari() + "\n";
             }
@@ -303,26 +233,26 @@ public class GestorAEPDA {
 
     /**
      * Genera els aparellaments de la primera ronda i registra l'historial.
-     * 
+     *
      * <p>
-     * En aquesta ronda s'inicia l'historial de cada jugador per garantir
-     * que no repeteixin taula ni escenari en el futur.
+     * En aquesta ronda s'inicia l'historial de cada jugador per garantir que no
+     * repeteixin taula ni escenari en el futur.
      * </p>
-     * 
+     *
      * @return String amb l'informe detallat.
      * @throws AEPDAException si hi ha bloqueig per restriccions de club.
      */
-
-    public String generarSorteigRonda1KillTeam() throws AEPDAException {
+    public String generarSorteigRonda1KillTeam() throws AEPDAException, SQLException {
+        List<TaulaKillTeam> taulesKillTeam = aepdaDAO.agafarTaulesKillTeam();
         if (taulesKillTeam.isEmpty()) {
             throw new AEPDAException("No es pot realitzar el sorteig perquè no hi ha cap taula creada.");
         }
         String info = "";
 
-        List<ParticipantSorteig> sorteig = prepararSorteig();
+        List<ParticipantSorteig> sorteig = aepdaDAO.agafarParticipantsSorteig();
         info += "--- SORTEIG 1a RONDA (ALEATORI) ---\n";
 
-        int numTaula = 1;
+        int numTaula = 0;
         boolean possible = true;
 
         int mesasNecesarias = sorteig.size() / 2;
@@ -341,8 +271,9 @@ public class GestorAEPDA {
 
             TaulaKillTeam t = taulesKillTeam.get(numTaula);
 
-            if (taulesKillTeam.isEmpty())
+            if (taulesKillTeam.isEmpty()) {
                 p1.getP().registrarPartida(numTaula, t.getAmbient());
+            }
             p2.getP().registrarPartida(numTaula, t.getAmbient());
 
             info += "Taula " + numTaula + " " + " [" + t.getAmbient() + "]: " + p1.getP().getNickname() + " vs "
@@ -357,16 +288,17 @@ public class GestorAEPDA {
         return info;
     }
 
-    public String generarSorteigRonda1MESBG() throws AEPDAException {
+    public String generarSorteigRonda1MESBG() throws AEPDAException, SQLException {
+        List<TaulaMESBG> taulesMESBG = aepdaDAO.agafarTaulesMESBG();
         if (taulesMESBG.isEmpty()) {
             throw new AEPDAException("No es pot realitzar el sorteig perquè no hi ha cap taula creada.");
         }
         String info = "";
 
-        List<ParticipantSorteig> sorteig = prepararSorteig();
+        List<ParticipantSorteig> sorteig = aepdaDAO.agafarParticipantsSorteig();
         info += "--- SORTEIG 1a RONDA (ALEATORI) ---\n";
 
-        int numTaula = 1;
+        int numTaula = 0;
         boolean possible = true;
 
         int mesasNecesarias = sorteig.size() / 2;
@@ -400,18 +332,17 @@ public class GestorAEPDA {
     }
 
     /**
-     * Selecciona un oponent aleatori que no pertanyi al mateix club que el jugador
-     * donat.
-     * 
-     * @param p1      el participant que busca oponent.
+     * Selecciona un oponent aleatori que no pertanyi al mateix club que el
+     * jugador donat.
+     *
+     * @param p1 el participant que busca oponent.
      * @param sorteig la llista de participants disponibles.
-     * @return un objecte ParticipantSorteig que representa l'oponent vàlid trobat.
-     * @throws AEPDAException si tots els participants restants són del mateix club
-     *                        que p1.
+     * @return un objecte ParticipantSorteig que representa l'oponent vàlid
+     * trobat.
+     * @throws AEPDAException si tots els participants restants són del mateix
+     * club que p1.
      */
-
-    private ParticipantSorteig triarRivalAleatori(ParticipantSorteig p1, List<ParticipantSorteig> sorteig)
-            throws AEPDAException {
+    private ParticipantSorteig triarRivalAleatori(ParticipantSorteig p1, List<ParticipantSorteig> sorteig) throws AEPDAException {
         int intents = 0;
         int indexRival = -1;
         boolean trobat = false;
@@ -435,20 +366,85 @@ public class GestorAEPDA {
     }
 
     /**
-     * Recull tots els participants registrats en una única llista plana per al
-     * sorteig.
-     * 
-     * @return una llista de tipus ParticipantSorteig amb tota la informació
-     *         necessària.
+     * Obté una llista amb els noms de tots els clubs registrats.
+     *
+     * @return Un ArrayList<String> que conté els noms dels clubs.
+     * @throws SQLException Si es produeix un error de connexió o consulta a la base de dades.
      */
-
-    private List<ParticipantSorteig> prepararSorteig() {
-        List<ParticipantSorteig> llista = new ArrayList<>();
-        for (Club c : clubs.values()) {
-            for (Participant p : c.getParticipants().values()) {
-                llista.add(new ParticipantSorteig(p, c.getNom()));
-            }
+    public ArrayList<String> getCopiaNombresClubs() throws SQLException {
+        List<Club> clubsReals = aepdaDAO.agafarTotsClubs();
+        ArrayList<String> nombresClubs = new ArrayList<>();
+        for (Club c : clubsReals) {
+            nombresClubs.add(c.getNom());
         }
-        return llista;
+        return nombresClubs;
     }
+
+    /**
+     * Obté una còpia de la llista de participants que pertanyen a un club específic.
+     *
+     * @param nombreClub El nom del club del qual es volen obtenir els participants.
+     * @return Un ArrayList<Participant> amb els participants del club especificat.
+     * @throws AEPDAException Si el club indicat no existeix al sistema.
+     * @throws SQLException Si es produeix un error en accedir a la base de dades.
+     */
+    public ArrayList<Participant> getCopiaParticipants(String nombreClub) throws AEPDAException, SQLException {
+        if (!aepdaDAO.existeClub(nombreClub)) {
+            throw new AEPDAException("El club " + nombreClub + " no existeix.");
+        }
+        ArrayList<Participant> copiaParticipants = new ArrayList<>(aepdaDAO.agafarParticipantsClub(nombreClub));
+        return copiaParticipants;
+    }
+
+    /**
+     * Obté una llista amb totes les taules registrades per al sistema Kill Team.
+     *
+     * @return Un ArrayList<TaulaKillTeam> que conté les taules de Kill Team.
+     * @throws AEPDAException Si no hi ha cap taula registrada al sistema.
+     * @throws SQLException Si es produeix un error en fer la consulta a la base de dades.
+     */
+    public ArrayList<TaulaKillTeam> getCopiaTaulesKillTeam() throws AEPDAException, SQLException {
+        List<TaulaKillTeam> taulesKillTeam = aepdaDAO.agafarTaulesKillTeam();
+
+        if (taulesKillTeam.isEmpty()) {
+            throw new AEPDAException("No hi ha cap taula registrada.");
+        }
+        ArrayList<TaulaKillTeam> copiaTaulesKillTeam = new ArrayList<>(aepdaDAO.agafarTaulesKillTeam());
+        return copiaTaulesKillTeam;
+    }
+
+    /**
+     * Obté una llista amb totes les taules registrades per al sistema MESBG.
+     *
+     * @return Un ArrayList<TaulaMESBG> que conté les taules de MESBG.
+     * @throws AEPDAException Si no hi ha cap taula registrada al sistema.
+     * @throws SQLException Si es produeix un error de connexió o accés a la base de dades.
+     */
+    public ArrayList<TaulaMESBG> getCopiaTaulesMESBG() throws AEPDAException, SQLException {
+        List<TaulaMESBG> taulesMESBG = aepdaDAO.agafarTaulesMESBG();
+
+        if (taulesMESBG.isEmpty()) {
+            throw new AEPDAException("No hi ha cap taula registrada.");
+        }
+        ArrayList<TaulaMESBG> copiaTaulesMESBGs = new ArrayList<>(aepdaDAO.agafarTaulesMESBG());
+        return copiaTaulesMESBGs;
+    }
+    
+    /**
+     * Obté un resum dels clubs que compten amb membres en l'actualitat.
+     *
+     * @return Un ArrayList<ResumenTO> amb les dades resumides dels clubs i els seus participants.
+     * @throws AEPDAException Si no es troba cap club amb membres registrats.
+     * @throws SQLException Si es produeix un error en consultar la informació a la base de dades.
+     */
+    public ArrayList<ResumenTO> getCopiaResumenTO() throws AEPDAException, SQLException {
+        List<ResumenTO> clubsMembres = aepdaDAO.getResumen();
+
+        if (clubsMembres.isEmpty()) {
+            throw new AEPDAException("No hi ha cap club amb membres actualment..");
+        }
+        ArrayList<ResumenTO> clubMembres = new ArrayList<>(aepdaDAO.getResumen());
+        return clubMembres;
+    }
+
 }

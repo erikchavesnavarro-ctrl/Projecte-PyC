@@ -10,8 +10,17 @@ package com.mycompany.projectepyc.model;
  */
 public class TaulaMESBG extends Taula {
     
+    /**
+    * Escenari de la taula.
+    */
     private String escenari;
 
+    /**
+     * Crea una nova instància de TaulaMESB amb el número de taula i l'escenari.
+     *
+     * @param numero El número d'identificació de la taula.
+     * @param escenari  L'escenari de la taula.
+     */
     public TaulaMESBG(int numero, String escenari) {
         super(numero);
         this.escenari = escenari;
@@ -27,16 +36,12 @@ public class TaulaMESBG extends Taula {
         return escenari;
     }
 
-    @Override
-    public Joc getPartidaActual() {
-        return super.getPartidaActual(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-    }
-
-    @Override
-    public void setPartidaActual(Joc partida) {
-        super.setPartidaActual(partida); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-    }
-
+    /**
+     * Obté el número de la taula.
+     * Aquest mètode sobreescriu el de la classe pare Taula.
+     *
+     * @return El número de la taula com a valor enter.
+     */
     @Override
     public int getNumero() {
         return super.getNumero(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody

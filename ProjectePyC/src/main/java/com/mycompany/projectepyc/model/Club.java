@@ -53,49 +53,4 @@ public class Club {
         return nom;
     }
     
-    /**
-    * Retorna el mapa complet de participants.
-    *
-    * @return Map amb els membres del club.
-    */
-    
-    public Map<String, Participant> getParticipants() {
-        return participants;
-    }
-    
-    /**
-    * Afegeix un nou participant al club.
-    *
-    * @param p l'objecte Participant a inscriure.
-    * @throws AEPDAException si el participant ja existeix en aquest club.
-    */
-    
-    public void addParticipant(Participant p) throws AEPDAException {
-        if (existsParticipant(p.getID())) {
-            throw new AEPDAException("El participant amb ID " + p.getID() + " ja forma part d'aquest club.");
-        }
-        participants.put(p.getID(), p);
-    }
-    
-    /**
-    * Verifica si un participant ja està inscrit en el club.
-    *
-    * @param id l'identificador a buscar.
-    * @return true si el participant hi és, false en cas contrari.
-    */
-
-    public boolean existsParticipant(String id) {
-        return participants.containsKey(id);
-    }
-    
-    /**
-    * Retorna una representació textual del club i el seu nombre de membres.
-    *
-    * @return String informatiu.
-    */
-    @Override
-    public String toString() {
-        return "Club: " + nom + " (Membres: " + participants.size() + ")";
-    }
-
 }
